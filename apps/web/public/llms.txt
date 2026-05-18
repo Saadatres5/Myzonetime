@@ -1,0 +1,28 @@
+# MyZoneTime — World Clock & Time Zone Tools
+> myzonetime.com is a free, ad-supported world clock and time zone platform serving 500+ cities.
+
+## Core Tools
+- / — Home with world clock search and live weather
+- /world-clock — Live time grid for 500+ cities with search and favourites
+- /timezone-converter — Side-by-side time zone comparison with shareable URLs
+- /meeting-planner — Overlapping business hours finder for up to 5 cities
+- /hijri-calendar — Islamic (Hijri) calendar with Gregorian comparison
+- /time-difference-calculator — Hour difference between any two cities, DST-aware
+- /date-calculator — Days/weeks/months between two dates
+- /work-hours-calculator — Total work hours and payroll calculator
+- /stopwatch — Millisecond-precision stopwatch with lap timer
+- /timer — Countdown timer with audio alert
+- /countdown — Event countdown with days, hours, minutes, seconds
+
+## City Pages (live clock, weather, FAQs)
+- /dubai — Dubai, UAE (GST, UTC+4)
+- /london — London, UK (GMT/BST, UTC+0/+1)
+- /new-york — New York, USA (EST/EDT, UTC-5/-4)
+- /tokyo — Tokyo, Japan (JST, UTC+9)
+- /singapore — Singapore (SGT, UTC+8)
+- /sydney — Sydney, Australia (AEST/AEDT, UTC+10/+11)
+- /riyadh — Riyadh, Saudi Arabia (AST, UTC+3)
+- /abu-dhabi — Abu Dhabi, UAE (GST, UTC+4)
+
+## Embeddable Widget
+- /embed/world-clock — Embeddable iframe world clock widget (no ads, clean UI)

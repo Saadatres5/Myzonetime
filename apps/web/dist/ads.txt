@@ -1,0 +1,7 @@
+# MyZoneTime — ads.txt
+# https://myzonetime.com
+# Last updated: 2026-05-17
+# IAB Tech Lab ads.txt specification: https://iabtechlab.com/ads-txt/
+
+# Google AdSense
+google.com, pub-1017873487030471, DIRECT, f08c47fec0942fa0
