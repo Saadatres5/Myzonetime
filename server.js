@@ -88,9 +88,31 @@ app.use('/assets', express.static(path.join(DIST,'assets'), { maxAge:'1y', immut
 app.use(express.static(DIST, {
   maxAge:'1h', index:false, etag:true,
   setHeaders: function(res, fp){
-    if (fp.endsWith('.txt') || fp.endsWith('.xml')) res.setHeader('Cache-Control','public, max-age=3600');
-    if (fp.endsWith('manifest.json'))               res.setHeader('Cache-Control','public, max-age=86400');
-    if (fp.endsWith('.jpg') || fp.endsWith('.png')) res.setHeader('Cache-Control','public, max-age=604800');
+    // Explicit Content-Type — prevents browsers treating XML as plain text
+    if (fp.endsWith('.xml')) {
+      res.setHeader('Content-Type', 'application/xml; charset=UTF-8');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+    }
+    if (fp.endsWith('.txt')) {
+      res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+    }
+    if (fp.endsWith('manifest.json')) {
+      res.setHeader('Content-Type', 'application/manifest+json; charset=UTF-8');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
+    if (fp.endsWith('.jpg') || fp.endsWith('.jpeg')) {
+      res.setHeader('Content-Type', 'image/jpeg');
+      res.setHeader('Cache-Control', 'public, max-age=604800');
+    }
+    if (fp.endsWith('.png')) {
+      res.setHeader('Content-Type', 'image/png');
+      res.setHeader('Cache-Control', 'public, max-age=604800');
+    }
+    if (fp.endsWith('.svg')) {
+      res.setHeader('Content-Type', 'image/svg+xml');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
   }
 }));
 

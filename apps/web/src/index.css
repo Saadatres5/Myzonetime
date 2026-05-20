@@ -13,6 +13,7 @@
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
     --primary: 199 89% 48%;
+    --btn-primary: 199 89% 34%;  /* button bg: passes 4.5:1 with white */
     --primary-foreground: 0 0% 100%;
     --secondary: 189 94% 43%;
     --secondary-foreground: 0 0% 100%;
@@ -36,6 +37,7 @@
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
     --primary: 199 89% 48%;
+    --btn-primary: 199 89% 34%;
     --primary-foreground: 0 0% 100%;
     --secondary: 189 94% 43%;
     --secondary-foreground: 0 0% 100%;
@@ -126,7 +128,12 @@
   }
 
   .premium-button {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 active:scale-[0.98];
+    background-color: hsl(var(--btn-primary));
+    @apply text-primary-foreground transition-all duration-300 active:scale-[0.98];
+  }
+  .premium-button:hover {
+    background-color: hsl(199 89% 30%);
+    @apply shadow-lg shadow-primary/20;
   }
 
   .premium-gradient-text {
