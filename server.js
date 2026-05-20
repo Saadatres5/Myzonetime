@@ -84,11 +84,10 @@ setInterval(function(){
 // ── Static — hashed assets, 1 year ──────────────────────────────────────────
 app.use('/assets', express.static(path.join(DIST,'assets'), { maxAge:'1y', immutable:true, etag:true }));
 
-// ── Static — public root files, 1 hour ──────────────────────────────────────
+// ── Static — public root files ────────────────────────────────────────────────
 app.use(express.static(DIST, {
   maxAge:'1h', index:false, etag:true,
   setHeaders: function(res, fp){
-    // Explicit Content-Type — prevents browsers treating XML as plain text
     if (fp.endsWith('.xml')) {
       res.setHeader('Content-Type', 'application/xml; charset=UTF-8');
       res.setHeader('Cache-Control', 'public, max-age=3600');
@@ -116,142 +115,229 @@ app.use(express.static(DIST, {
   }
 }));
 
-// ── SSR: site constant & OG image ────────────────────────────────────────────
+// ── Constants ─────────────────────────────────────────────────────────────────
 var SITE = 'https://myzonetime.com';
 var OG   = SITE + '/og-image.jpg';
 
-// ── SSR: GEO meta per city route ─────────────────────────────────────────────
+// ── GEO meta — city routes only ───────────────────────────────────────────────
 var geoMeta = {
-  '/dubai':     { region:'AE-DU',  placename:'Dubai, United Arab Emirates',      pos:'25.2048;55.2708',    icbm:'25.2048, 55.2708' },
-  '/london':    { region:'GB-ENG', placename:'London, United Kingdom',           pos:'51.5074;-0.1278',    icbm:'51.5074, -0.1278' },
-  '/new-york':  { region:'US-NY',  placename:'New York, United States',          pos:'40.7128;-74.0060',   icbm:'40.7128, -74.0060' },
-  '/tokyo':     { region:'JP-13',  placename:'Tokyo, Japan',                     pos:'35.6762;139.6503',   icbm:'35.6762, 139.6503' },
-  '/singapore': { region:'SG',     placename:'Singapore',                        pos:'1.3521;103.8198',    icbm:'1.3521, 103.8198' },
-  '/sydney':    { region:'AU-NSW', placename:'Sydney, Australia',                pos:'-33.8688;151.2093',  icbm:'-33.8688, 151.2093' },
-  '/riyadh':    { region:'SA-01',  placename:'Riyadh, Saudi Arabia',             pos:'24.7136;46.6753',    icbm:'24.7136, 46.6753' },
-  '/abu-dhabi': { region:'AE-AZ',  placename:'Abu Dhabi, United Arab Emirates',  pos:'24.4539;54.3773',    icbm:'24.4539, 54.3773' },
+  '/dubai':     { region:'AE-DU',  placename:'Dubai, United Arab Emirates',     pos:'25.2048;55.2708',    icbm:'25.2048, 55.2708' },
+  '/london':    { region:'GB-ENG', placename:'London, United Kingdom',          pos:'51.5074;-0.1278',    icbm:'51.5074, -0.1278' },
+  '/new-york':  { region:'US-NY',  placename:'New York, United States',         pos:'40.7128;-74.0060',   icbm:'40.7128, -74.0060' },
+  '/tokyo':     { region:'JP-13',  placename:'Tokyo, Japan',                    pos:'35.6762;139.6503',   icbm:'35.6762, 139.6503' },
+  '/singapore': { region:'SG',     placename:'Singapore',                       pos:'1.3521;103.8198',    icbm:'1.3521, 103.8198' },
+  '/sydney':    { region:'AU-NSW', placename:'Sydney, Australia',               pos:'-33.8688;151.2093',  icbm:'-33.8688, 151.2093' },
+  '/riyadh':    { region:'SA-01',  placename:'Riyadh, Saudi Arabia',            pos:'24.7136;46.6753',    icbm:'24.7136, 46.6753' },
+  '/abu-dhabi': { region:'AE-AZ',  placename:'Abu Dhabi, United Arab Emirates', pos:'24.4539;54.3773',    icbm:'24.4539, 54.3773' },
 };
 
-// ── SSR: route → meta map ────────────────────────────────────────────────────
+// ── Route meta ────────────────────────────────────────────────────────────────
+// title:       ≤60 characters  (Google truncates beyond this)
+// description: 120–160 characters  (optimal for SERP snippet)
+// h1:          page heading text (injected server-side for non-JS crawlers)
 var routeMeta = {
+
   '/': {
-    title:'World Clock & Time Zone Converter — Live Time in 500+ Cities | MyZoneTime',
-    description:'Check the exact local time in 500+ cities worldwide. Free world clock, time zone converter, meeting planner, and live weather for Dubai, London, New York, Tokyo and more.',
-    canonical: SITE+'/',
+    title:       'World Clock & Time Zone Converter | MyZoneTime',
+    description: 'Free world clock showing live time in 500+ cities. Time zone converter, meeting planner, Hijri calendar, and live weather. Trusted by global teams worldwide.',
+    h1:          'World Clock & Time Zone Converter',
+    canonical:   SITE + '/',
   },
+
   '/world-clock': {
-    title:'World Clock — Live Time in 500+ Cities | MyZoneTime',
-    description:'Live world clock showing current time in 500+ cities. Track time zones for Dubai, London, New York, Tokyo, Singapore, Sydney, and more.',
-    canonical: SITE+'/world-clock',
+    title:       'World Clock — Live Time in 500+ Cities | MyZoneTime',
+    description: 'Live world clock for 500+ cities worldwide. Instantly see the current local time in Dubai, London, New York, Tokyo, Singapore, Sydney, and hundreds more cities.',
+    h1:          'World Clock — Live Time in 500+ Cities',
+    canonical:   SITE + '/world-clock',
   },
+
   '/timezone-converter': {
-    title:'Time Zone Converter — Compare Times Between Any Two Cities | MyZoneTime',
-    description:'Free time zone converter. Compare the exact time between any two cities instantly. Perfect for scheduling meetings and coordinating across time zones.',
-    canonical: SITE+'/timezone-converter',
+    title:       'Time Zone Converter — Any Two Cities | MyZoneTime',
+    description: 'Free time zone converter. Compare the exact local time between any two cities instantly. Accounts for daylight saving time. Perfect for scheduling global meetings.',
+    h1:          'Time Zone Converter',
+    canonical:   SITE + '/timezone-converter',
   },
+
   '/meeting-planner': {
-    title:'Meeting Planner — Find Best Time Across Time Zones | MyZoneTime',
-    description:'Find the best time to schedule meetings across multiple time zones. See overlapping work hours for your team in real-time.',
-    canonical: SITE+'/meeting-planner',
+    title:       'Meeting Planner — Best Time Across Time Zones | MyZoneTime',
+    description: 'Find the best time to schedule meetings across multiple time zones. See overlapping business hours for your global team in real-time, including DST adjustments.',
+    h1:          'Meeting Planner — Find the Best Meeting Time',
+    canonical:   SITE + '/meeting-planner',
   },
+
   '/hijri-calendar': {
-    title:'Islamic / Hijri Date Today — Hijri Calendar Converter | MyZoneTime',
-    description:"Check today's Islamic (Hijri) date. Free Hijri calendar converter with Gregorian comparison. Perfect for Muslims and GCC region users.",
-    canonical: SITE+'/hijri-calendar',
+    title:       'Hijri Calendar — Islamic Date Today | MyZoneTime',
+    description: "Check today's Hijri (Islamic) date and convert between Hijri and Gregorian calendars. Free Islamic calendar tool for Muslims and GCC region users worldwide.",
+    h1:          'Hijri Calendar — Islamic Date Today',
+    canonical:   SITE + '/hijri-calendar',
   },
+
   '/stopwatch': {
-    title:'Online Stopwatch — Free Precision Timer | MyZoneTime',
-    description:'Free online stopwatch with lap timer. Precise millisecond accuracy. No download required.',
-    canonical: SITE+'/stopwatch',
+    title:       'Online Stopwatch — Free Precision Timer | MyZoneTime',
+    description: 'Free online stopwatch with lap timer and millisecond precision. No download or installation required. Works on all devices directly in your browser.',
+    h1:          'Online Stopwatch',
+    canonical:   SITE + '/stopwatch',
   },
+
   '/timer': {
-    title:'Online Countdown Timer — Set Any Duration | MyZoneTime',
-    description:'Free online countdown timer. Set hours, minutes and seconds. Audio alert when complete.',
-    canonical: SITE+'/timer',
+    title:       'Online Countdown Timer — Set Any Duration | MyZoneTime',
+    description: 'Free online countdown timer. Set any hours, minutes, and seconds. Plays an audio alert when complete. Works on all devices directly in your browser.',
+    h1:          'Online Countdown Timer',
+    canonical:   SITE + '/timer',
   },
+
   '/countdown': {
-    title:'Event Countdown — Days Until Any Date | MyZoneTime',
-    description:'Count down to any future event or date. Days, hours, minutes, seconds until your event.',
-    canonical: SITE+'/countdown',
+    title:       'Event Countdown — Days Until Any Date | MyZoneTime',
+    description: 'Count down the days, hours, minutes, and seconds until any future event or date. Perfect for holidays, deadlines, launches, and special occasions.',
+    h1:          'Event Countdown Timer',
+    canonical:   SITE + '/countdown',
   },
+
   '/date-calculator': {
-    title:'Date Calculator — Days Between Dates | MyZoneTime',
-    description:'Calculate the number of days, weeks, or months between any two dates. Free online date difference calculator.',
-    canonical: SITE+'/date-calculator',
+    title:       'Date Calculator — Days Between Dates | MyZoneTime',
+    description: 'Calculate the exact number of days, weeks, months, or years between any two dates. Free online date difference calculator with instant results.',
+    h1:          'Date Calculator — Days Between Dates',
+    canonical:   SITE + '/date-calculator',
   },
+
   '/work-hours-calculator': {
-    title:'Work Hours Calculator — Timesheet & Payroll | MyZoneTime',
-    description:'Calculate total work hours for any period. Perfect for timesheets, payroll, and billing. Free online work hours calculator.',
-    canonical: SITE+'/work-hours-calculator',
+    title:       'Work Hours Calculator — Timesheet & Payroll | MyZoneTime',
+    description: 'Calculate total work hours for any time period. Ideal for timesheets, payroll calculations, and billing. Add breaks, multiple shifts, and export results.',
+    h1:          'Work Hours Calculator',
+    canonical:   SITE + '/work-hours-calculator',
   },
+
   '/time-difference-calculator': {
-    title:'Time Difference Calculator — Hours Between Cities | MyZoneTime',
-    description:'Calculate the exact time difference between any two cities or time zones. Accounts for daylight saving time automatically.',
-    canonical: SITE+'/time-difference-calculator',
+    title:       'Time Difference Calculator | MyZoneTime',
+    description: 'Calculate the exact time difference between any two cities or time zones. Automatically accounts for daylight saving time changes around the world.',
+    h1:          'Time Difference Calculator',
+    canonical:   SITE + '/time-difference-calculator',
   },
+
   '/world-clock-widget': {
-    title:'World Clock Widget — Embeddable Time Zone Widget | MyZoneTime',
-    description:'Free embeddable world clock widget. Show live time in multiple cities with a simple HTML snippet.',
-    canonical: SITE+'/world-clock-widget',
+    title:       'World Clock Widget — Free Embed | MyZoneTime',
+    description: 'Add a free embeddable world clock widget to your website. Display live local time for multiple cities with a simple copy-paste HTML snippet. No coding required.',
+    h1:          'World Clock Widget — Free Embeddable Clock',
+    canonical:   SITE + '/world-clock-widget',
   },
+
   '/privacy-policy': {
-    title:'Privacy Policy | MyZoneTime',
-    description:'Read the MyZoneTime privacy policy. We are committed to protecting your data and your privacy.',
-    canonical: SITE+'/privacy-policy',
+    title:       'Privacy Policy | MyZoneTime',
+    description: 'Read the MyZoneTime privacy policy. Learn how we collect, use, and protect your data. We are committed to your privacy and data security.',
+    h1:          'Privacy Policy',
+    canonical:   SITE + '/privacy-policy',
   },
+
   '/terms-of-service': {
-    title:'Terms of Service | MyZoneTime',
-    description:'Terms and conditions for using MyZoneTime — your free world clock and time zone tools.',
-    canonical: SITE+'/terms-of-service',
+    title:       'Terms of Service | MyZoneTime',
+    description: 'Read the terms and conditions for using MyZoneTime. Understand your rights and responsibilities when using our free world clock and time zone tools.',
+    h1:          'Terms of Service',
+    canonical:   SITE + '/terms-of-service',
   },
-  '/dubai':     { title:'Current Time in Dubai, United Arab Emirates — UTC+4 | MyZoneTime',      description:'Check the exact time in Dubai now. Live clock, timezone info (GST, UTC+4), weather, and best time to call Dubai.',          canonical: SITE+'/dubai' },
-  '/london':    { title:'Current Time in London, United Kingdom — UTC+0/+1 | MyZoneTime',        description:'Check the exact time in London now. Live clock, timezone info (GMT/BST), weather, and best time to call London.',           canonical: SITE+'/london' },
-  '/new-york':  { title:'Current Time in New York, United States — UTC-5/-4 | MyZoneTime',       description:'Check the exact time in New York now. Live clock, timezone info (EST/EDT), weather, and best time to call New York.',       canonical: SITE+'/new-york' },
-  '/tokyo':     { title:'Current Time in Tokyo, Japan — UTC+9 | MyZoneTime',                     description:'Check the exact time in Tokyo now. Live clock, timezone info (JST, UTC+9), weather, and best time to call Tokyo.',          canonical: SITE+'/tokyo' },
-  '/singapore': { title:'Current Time in Singapore — UTC+8 | MyZoneTime',                        description:'Check the exact time in Singapore now. Live clock, timezone info (SGT, UTC+8), weather, and best time to call Singapore.',  canonical: SITE+'/singapore' },
-  '/sydney':    { title:'Current Time in Sydney, Australia — UTC+10/+11 | MyZoneTime',           description:'Check the exact time in Sydney now. Live clock, timezone info (AEST/AEDT), weather, and best time to call Sydney.',         canonical: SITE+'/sydney' },
-  '/riyadh':    { title:'Current Time in Riyadh, Saudi Arabia — UTC+3 | MyZoneTime',             description:'Check the exact time in Riyadh now. Live clock, timezone info (AST, UTC+3), weather, and best time to call Riyadh.',        canonical: SITE+'/riyadh' },
-  '/abu-dhabi': { title:'Current Time in Abu Dhabi, United Arab Emirates — UTC+4 | MyZoneTime',  description:'Check the exact time in Abu Dhabi now. Live clock, timezone info (GST, UTC+4), weather, and best time to call Abu Dhabi.', canonical: SITE+'/abu-dhabi' },
+
+  '/dubai': {
+    title:       'Current Time in Dubai, UAE — UTC+4 | MyZoneTime',
+    description: 'Check the exact current time in Dubai, UAE. Live clock showing Gulf Standard Time (GST, UTC+4). Includes local weather, business hours, and calling tips.',
+    h1:          'Current Time in Dubai, United Arab Emirates',
+    canonical:   SITE + '/dubai',
+  },
+
+  '/london': {
+    title:       'Current Time in London, UK — GMT/BST | MyZoneTime',
+    description: 'Check the exact current time in London, UK. Live clock showing GMT or British Summer Time (BST). Includes local weather, business hours, and calling tips.',
+    h1:          'Current Time in London, United Kingdom',
+    canonical:   SITE + '/london',
+  },
+
+  '/new-york': {
+    title:       'Current Time in New York — EST/EDT | MyZoneTime',
+    description: 'Check the exact current time in New York, USA. Live clock showing Eastern Standard or Daylight Time (EST/EDT). Includes weather, business hours, and calling tips.',
+    h1:          'Current Time in New York, United States',
+    canonical:   SITE + '/new-york',
+  },
+
+  '/tokyo': {
+    title:       'Current Time in Tokyo, Japan — UTC+9 | MyZoneTime',
+    description: 'Check the exact current time in Tokyo, Japan. Live clock showing Japan Standard Time (JST, UTC+9). Includes local weather, business hours, and calling tips.',
+    h1:          'Current Time in Tokyo, Japan',
+    canonical:   SITE + '/tokyo',
+  },
+
+  '/singapore': {
+    title:       'Current Time in Singapore — UTC+8 | MyZoneTime',
+    description: 'Check the exact current time in Singapore. Live clock showing Singapore Standard Time (SGT, UTC+8). Includes local weather, business hours, and calling tips.',
+    h1:          'Current Time in Singapore',
+    canonical:   SITE + '/singapore',
+  },
+
+  '/sydney': {
+    title:       'Current Time in Sydney, Australia — AEST | MyZoneTime',
+    description: 'Check the exact current time in Sydney, Australia. Live clock showing AEST or AEDT (UTC+10/+11). Includes local weather, business hours, and calling tips.',
+    h1:          'Current Time in Sydney, Australia',
+    canonical:   SITE + '/sydney',
+  },
+
+  '/riyadh': {
+    title:       'Current Time in Riyadh, Saudi Arabia | MyZoneTime',
+    description: 'Check the exact current time in Riyadh, Saudi Arabia. Live clock showing Arabia Standard Time (AST, UTC+3). Includes weather, business hours, and calling tips.',
+    h1:          'Current Time in Riyadh, Saudi Arabia',
+    canonical:   SITE + '/riyadh',
+  },
+
+  '/abu-dhabi': {
+    title:       'Current Time in Abu Dhabi, UAE — UTC+4 | MyZoneTime',
+    description: 'Check the exact current time in Abu Dhabi, UAE. Live clock showing Gulf Standard Time (GST, UTC+4). Includes local weather, business hours, and calling tips.',
+    h1:          'Current Time in Abu Dhabi, United Arab Emirates',
+    canonical:   SITE + '/abu-dhabi',
+  },
 };
 
-// ── SSR: meta tag builder ─────────────────────────────────────────────────────
+// ── SSR meta + H1 injection ───────────────────────────────────────────────────
 function injectMeta(html, meta, pathname) {
   var geo = geoMeta[pathname] || null;
 
-  var tags = [
-    '<title>'+meta.title+'</title>',
-    '<meta name="description" content="'+meta.description+'">',
+  var metaTags = [
+    '<title>' + meta.title + '</title>',
+    '<meta name="description" content="' + meta.description + '">',
     '<meta name="author" content="MyZoneTime">',
     '<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">',
-    '<link rel="canonical" href="'+meta.canonical+'">',
-    // GEO meta — only for city pages
-    geo ? '<meta name="geo.region" content="'+geo.region+'">' : '',
-    geo ? '<meta name="geo.placename" content="'+geo.placename+'">' : '',
-    geo ? '<meta name="geo.position" content="'+geo.pos+'">' : '',
-    geo ? '<meta name="ICBM" content="'+geo.icbm+'">' : '',
-    // Open Graph
+    '<link rel="canonical" href="' + meta.canonical + '">',
+    geo ? '<meta name="geo.region" content="'    + geo.region    + '">' : '',
+    geo ? '<meta name="geo.placename" content="' + geo.placename + '">' : '',
+    geo ? '<meta name="geo.position" content="'  + geo.pos       + '">' : '',
+    geo ? '<meta name="ICBM" content="'          + geo.icbm      + '">' : '',
     '<meta property="og:type" content="website">',
     '<meta property="og:site_name" content="MyZoneTime">',
     '<meta property="og:locale" content="en_US">',
-    '<meta property="og:url" content="'+meta.canonical+'">',
-    '<meta property="og:title" content="'+meta.title+'">',
-    '<meta property="og:description" content="'+meta.description+'">',
-    '<meta property="og:image" content="'+OG+'">',
+    '<meta property="og:url" content="'         + meta.canonical + '">',
+    '<meta property="og:title" content="'       + meta.title     + '">',
+    '<meta property="og:description" content="' + meta.description + '">',
+    '<meta property="og:image" content="'       + OG + '">',
     '<meta property="og:image:type" content="image/jpeg">',
     '<meta property="og:image:width" content="1200">',
     '<meta property="og:image:height" content="630">',
     '<meta property="og:image:alt" content="MyZoneTime — World Clock &amp; Time Zone Tools">',
-    // Twitter Card
     '<meta name="twitter:card" content="summary_large_image">',
     '<meta name="twitter:site" content="@myzonetime">',
     '<meta name="twitter:creator" content="@myzonetime">',
-    '<meta name="twitter:title" content="'+meta.title+'">',
-    '<meta name="twitter:description" content="'+meta.description+'">',
-    '<meta name="twitter:image" content="'+OG+'">',
+    '<meta name="twitter:title" content="'       + meta.title       + '">',
+    '<meta name="twitter:description" content="' + meta.description + '">',
+    '<meta name="twitter:image" content="'       + OG + '">',
     '<meta name="twitter:image:alt" content="MyZoneTime — World Clock">',
   ].filter(Boolean).join('\n    ');
 
-  return html.replace('<!-- SSR meta tags injected by server/index.js go here -->', tags);
+  // Inject meta tags into <head>
+  html = html.replace('<!-- SSR meta tags injected by server/index.js go here -->', metaTags);
+
+  // Inject H1 into <body> for non-JS crawlers.
+  // Positioned off-screen so it doesn't affect visual layout.
+  // React renders its own H1 on top; this one persists for bots.
+  var h1Html = meta.h1
+    ? '<h1 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">' + meta.h1 + '</h1>'
+    : '';
+  html = html.replace('<!-- SSR_H1_INJECT -->', h1Html);
+
+  return html;
 }
 
 // ── Load index.html at startup ────────────────────────────────────────────────
@@ -260,7 +346,7 @@ try {
   indexTemplate = fs.readFileSync(path.join(DIST,'index.html'), 'utf-8');
   console.log('✅ index.html loaded (' + indexTemplate.length + ' bytes)');
 } catch(e) {
-  console.error('⚠️  dist/index.html missing — run: npm run build\n   Looking in: ' + DIST);
+  console.error('⚠️  dist/index.html missing. Run: npm run build\n   Path: ' + DIST);
 }
 
 // ── Permanent redirects ───────────────────────────────────────────────────────
@@ -274,7 +360,7 @@ app.get('/health', function(req,res){
   res.json({ status:'ok', uptime:process.uptime(), env:process.env.NODE_ENV||'dev', distReady:!!indexTemplate, dist:DIST, ts:new Date().toISOString() });
 });
 
-// ── SPA fallback — SSR meta injected per route ────────────────────────────────
+// ── SPA fallback ──────────────────────────────────────────────────────────────
 app.get('*', function(req, res) {
   if (!indexTemplate) {
     return res.status(503).send('<h1>Building...</h1><p>Please refresh in 30 seconds.</p>');
@@ -282,11 +368,12 @@ app.get('*', function(req, res) {
   var pathname = req.path.replace(/\/+$/,'') || '/';
   var meta = routeMeta[pathname] || {
     title:       'MyZoneTime — World Clock & Time Zone Tools',
-    description: 'Free world clock, time zone converter, meeting planner, and more. Track time in 500+ cities worldwide.',
+    description: 'Free world clock, time zone converter, meeting planner, and more. Track live time in 500+ cities worldwide.',
+    h1:          'World Clock & Time Zone Tools',
     canonical:   SITE + pathname,
   };
-  res.setHeader('Content-Type','text/html; charset=utf-8');
-  res.setHeader('Cache-Control','public, max-age=300, stale-while-revalidate=3600');
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=300, stale-while-revalidate=3600');
   res.status(200).send(injectMeta(indexTemplate, meta, pathname));
 });
 
