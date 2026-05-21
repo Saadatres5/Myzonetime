@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import StructuredData from '@/components/StructuredData.jsx';
 
-export default function FAQSection({ faqs = [], title = 'Frequently Asked Questions' }) {
+export default function FAQSection({ faqs = [], title = 'Frequently Asked Questions', includeSchema = true }) {
   const [openIndex, setOpenIndex] = useState(null);
 
   if (!faqs.length) return null;
@@ -19,7 +19,7 @@ export default function FAQSection({ faqs = [], title = 'Frequently Asked Questi
 
   return (
     <section className="py-16 border-t border-border/40" aria-labelledby="faq-heading">
-      <StructuredData schemas={[faqSchema]} />
+      {includeSchema && <StructuredData schemas={[faqSchema]} />}
       <div className="container max-w-3xl mx-auto space-y-8">
         <h2 id="faq-heading" className="text-2xl md:text-3xl font-bold tracking-tight text-center">{title}</h2>
         <div className="space-y-3">
