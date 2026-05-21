@@ -110,7 +110,7 @@ export default function Sydney() {
         pathname="/sydney"
         description="Sydney operates on Australian Eastern Standard Time (AEST) and observes Daylight Saving Time (AEDT) during the Southern Hemisphere summer."
       >
-        <FAQSection faqs={faqs} />
+        <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Sydney" relatedCity="Singapore" />
       </CityPage>
     </>

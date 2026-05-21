@@ -104,7 +104,7 @@ export default function Riyadh() {
         pathname="/riyadh"
         description="Riyadh operates on Arabia Standard Time (AST) year-round and does not observe Daylight Saving Time. It is a central time zone for the Middle East."
       >
-        <FAQSection faqs={faqs} />
+        <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Riyadh" relatedCity="Dubai" />
       </CityPage>
     </>

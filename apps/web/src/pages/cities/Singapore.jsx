@@ -104,7 +104,7 @@ export default function Singapore() {
         pathname="/singapore"
         description="Singapore operates on Singapore Standard Time (SST) year-round. Despite its geographical location, it aligns its time zone with Malaysia and China for business convenience."
       >
-        <FAQSection faqs={faqs} />
+        <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Singapore" relatedCity="Tokyo" />
       </CityPage>
     </>

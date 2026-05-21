@@ -104,7 +104,7 @@ export default function Tokyo() {
         pathname="/tokyo"
         description="Tokyo operates on Japan Standard Time (JST) year-round and does not observe Daylight Saving Time. It is one of the first major global financial centers to open each day."
       >
-        <FAQSection faqs={faqs} />
+        <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Tokyo" relatedCity="Singapore" />
       </CityPage>
     </>

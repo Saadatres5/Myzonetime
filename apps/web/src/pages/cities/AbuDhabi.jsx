@@ -104,7 +104,7 @@ export default function AbuDhabi() {
         pathname="/abudhabi"
         description="Abu Dhabi operates on Gulf Standard Time (GST) year-round, sharing the same time zone as Dubai. It does not observe Daylight Saving Time."
       >
-        <FAQSection faqs={faqs} />
+        <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="AbuDhabi" relatedCity="Dubai" />
       </CityPage>
     </>

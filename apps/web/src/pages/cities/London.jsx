@@ -109,7 +109,7 @@ export default function London() {
         pathname="/london"
         description="London operates on Greenwich Mean Time (GMT) during the winter and British Summer Time (BST) during the summer. As a major global financial hub, coordinating with London time is essential for international business."
       >
-        <FAQSection faqs={faqs} />
+        <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="London" relatedCity="Dubai" />
       </CityPage>
     </>

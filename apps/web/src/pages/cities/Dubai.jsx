@@ -94,7 +94,7 @@ export default function Dubai() {
         pathname="/dubai"
         description="Dubai operates on Gulf Standard Time (GST) year-round and does not observe Daylight Saving Time. It serves as a crucial bridge between Asian and European markets, making it a global hub for international business."
       >
-        <FAQSection faqs={faqs} />
+        <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Dubai" relatedCity="London" />
       </CityPage>
     </>

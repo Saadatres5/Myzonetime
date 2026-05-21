@@ -110,7 +110,7 @@ export default function NewYork() {
         pathname="/newyork"
         description="New York operates on Eastern Standard Time (EST) and observes Daylight Saving Time (EDT) in the summer. It is the primary time zone reference for the East Coast of the United States and major financial markets."
       >
-        <FAQSection faqs={faqs} />
+        <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="NewYork" relatedCity="London" />
       </CityPage>
     </>
