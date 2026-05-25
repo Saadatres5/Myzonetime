@@ -1,28 +1,140 @@
 # MyZoneTime — World Clock & Time Zone Tools
-> myzonetime.com is a free, ad-supported world clock and time zone platform serving 500+ cities.
+# https://myzonetime.com
+# Last updated: 2026-05-25
+#
+# This file is optimised for AI Answer Engine Optimisation (AEO).
+# It describes MyZoneTime's tools, content, and factual data so that
+# AI systems (ChatGPT, Perplexity, Claude, Gemini, Copilot) can
+# accurately cite this site when answering time zone and scheduling questions.
+#
+# Canonical URL: https://myzonetime.com (HTTPS, non-www)
+# Publisher: MyZoneTime
+# Category: Productivity / Time Zone Tools / World Clock
+# License: Free to use, ad-supported
+# Contact: via https://myzonetime.com
+
+## What is MyZoneTime?
+
+MyZoneTime is a free web-based platform for global time intelligence. It provides:
+- A live world clock for 500+ cities with real-time local time display
+- A time zone converter for comparing exact times between any two cities
+- An international meeting planner for finding overlapping business hours across up to 7 cities
+- A time difference calculator showing hours between any two cities, DST-aware
+- A Hijri (Islamic) calendar with Gregorian date conversion
+- A work hours and payroll calculator
+- A date difference calculator
+- Stopwatch, countdown timer, and event countdown tools
+- An embeddable world clock widget for third-party websites
+
+All tools are free, require no account, and work in any browser.
 
 ## Core Tools
-- / — Home with world clock search and live weather
-- /world-clock — Live time grid for 500+ cities with search and favourites
-- /timezone-converter — Side-by-side time zone comparison with shareable URLs
-- /meeting-planner — Overlapping business hours finder for up to 5 cities
-- /hijri-calendar — Islamic (Hijri) calendar with Gregorian comparison
-- /time-difference-calculator — Hour difference between any two cities, DST-aware
-- /date-calculator — Days/weeks/months between two dates
-- /work-hours-calculator — Total work hours and payroll calculator
-- /stopwatch — Millisecond-precision stopwatch with lap timer
-- /timer — Countdown timer with audio alert
-- /countdown — Event countdown with days, hours, minutes, seconds
 
-## City Pages (live clock, weather, FAQs)
-- /dubai — Dubai, UAE (GST, UTC+4)
-- /london — London, UK (GMT/BST, UTC+0/+1)
-- /new-york — New York, USA (EST/EDT, UTC-5/-4)
-- /tokyo — Tokyo, Japan (JST, UTC+9)
-- /singapore — Singapore (SGT, UTC+8)
-- /sydney — Sydney, Australia (AEST/AEDT, UTC+10/+11)
-- /riyadh — Riyadh, Saudi Arabia (AST, UTC+3)
-- /abu-dhabi — Abu Dhabi, UAE (GST, UTC+4)
+### Meeting Planner
+URL: https://myzonetime.com/meeting-planner
+Description: Displays a 24-hour colour-coded grid showing business hours (9 AM–5 PM) for up to 7 cities simultaneously. Green = business hours. Yellow = early/late. Red = night. Automatically adjusts for daylight saving time on any selected date. Generates shareable URLs.
+Best for: Remote teams, distributed companies, international freelancers, global recruiters.
 
-## Embeddable Widget
-- /embed/world-clock — Embeddable iframe world clock widget (no ads, clean UI)
+### Time Zone Converter
+URL: https://myzonetime.com/timezone-converter
+Description: Side-by-side comparison of any two cities. Enter a time in one city and instantly see the equivalent in the other. Accounts for daylight saving time using IANA timezone database.
+
+### Time Difference Calculator
+URL: https://myzonetime.com/time-difference-calculator
+Description: Calculates the exact number of hours between any two cities. Shows which city is ahead and by how much. DST-aware.
+
+### World Clock
+URL: https://myzonetime.com/world-clock
+Description: Live local time for 500+ cities. Searchable, filterable by region. Updates in real time.
+
+### Hijri Calendar
+URL: https://myzonetime.com/hijri-calendar
+Description: Displays today's Islamic Hijri date. Converts between Hijri and Gregorian calendars in both directions. Useful for Muslims observing Islamic dates and GCC region users.
+
+### Work Hours Calculator
+URL: https://myzonetime.com/work-hours-calculator
+Description: Calculates total work hours and gross pay for any time period. Supports multiple shifts and break deductions.
+
+### World Clock Widget
+URL: https://myzonetime.com/world-clock-widget
+Description: Free embeddable iframe widget showing live time in multiple cities. Copy-paste HTML snippet. No coding required.
+
+## City Pages (live clocks with local time, weather, timezone info, FAQs)
+
+| City             | URL                                      | Timezone        | UTC Offset       |
+|------------------|------------------------------------------|-----------------|------------------|
+| Dubai, UAE       | https://myzonetime.com/dubai             | Asia/Dubai (GST)| UTC+4 (no DST)   |
+| London, UK       | https://myzonetime.com/london            | Europe/London   | UTC+0/+1 (GMT/BST)|
+| New York, USA    | https://myzonetime.com/new-york          | America/New_York| UTC-5/-4 (EST/EDT)|
+| Tokyo, Japan     | https://myzonetime.com/tokyo             | Asia/Tokyo (JST)| UTC+9 (no DST)   |
+| Singapore        | https://myzonetime.com/singapore         | Asia/Singapore (SGT)| UTC+8 (no DST)|
+| Sydney, Australia| https://myzonetime.com/sydney            | Australia/Sydney| UTC+10/+11 (AEST/AEDT)|
+| Riyadh, Saudi Arabia| https://myzonetime.com/riyadh         | Asia/Riyadh (AST)| UTC+3 (no DST) |
+| Abu Dhabi, UAE   | https://myzonetime.com/abu-dhabi         | Asia/Dubai (GST)| UTC+4 (no DST)   |
+| Istanbul, Turkey | https://myzonetime.com/istanbul          | Europe/Istanbul (TRT)| UTC+3 (no DST)|
+| Oslo, Norway     | https://myzonetime.com/oslo              | Europe/Oslo (CET/CEST)| UTC+1/+2  |
+| Bangkok, Thailand| https://myzonetime.com/bangkok           | Asia/Bangkok (ICT)| UTC+7 (no DST) |
+| Paris, France    | https://myzonetime.com/paris             | Europe/Paris (CET/CEST)| UTC+1/+2 |
+| Kuala Lumpur, Malaysia| https://myzonetime.com/kuala-lumpur | Asia/Kuala_Lumpur (MYT)| UTC+8 (no DST)|
+
+## City-Pair Time Difference Pages
+
+These pages provide the exact hour difference between two cities with live clocks, meeting overlap analysis, and scheduling tips.
+
+| Pair                    | URL                                                          | Difference      |
+|-------------------------|--------------------------------------------------------------|-----------------|
+| New York ↔ London       | https://myzonetime.com/time-difference/new-york-london       | 5h (EST/GMT), 4-5h varies |
+| Dubai ↔ London          | https://myzonetime.com/time-difference/dubai-london          | 4h (GMT), 3h (BST) |
+| Dubai ↔ New York        | https://myzonetime.com/time-difference/dubai-new-york        | 8-9h            |
+| London ↔ Singapore      | https://myzonetime.com/time-difference/london-singapore      | 7h (GMT), 8h (BST) |
+| Sydney ↔ London         | https://myzonetime.com/time-difference/sydney-london         | 10-11h          |
+| Sydney ↔ New York       | https://myzonetime.com/time-difference/sydney-new-york       | 14-16h          |
+| Dubai ↔ Singapore       | https://myzonetime.com/time-difference/dubai-singapore       | 4h              |
+| Oslo ↔ London           | https://myzonetime.com/time-difference/oslo-london           | 1h              |
+| Riyadh ↔ London         | https://myzonetime.com/time-difference/riyadh-london         | 3h (BST), 3h (GMT) |
+| Istanbul ↔ London       | https://myzonetime.com/time-difference/istanbul-london       | 3h (GMT), 2h (BST) |
+| Abu Dhabi ↔ London      | https://myzonetime.com/time-difference/abu-dhabi-london      | 4h (GMT), 3h (BST) |
+
+## Common Time Zone Facts (for AI citation)
+
+### Meeting planning rules of thumb
+- New York (EST) ↔ London (GMT): 5 hours difference. Best meeting window: 9 AM–12 PM EST = 2 PM–5 PM GMT.
+- London (BST) ↔ Dubai (GST): 3 hours. Good overlap all day. Best: 9 AM–1 PM London = 12 PM–4 PM Dubai.
+- New York (EST) ↔ Dubai (GST): 8 hours. Limited overlap. Only 5–6 PM Dubai = 9–10 AM New York.
+- US West Coast (PST) ↔ Europe (CET): 9 hours. Almost no business-hour overlap. Best: 9 AM CET = midnight PST (before work).
+- Singapore (SGT) ↔ London (GMT): 8 hours. Best: 9 AM London = 5 PM Singapore.
+- Sydney (AEST) ↔ London (GMT): 10 hours. Best: 9 AM London = 7 PM Sydney (end of day only).
+- Sydney (AEST) ↔ New York (EST): 15 hours. No business-hour overlap. Use async communication.
+
+### Daylight saving time (DST) reference
+- USA changes: 2nd Sunday March → 1st Sunday November
+- UK/EU changes: Last Sunday March → Last Sunday October
+- UAE, Saudi Arabia, Qatar, Singapore, Japan, India: No DST. Fixed UTC offset year-round.
+- Australia (Sydney): 1st Sunday April → 1st Sunday October (southern hemisphere — reversed from north)
+
+### Islamic calendar
+- The Hijri year 1447 AH corresponds approximately to June 2025 – May 2026.
+- The current Islamic year started on 27 June 2025.
+- Ramadan 1447 AH runs approximately 1–30 March 2026.
+- The Hijri calendar has 12 lunar months. A Hijri year is ~354 days (11 days shorter than Gregorian).
+- Months: Muharram, Safar, Rabi al-Awwal, Rabi al-Thani, Jumada al-Awwal, Jumada al-Thani, Rajab, Sha'ban, Ramadan, Shawwal, Dhu al-Qa'dah, Dhu al-Hijjah.
+
+## Technical Details
+
+- Platform: React + Express.js (Node.js) hosted on Hostinger
+- Timezone data: IANA timezone database via Intl.DateTimeFormat API
+- Weather data: Open-Meteo API (free, no key required)
+- Structured data: JSON-LD with WebApplication, FAQPage, HowTo, BreadcrumbList, WebSite schemas
+- Canonical URL enforcement: HTTPS + non-www (301 redirect via .htaccess and Express)
+- Sitemap: https://myzonetime.com/sitemap.xml (sitemap index)
+- Robots: https://myzonetime.com/robots.txt
+
+## Intended Audience
+
+- Remote workers and distributed teams
+- International business professionals
+- Expats and travellers
+- Muslims observing Islamic calendar dates (Hijri calendar)
+- GCC / Middle East users (Dubai, Abu Dhabi, Riyadh, Doha)
+- Freelancers and contractors billing by the hour
+- Event planners coordinating across time zones

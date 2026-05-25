@@ -1,158 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<!--
+  MyZoneTime — Sitemap Index
+  Last updated: 2026-05-25
+  Generated for: https://myzonetime.com
 
-  <url>
-    <loc>https://myzonetime.com/</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
+  Structure:
+    /sitemap.xml          ← This index file (points to all sub-sitemaps)
+    /sitemap-core.xml     ← Core tool pages (highest priority)
+    /sitemap-cities.xml   ← City clock pages
+    /sitemap-pairs.xml    ← City-pair time-difference pages
+  
+  CANONICAL RULE: All URLs use HTTPS non-www only.
+  www.myzonetime.com and http:// are 301-redirected server-side.
+-->
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-   <url>
-    <loc>https://myzonetime.com/meeting-planner</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
+  <sitemap>
+    <loc>https://myzonetime.com/sitemap-core.xml</loc>
+    <lastmod>2026-05-25</lastmod>
+  </sitemap>
 
-  <url>
-    <loc>https://myzonetime.com/world-clock</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
+  <sitemap>
+    <loc>https://myzonetime.com/sitemap-cities.xml</loc>
+    <lastmod>2026-05-25</lastmod>
+  </sitemap>
 
-  <url>
-    <loc>https://myzonetime.com/timezone-converter</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
+  <sitemap>
+    <loc>https://myzonetime.com/sitemap-pairs.xml</loc>
+    <lastmod>2026-05-25</lastmod>
+  </sitemap>
 
-  <url>
-    <loc>https://myzonetime.com/hijri-calendar</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/time-difference-calculator</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/date-calculator</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/work-hours-calculator</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/stopwatch</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/timer</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/countdown</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/world-clock-widget</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/dubai</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/london</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/new-york</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/tokyo</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/singapore</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/sydney</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/riyadh</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/abu-dhabi</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/privacy-policy</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-  <url>
-    <loc>https://myzonetime.com/terms-of-service</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-</urlset>
+</sitemapindex>

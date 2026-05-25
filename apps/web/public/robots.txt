@@ -1,44 +1,111 @@
+# ═══════════════════════════════════════════════════════════════════════════════
 # MyZoneTime — robots.txt
 # https://myzonetime.com
+# Last updated: 2026-05-25
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# POLICY: Allow all legitimate crawlers on all content pages.
+# Disallow only non-indexable technical paths (health checks, API, search params).
+# No Crawl-delay for Googlebot — Google ignores it and it suggests a slow server.
+#
+# ═══════════════════════════════════════════════════════════════════════════════
 
+# ── Default: all crawlers ────────────────────────────────────────────────────
 User-agent: *
 Allow: /
-Disallow: /embed/
-Disallow: /world-clock?search=
-Disallow: /api/
 
-# Allow all major search engines
+# Block technical / internal endpoints (not useful content for search)
+Disallow: /health
+Disallow: /api/
+Disallow: /embed/
+
+# Block URL variants that generate duplicate content
+# (canonical is set server-side, but prevent crawling raw ?search= URLs)
+Disallow: /world-clock?
+Disallow: /timezone-converter?
+
+# ── Google ───────────────────────────────────────────────────────────────────
+# NOTE: No Crawl-delay for Googlebot. Google ignores the directive and it signals
+# resource constraints. Express handles concurrency gracefully.
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
+Disallow: /health
+Disallow: /api/
 
 User-agent: Googlebot-Image
 Allow: /
 
 User-agent: Googlebot-Mobile
 Allow: /
+Disallow: /health
 
+# ── Microsoft ────────────────────────────────────────────────────────────────
 User-agent: Bingbot
+Allow: /
+Disallow: /health
+Disallow: /api/
+Crawl-delay: 2
+
+User-agent: msnbot
 Allow: /
 Crawl-delay: 2
 
+# ── Yahoo ────────────────────────────────────────────────────────────────────
 User-agent: Slurp
 Allow: /
 Crawl-delay: 2
 
+# ── DuckDuckGo ───────────────────────────────────────────────────────────────
 User-agent: DuckDuckBot
 Allow: /
 
+# ── Baidu ────────────────────────────────────────────────────────────────────
 User-agent: Baiduspider
 Allow: /
 Crawl-delay: 3
 
+# ── Yandex ───────────────────────────────────────────────────────────────────
 User-agent: YandexBot
 Allow: /
 Crawl-delay: 2
 
-# AI Crawlers — allow for AEO / Answer Engine indexing
+# ── Apple ────────────────────────────────────────────────────────────────────
+User-agent: Applebot
+Allow: /
+
+# ── Social crawlers (for Open Graph / rich previews) ─────────────────────────
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+# ── AI Answer Engine Crawlers ─────────────────────────────────────────────────
+# Explicitly allow all AI crawlers for AEO (Answer Engine Optimisation).
+# These feed ChatGPT, Perplexity, Claude, Gemini, and Copilot search citations.
+
 User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-Web
 Allow: /
 
 User-agent: ClaudeBot
@@ -56,27 +123,22 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-User-agent: Applebot
+User-agent: Gemini-Bot
 Allow: /
 
-User-agent: FacebookExternalHit
+User-agent: Google-Extended
 Allow: /
 
-User-agent: Twitterbot
+User-agent: meta-externalagent
 Allow: /
 
-User-agent: LinkedInBot
+User-agent: Bytespider
 Allow: /
+Crawl-delay: 2
 
-User-agent: WhatsApp
-Allow: /
-
-# Block bad / scraper bots
-User-agent: AhrefsBot
-Disallow: /
-
-User-agent: SemrushBot
-Disallow: /
+# ── Block abusive scrapers and cost-generating bots ──────────────────────────
+# These are mass scrapers that generate server load with no SEO benefit.
+# Note: Only block these if you do NOT use their services for your own SEO.
 
 User-agent: MJ12bot
 Disallow: /
@@ -84,8 +146,15 @@ Disallow: /
 User-agent: DotBot
 Disallow: /
 
-User-agent: PetalBot
+User-agent: SeznamBot
 Disallow: /
 
-# Sitemap
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+# ── Sitemap declarations ──────────────────────────────────────────────────────
+# Declare the sitemap index. All search engines will find all sub-sitemaps from here.
 Sitemap: https://myzonetime.com/sitemap.xml

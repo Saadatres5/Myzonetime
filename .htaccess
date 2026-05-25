@@ -1,6 +1,8 @@
+# ═══════════════════════════════════════════════════════════════════════════════
 # MyZoneTime — Hostinger Node.js .htaccess
-# This file configures Apache to proxy requests to the Node.js Express server.
-# Hostinger's Node.js hosting uses Apache as a reverse proxy in front of Node.
+# Purpose : Force HTTPS + non-www canonical, proxy all else to Express.
+# This file runs BEFORE Node.js — Apache processes it first.
+# ═══════════════════════════════════════════════════════════════════════════════
 
 Options -Indexes
 DirectoryIndex disabled
@@ -8,24 +10,55 @@ DirectoryIndex disabled
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # If the request is for an existing file, serve it directly
+  # ── 1. Force HTTPS (301 permanent) ─────────────────────────────────────────
+  # Catches both http:// plain and http://www. variants.
+  # Without this, Google indexes http:// as a separate site, splitting authority.
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # ── 2. Force non-www canonical (301 permanent) ─────────────────────────────
+  # www.myzonetime.com → myzonetime.com
+  # Prevents duplicate homepage (www vs non-www) from splitting PageRank.
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+  # ── 3. Serve existing static files directly (assets, robots.txt, etc.) ─────
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # Otherwise proxy to Node.js
+  # ── 4. Proxy everything else to Node.js / Express ──────────────────────────
   RewriteRule ^(.*)$ http://localhost:%{ENV:PORT}/$1 [P,L]
+
 </IfModule>
 
-# Security headers (backup — also set in Express)
+# ── Security headers (Apache layer — also set in Express) ────────────────────
 <IfModule mod_headers.c>
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set X-XSS-Protection "1; mode=block"
-  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Content-Type-Options    "nosniff"
+  Header always set X-Frame-Options           "SAMEORIGIN"
+  Header always set X-XSS-Protection          "1; mode=block"
+  Header always set Referrer-Policy           "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy        "geolocation=(self), camera=(), microphone=()"
+  # HSTS — tell browsers to always use HTTPS (1 year, including subdomains)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </IfModule>
 
-# Gzip compression (backup)
+# ── Gzip compression (Apache layer — backup for Express compression) ─────────
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json application/xml text/plain image/svg+xml
+</IfModule>
+
+# ── Browser cache for static assets ─────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 day"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType application/json          "access plus 1 hour"
+  ExpiresByType text/html                 "access plus 5 minutes"
+  ExpiresByType application/xml           "access plus 1 hour"
+  ExpiresByType text/plain                "access plus 1 hour"
 </IfModule>
