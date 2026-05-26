@@ -85,49 +85,226 @@ setInterval(function() {
 app.use('/assets', express.static(path.join(DIST, 'assets'), { maxAge: '1y', immutable: true, etag: true }));
 
 // ── Explicit XML/TXT routes ────────────────────────────────────────────────────
-// These run BEFORE express.static so Google always gets XML, never the SPA HTML.
-// Root cause of "Couldn't fetch" in GSC: express.static misses files when the
-// Vite dist folder doesn't exist yet at startup, so requests fall through to
-// the SPA handler which returns text/html — Google rejects it as invalid XML.
-var XML_FILES = [
-  'sitemap.xml',
-  'sitemap-core.xml',
-  'sitemap-cities.xml',
-  'sitemap-pairs.xml',
-];
+// ── Inline sitemap generation ─────────────────────────────────────────────────
+// Sitemaps are served as inline strings from server memory.
+// This is 100% reliable — no file system dependency, no Vite build dependency,
+// no mod_proxy needed. Google always gets valid XML with correct Content-Type.
+// Previous approach (sendFile from dist/) caused 403 because:
+//   1. Hostinger Node.js hosting doesn't support mod_proxy in .htaccess
+//   2. express.static() can miss files before they're written to dist/
 
-XML_FILES.forEach(function(file) {
-  app.get('/' + file, function(req, res) {
-    var fp = path.join(DIST, file);
-    if (!fs.existsSync(fp)) {
-      // File missing — return a minimal valid XML so GSC doesn't get HTML
-      console.error('[sitemap] Missing file: ' + fp);
-      res.setHeader('Content-Type', 'application/xml; charset=UTF-8');
-      res.status(404).send('<?xml version="1.0" encoding="UTF-8"?><error>Sitemap not built yet. Run npm run build.</error>');
-      return;
-    }
-    res.setHeader('Content-Type', 'application/xml; charset=UTF-8');
-    res.setHeader('Cache-Control', 'public, max-age=3600');
-    res.setHeader('X-Robots-Tag', 'noindex'); // sitemaps themselves should not be indexed
-    res.sendFile(fp);
+var TODAY = new Date().toISOString().slice(0, 10); // e.g. "2026-05-26"
+
+function xmlRes(res, body) {
+  res.setHeader('Content-Type', 'application/xml; charset=UTF-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.status(200).send('<?xml version="1.0" encoding="UTF-8"?>\n' + body);
+}
+
+// ── /sitemap.xml — Sitemap Index ──────────────────────────────────────────────
+app.get('/sitemap.xml', function(req, res) {
+  xmlRes(res, [
+    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    '  <sitemap><loc>https://myzonetime.com/sitemap-core.xml</loc><lastmod>' + TODAY + '</lastmod></sitemap>',
+    '  <sitemap><loc>https://myzonetime.com/sitemap-cities.xml</loc><lastmod>' + TODAY + '</lastmod></sitemap>',
+    '  <sitemap><loc>https://myzonetime.com/sitemap-pairs.xml</loc><lastmod>' + TODAY + '</lastmod></sitemap>',
+    '</sitemapindex>',
+  ].join('\n'));
+});
+
+// ── /sitemap-core.xml — Core tool pages ──────────────────────────────────────
+app.get('/sitemap-core.xml', function(req, res) {
+  var corePages = [
+    { loc: '/',                           priority: '1.0',  freq: 'daily'   },
+    { loc: '/meeting-planner',            priority: '0.95', freq: 'weekly'  },
+    { loc: '/world-clock',                priority: '0.9',  freq: 'daily'   },
+    { loc: '/timezone-converter',         priority: '0.9',  freq: 'weekly'  },
+    { loc: '/time-difference-calculator', priority: '0.85', freq: 'weekly'  },
+    { loc: '/hijri-calendar',             priority: '0.85', freq: 'daily'   },
+    { loc: '/work-hours-calculator',      priority: '0.75', freq: 'monthly' },
+    { loc: '/date-calculator',            priority: '0.7',  freq: 'monthly' },
+    { loc: '/stopwatch',                  priority: '0.65', freq: 'monthly' },
+    { loc: '/timer',                      priority: '0.65', freq: 'monthly' },
+    { loc: '/countdown',                  priority: '0.6',  freq: 'monthly' },
+    { loc: '/world-clock-widget',         priority: '0.6',  freq: 'monthly' },
+    { loc: '/blog',                       priority: '0.7',  freq: 'weekly'  },
+    { loc: '/privacy-policy',             priority: '0.2',  freq: 'yearly'  },
+    { loc: '/terms-of-service',           priority: '0.2',  freq: 'yearly'  },
+  ];
+  var urls = corePages.map(function(p) {
+    return [
+      '  <url>',
+      '    <loc>https://myzonetime.com' + p.loc + '</loc>',
+      '    <lastmod>' + TODAY + '</lastmod>',
+      '    <changefreq>' + p.freq + '</changefreq>',
+      '    <priority>' + p.priority + '</priority>',
+      '  </url>',
+    ].join('\n');
   });
+  xmlRes(res, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join('\n') + '\n</urlset>');
 });
 
-// robots.txt and llms.txt — explicit routes for same reason
+// ── /sitemap-cities.xml — City clock pages ────────────────────────────────────
+app.get('/sitemap-cities.xml', function(req, res) {
+  var cities = [
+    { loc: '/dubai',        priority: '0.9'  },
+    { loc: '/london',       priority: '0.9'  },
+    { loc: '/new-york',     priority: '0.9'  },
+    { loc: '/tokyo',        priority: '0.85' },
+    { loc: '/singapore',    priority: '0.85' },
+    { loc: '/sydney',       priority: '0.85' },
+    { loc: '/riyadh',       priority: '0.85' },
+    { loc: '/abu-dhabi',    priority: '0.85' },
+    { loc: '/istanbul',     priority: '0.85' },
+    { loc: '/oslo',         priority: '0.8'  },
+    { loc: '/bangkok',      priority: '0.8'  },
+    { loc: '/paris',        priority: '0.8'  },
+    { loc: '/kuala-lumpur', priority: '0.8'  },
+    { loc: '/hong-kong',    priority: '0.75' },
+    { loc: '/mumbai',       priority: '0.75' },
+    { loc: '/toronto',      priority: '0.75' },
+    { loc: '/los-angeles',  priority: '0.75' },
+    { loc: '/chicago',      priority: '0.75' },
+    { loc: '/amsterdam',    priority: '0.75' },
+    { loc: '/berlin',       priority: '0.75' },
+    { loc: '/doha',         priority: '0.75' },
+    { loc: '/cairo',        priority: '0.75' },
+    { loc: '/nairobi',      priority: '0.7'  },
+    { loc: '/johannesburg', priority: '0.7'  },
+    { loc: '/auckland',     priority: '0.7'  },
+  ];
+  var urls = cities.map(function(c) {
+    return [
+      '  <url>',
+      '    <loc>https://myzonetime.com' + c.loc + '</loc>',
+      '    <lastmod>' + TODAY + '</lastmod>',
+      '    <changefreq>daily</changefreq>',
+      '    <priority>' + c.priority + '</priority>',
+      '  </url>',
+    ].join('\n');
+  });
+  xmlRes(res, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join('\n') + '\n</urlset>');
+});
+
+// ── /sitemap-pairs.xml — City-pair time-difference pages ─────────────────────
+app.get('/sitemap-pairs.xml', function(req, res) {
+  var pairs = [
+    '/time-difference/new-york-london',
+    '/time-difference/dubai-london',
+    '/time-difference/dubai-new-york',
+    '/time-difference/london-singapore',
+    '/time-difference/new-york-singapore',
+    '/time-difference/sydney-london',
+    '/time-difference/sydney-new-york',
+    '/time-difference/oslo-london',
+    '/time-difference/oslo-new-york',
+    '/time-difference/istanbul-london',
+    '/time-difference/istanbul-new-york',
+    '/time-difference/istanbul-dubai',
+    '/time-difference/riyadh-london',
+    '/time-difference/riyadh-new-york',
+    '/time-difference/abu-dhabi-london',
+    '/time-difference/abu-dhabi-new-york',
+    '/time-difference/dubai-singapore',
+    '/time-difference/dubai-tokyo',
+    '/time-difference/london-tokyo',
+    '/time-difference/new-york-tokyo',
+    '/time-difference/london-mumbai',
+    '/time-difference/new-york-mumbai',
+    '/time-difference/london-bangkok',
+    '/time-difference/london-hong-kong',
+    '/time-difference/new-york-hong-kong',
+    '/time-difference/london-kuala-lumpur',
+    '/time-difference/sydney-dubai',
+    '/time-difference/auckland-london',
+    '/time-difference/paris-london',
+    '/time-difference/paris-new-york',
+    '/time-difference/berlin-london',
+    '/time-difference/amsterdam-london',
+    '/time-difference/doha-london',
+    '/time-difference/cairo-london',
+    '/time-difference/nairobi-london',
+    '/time-difference/johannesburg-london',
+    '/time-difference/los-angeles-london',
+    '/time-difference/chicago-london',
+    '/time-difference/sydney-new-york',
+  ];
+  // deduplicate
+  var seen = {};
+  var unique = pairs.filter(function(p) { if (seen[p]) return false; seen[p] = true; return true; });
+  var urls = unique.map(function(loc) {
+    return [
+      '  <url>',
+      '    <loc>https://myzonetime.com' + loc + '</loc>',
+      '    <lastmod>' + TODAY + '</lastmod>',
+      '    <changefreq>weekly</changefreq>',
+      '    <priority>0.8</priority>',
+      '  </url>',
+    ].join('\n');
+  });
+  xmlRes(res, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join('\n') + '\n</urlset>');
+});
+
+// ── /robots.txt ───────────────────────────────────────────────────────────────
 app.get('/robots.txt', function(req, res) {
-  var fp = path.join(DIST, 'robots.txt');
-  if (!fs.existsSync(fp)) { return res.status(404).send('User-agent: *\nAllow: /\nSitemap: https://myzonetime.com/sitemap.xml\n'); }
   res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
   res.setHeader('Cache-Control', 'public, max-age=3600');
-  res.sendFile(fp);
-});
-
-app.get('/llms.txt', function(req, res) {
-  var fp = path.join(DIST, 'llms.txt');
-  if (!fs.existsSync(fp)) { return res.status(404).send('# MyZoneTime\nhttps://myzonetime.com\n'); }
-  res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
-  res.setHeader('Cache-Control', 'public, max-age=3600');
-  res.sendFile(fp);
+  res.status(200).send([
+    '# MyZoneTime — robots.txt',
+    '# https://myzonetime.com',
+    '',
+    'User-agent: *',
+    'Allow: /',
+    'Disallow: /health',
+    'Disallow: /api/',
+    '',
+    'User-agent: Googlebot',
+    'Allow: /',
+    'Disallow: /health',
+    '',
+    'User-agent: GPTBot',
+    'Allow: /',
+    '',
+    'User-agent: OAI-SearchBot',
+    'Allow: /',
+    '',
+    'User-agent: ChatGPT-User',
+    'Allow: /',
+    '',
+    'User-agent: Claude-Web',
+    'Allow: /',
+    '',
+    'User-agent: ClaudeBot',
+    'Allow: /',
+    '',
+    'User-agent: anthropic-ai',
+    'Allow: /',
+    '',
+    'User-agent: PerplexityBot',
+    'Allow: /',
+    '',
+    'User-agent: Google-Extended',
+    'Allow: /',
+    '',
+    'User-agent: Gemini-Bot',
+    'Allow: /',
+    '',
+    'User-agent: meta-externalagent',
+    'Allow: /',
+    '',
+    'User-agent: Bingbot',
+    'Allow: /',
+    'Crawl-delay: 2',
+    '',
+    'User-agent: MJ12bot',
+    'Disallow: /',
+    '',
+    'User-agent: DotBot',
+    'Disallow: /',
+    '',
+    'Sitemap: https://myzonetime.com/sitemap.xml',
+  ].join('\n'));
 });
 
 // ── Static — public root files ────────────────────────────────────────────────
