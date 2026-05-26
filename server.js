@@ -84,6 +84,52 @@ setInterval(function() {
 // ── Static — hashed assets, 1 year ──────────────────────────────────────────
 app.use('/assets', express.static(path.join(DIST, 'assets'), { maxAge: '1y', immutable: true, etag: true }));
 
+// ── Explicit XML/TXT routes ────────────────────────────────────────────────────
+// These run BEFORE express.static so Google always gets XML, never the SPA HTML.
+// Root cause of "Couldn't fetch" in GSC: express.static misses files when the
+// Vite dist folder doesn't exist yet at startup, so requests fall through to
+// the SPA handler which returns text/html — Google rejects it as invalid XML.
+var XML_FILES = [
+  'sitemap.xml',
+  'sitemap-core.xml',
+  'sitemap-cities.xml',
+  'sitemap-pairs.xml',
+];
+
+XML_FILES.forEach(function(file) {
+  app.get('/' + file, function(req, res) {
+    var fp = path.join(DIST, file);
+    if (!fs.existsSync(fp)) {
+      // File missing — return a minimal valid XML so GSC doesn't get HTML
+      console.error('[sitemap] Missing file: ' + fp);
+      res.setHeader('Content-Type', 'application/xml; charset=UTF-8');
+      res.status(404).send('<?xml version="1.0" encoding="UTF-8"?><error>Sitemap not built yet. Run npm run build.</error>');
+      return;
+    }
+    res.setHeader('Content-Type', 'application/xml; charset=UTF-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('X-Robots-Tag', 'noindex'); // sitemaps themselves should not be indexed
+    res.sendFile(fp);
+  });
+});
+
+// robots.txt and llms.txt — explicit routes for same reason
+app.get('/robots.txt', function(req, res) {
+  var fp = path.join(DIST, 'robots.txt');
+  if (!fs.existsSync(fp)) { return res.status(404).send('User-agent: *\nAllow: /\nSitemap: https://myzonetime.com/sitemap.xml\n'); }
+  res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.sendFile(fp);
+});
+
+app.get('/llms.txt', function(req, res) {
+  var fp = path.join(DIST, 'llms.txt');
+  if (!fs.existsSync(fp)) { return res.status(404).send('# MyZoneTime\nhttps://myzonetime.com\n'); }
+  res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.sendFile(fp);
+});
+
 // ── Static — public root files ────────────────────────────────────────────────
 app.use(express.static(DIST, {
   maxAge: '1h', index: false, etag: true,
