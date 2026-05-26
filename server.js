@@ -102,20 +102,13 @@ function xmlRes(res, body) {
   res.status(200).send('<?xml version="1.0" encoding="UTF-8"?>\n' + body);
 }
 
-// ── /sitemap.xml — Sitemap Index ──────────────────────────────────────────────
+// ── /sitemap.xml — Single comprehensive sitemap (no sub-files needed) ────────
+// All URLs in one file. Google allows up to 50,000 URLs per sitemap.
+// Using a single file avoids Google having to make multiple fetches for
+// sub-sitemaps, which was causing "Couldn't fetch" errors in GSC.
 app.get('/sitemap.xml', function(req, res) {
-  xmlRes(res, [
-    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    '  <sitemap><loc>https://myzonetime.com/sitemap-core.xml</loc><lastmod>' + TODAY + '</lastmod></sitemap>',
-    '  <sitemap><loc>https://myzonetime.com/sitemap-cities.xml</loc><lastmod>' + TODAY + '</lastmod></sitemap>',
-    '  <sitemap><loc>https://myzonetime.com/sitemap-pairs.xml</loc><lastmod>' + TODAY + '</lastmod></sitemap>',
-    '</sitemapindex>',
-  ].join('\n'));
-});
-
-// ── /sitemap-core.xml — Core tool pages ──────────────────────────────────────
-app.get('/sitemap-core.xml', function(req, res) {
-  var corePages = [
+  var allPages = [
+    // ── Core tools ──────────────────────────────────────────────────────────
     { loc: '/',                           priority: '1.0',  freq: 'daily'   },
     { loc: '/meeting-planner',            priority: '0.95', freq: 'weekly'  },
     { loc: '/world-clock',                priority: '0.9',  freq: 'daily'   },
@@ -131,8 +124,74 @@ app.get('/sitemap-core.xml', function(req, res) {
     { loc: '/blog',                       priority: '0.7',  freq: 'weekly'  },
     { loc: '/privacy-policy',             priority: '0.2',  freq: 'yearly'  },
     { loc: '/terms-of-service',           priority: '0.2',  freq: 'yearly'  },
+    // ── City pages ──────────────────────────────────────────────────────────
+    { loc: '/dubai',        priority: '0.9',  freq: 'daily' },
+    { loc: '/london',       priority: '0.9',  freq: 'daily' },
+    { loc: '/new-york',     priority: '0.9',  freq: 'daily' },
+    { loc: '/tokyo',        priority: '0.85', freq: 'daily' },
+    { loc: '/singapore',    priority: '0.85', freq: 'daily' },
+    { loc: '/sydney',       priority: '0.85', freq: 'daily' },
+    { loc: '/riyadh',       priority: '0.85', freq: 'daily' },
+    { loc: '/abu-dhabi',    priority: '0.85', freq: 'daily' },
+    { loc: '/istanbul',     priority: '0.85', freq: 'daily' },
+    { loc: '/oslo',         priority: '0.8',  freq: 'daily' },
+    { loc: '/bangkok',      priority: '0.8',  freq: 'daily' },
+    { loc: '/paris',        priority: '0.8',  freq: 'daily' },
+    { loc: '/kuala-lumpur', priority: '0.8',  freq: 'daily' },
+    { loc: '/hong-kong',    priority: '0.75', freq: 'daily' },
+    { loc: '/mumbai',       priority: '0.75', freq: 'daily' },
+    { loc: '/toronto',      priority: '0.75', freq: 'daily' },
+    { loc: '/los-angeles',  priority: '0.75', freq: 'daily' },
+    { loc: '/chicago',      priority: '0.75', freq: 'daily' },
+    { loc: '/amsterdam',    priority: '0.75', freq: 'daily' },
+    { loc: '/berlin',       priority: '0.75', freq: 'daily' },
+    { loc: '/doha',         priority: '0.75', freq: 'daily' },
+    { loc: '/cairo',        priority: '0.75', freq: 'daily' },
+    { loc: '/nairobi',      priority: '0.7',  freq: 'daily' },
+    { loc: '/johannesburg', priority: '0.7',  freq: 'daily' },
+    { loc: '/auckland',     priority: '0.7',  freq: 'daily' },
+    // ── City-pair time-difference pages ─────────────────────────────────────
+    { loc: '/time-difference/new-york-london',     priority: '0.85', freq: 'weekly' },
+    { loc: '/time-difference/dubai-london',        priority: '0.85', freq: 'weekly' },
+    { loc: '/time-difference/dubai-new-york',      priority: '0.85', freq: 'weekly' },
+    { loc: '/time-difference/london-singapore',    priority: '0.85', freq: 'weekly' },
+    { loc: '/time-difference/sydney-london',       priority: '0.85', freq: 'weekly' },
+    { loc: '/time-difference/sydney-new-york',     priority: '0.8',  freq: 'weekly' },
+    { loc: '/time-difference/oslo-london',         priority: '0.8',  freq: 'weekly' },
+    { loc: '/time-difference/oslo-new-york',       priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/istanbul-london',     priority: '0.8',  freq: 'weekly' },
+    { loc: '/time-difference/istanbul-new-york',   priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/istanbul-dubai',      priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/riyadh-london',       priority: '0.8',  freq: 'weekly' },
+    { loc: '/time-difference/riyadh-new-york',     priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/abu-dhabi-london',    priority: '0.8',  freq: 'weekly' },
+    { loc: '/time-difference/abu-dhabi-new-york',  priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/dubai-singapore',     priority: '0.8',  freq: 'weekly' },
+    { loc: '/time-difference/dubai-tokyo',         priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/london-tokyo',        priority: '0.8',  freq: 'weekly' },
+    { loc: '/time-difference/new-york-tokyo',      priority: '0.8',  freq: 'weekly' },
+    { loc: '/time-difference/london-mumbai',       priority: '0.8',  freq: 'weekly' },
+    { loc: '/time-difference/new-york-mumbai',     priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/london-bangkok',      priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/london-hong-kong',    priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/new-york-hong-kong',  priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/london-kuala-lumpur', priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/sydney-dubai',        priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/auckland-london',     priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/paris-london',        priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/paris-new-york',      priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/berlin-london',       priority: '0.7',  freq: 'weekly' },
+    { loc: '/time-difference/amsterdam-london',    priority: '0.7',  freq: 'weekly' },
+    { loc: '/time-difference/doha-london',         priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/cairo-london',        priority: '0.7',  freq: 'weekly' },
+    { loc: '/time-difference/nairobi-london',      priority: '0.7',  freq: 'weekly' },
+    { loc: '/time-difference/johannesburg-london', priority: '0.7',  freq: 'weekly' },
+    { loc: '/time-difference/los-angeles-london',  priority: '0.8',  freq: 'weekly' },
+    { loc: '/time-difference/chicago-london',      priority: '0.75', freq: 'weekly' },
+    { loc: '/time-difference/new-york-singapore',  priority: '0.8',  freq: 'weekly' },
   ];
-  var urls = corePages.map(function(p) {
+
+  var urls = allPages.map(function(p) {
     return [
       '  <url>',
       '    <loc>https://myzonetime.com' + p.loc + '</loc>',
@@ -142,108 +201,15 @@ app.get('/sitemap-core.xml', function(req, res) {
       '  </url>',
     ].join('\n');
   });
-  xmlRes(res, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join('\n') + '\n</urlset>');
-});
 
-// ── /sitemap-cities.xml — City clock pages ────────────────────────────────────
-app.get('/sitemap-cities.xml', function(req, res) {
-  var cities = [
-    { loc: '/dubai',        priority: '0.9'  },
-    { loc: '/london',       priority: '0.9'  },
-    { loc: '/new-york',     priority: '0.9'  },
-    { loc: '/tokyo',        priority: '0.85' },
-    { loc: '/singapore',    priority: '0.85' },
-    { loc: '/sydney',       priority: '0.85' },
-    { loc: '/riyadh',       priority: '0.85' },
-    { loc: '/abu-dhabi',    priority: '0.85' },
-    { loc: '/istanbul',     priority: '0.85' },
-    { loc: '/oslo',         priority: '0.8'  },
-    { loc: '/bangkok',      priority: '0.8'  },
-    { loc: '/paris',        priority: '0.8'  },
-    { loc: '/kuala-lumpur', priority: '0.8'  },
-    { loc: '/hong-kong',    priority: '0.75' },
-    { loc: '/mumbai',       priority: '0.75' },
-    { loc: '/toronto',      priority: '0.75' },
-    { loc: '/los-angeles',  priority: '0.75' },
-    { loc: '/chicago',      priority: '0.75' },
-    { loc: '/amsterdam',    priority: '0.75' },
-    { loc: '/berlin',       priority: '0.75' },
-    { loc: '/doha',         priority: '0.75' },
-    { loc: '/cairo',        priority: '0.75' },
-    { loc: '/nairobi',      priority: '0.7'  },
-    { loc: '/johannesburg', priority: '0.7'  },
-    { loc: '/auckland',     priority: '0.7'  },
-  ];
-  var urls = cities.map(function(c) {
-    return [
-      '  <url>',
-      '    <loc>https://myzonetime.com' + c.loc + '</loc>',
-      '    <lastmod>' + TODAY + '</lastmod>',
-      '    <changefreq>daily</changefreq>',
-      '    <priority>' + c.priority + '</priority>',
-      '  </url>',
-    ].join('\n');
-  });
-  xmlRes(res, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join('\n') + '\n</urlset>');
-});
-
-// ── /sitemap-pairs.xml — City-pair time-difference pages ─────────────────────
-app.get('/sitemap-pairs.xml', function(req, res) {
-  var pairs = [
-    '/time-difference/new-york-london',
-    '/time-difference/dubai-london',
-    '/time-difference/dubai-new-york',
-    '/time-difference/london-singapore',
-    '/time-difference/new-york-singapore',
-    '/time-difference/sydney-london',
-    '/time-difference/sydney-new-york',
-    '/time-difference/oslo-london',
-    '/time-difference/oslo-new-york',
-    '/time-difference/istanbul-london',
-    '/time-difference/istanbul-new-york',
-    '/time-difference/istanbul-dubai',
-    '/time-difference/riyadh-london',
-    '/time-difference/riyadh-new-york',
-    '/time-difference/abu-dhabi-london',
-    '/time-difference/abu-dhabi-new-york',
-    '/time-difference/dubai-singapore',
-    '/time-difference/dubai-tokyo',
-    '/time-difference/london-tokyo',
-    '/time-difference/new-york-tokyo',
-    '/time-difference/london-mumbai',
-    '/time-difference/new-york-mumbai',
-    '/time-difference/london-bangkok',
-    '/time-difference/london-hong-kong',
-    '/time-difference/new-york-hong-kong',
-    '/time-difference/london-kuala-lumpur',
-    '/time-difference/sydney-dubai',
-    '/time-difference/auckland-london',
-    '/time-difference/paris-london',
-    '/time-difference/paris-new-york',
-    '/time-difference/berlin-london',
-    '/time-difference/amsterdam-london',
-    '/time-difference/doha-london',
-    '/time-difference/cairo-london',
-    '/time-difference/nairobi-london',
-    '/time-difference/johannesburg-london',
-    '/time-difference/los-angeles-london',
-    '/time-difference/chicago-london',
-    '/time-difference/sydney-new-york',
-  ];
-  // deduplicate
-  var seen = {};
-  var unique = pairs.filter(function(p) { if (seen[p]) return false; seen[p] = true; return true; });
-  var urls = unique.map(function(loc) {
-    return [
-      '  <url>',
-      '    <loc>https://myzonetime.com' + loc + '</loc>',
-      '    <lastmod>' + TODAY + '</lastmod>',
-      '    <changefreq>weekly</changefreq>',
-      '    <priority>0.8</priority>',
-      '  </url>',
-    ].join('\n');
-  });
-  xmlRes(res, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join('\n') + '\n</urlset>');
+  xmlRes(res,
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n' +
+    '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n' +
+    '        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9\n' +
+    '        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n' +
+    urls.join('\n') +
+    '\n</urlset>'
+  );
 });
 
 // ── /robots.txt ───────────────────────────────────────────────────────────────
