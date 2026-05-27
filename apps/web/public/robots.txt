@@ -1,112 +1,32 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 # MyZoneTime — robots.txt
-# https://myzonetime.com
-# Last updated: 2026-05-25
-# ═══════════════════════════════════════════════════════════════════════════════
-#
-# POLICY: Allow all legitimate crawlers on all content pages.
-# Disallow only non-indexable technical paths (health checks, API, search params).
-# No Crawl-delay for Googlebot — Google ignores it and it suggests a slow server.
-#
+# https://myzonetime.com/robots.txt
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# ── Default: all crawlers ────────────────────────────────────────────────────
+# ── All general web crawlers (Google, Bing, etc.) ────────────────────────────
 User-agent: *
 Allow: /
 
-# Block technical / internal endpoints (not useful content for search)
-Disallow: /health
+# Block internal/non-public paths only
 Disallow: /api/
-Disallow: /embed/
-
-# Block URL variants that generate duplicate content
-# (canonical is set server-side, but prevent crawling raw ?search= URLs)
-Disallow: /world-clock?
-Disallow: /timezone-converter?
+Disallow: /health
+Disallow: /_next/
+Disallow: /assets/
+Disallow: /.env
 
 # ── Google ───────────────────────────────────────────────────────────────────
-# NOTE: No Crawl-delay for Googlebot. Google ignores the directive and it signals
-# resource constraints. Express handles concurrency gracefully.
 User-agent: Googlebot
 Allow: /
-Disallow: /health
-Disallow: /api/
+Crawl-delay: 1
 
-User-agent: Googlebot-Image
-Allow: /
-
-User-agent: Googlebot-Mobile
-Allow: /
-Disallow: /health
-
-# ── Microsoft ────────────────────────────────────────────────────────────────
+# ── Bing ─────────────────────────────────────────────────────────────────────
 User-agent: Bingbot
 Allow: /
-Disallow: /health
-Disallow: /api/
 Crawl-delay: 2
 
-User-agent: msnbot
-Allow: /
-Crawl-delay: 2
-
-# ── Yahoo ────────────────────────────────────────────────────────────────────
-User-agent: Slurp
-Allow: /
-Crawl-delay: 2
-
-# ── DuckDuckGo ───────────────────────────────────────────────────────────────
-User-agent: DuckDuckBot
-Allow: /
-
-# ── Baidu ────────────────────────────────────────────────────────────────────
-User-agent: Baiduspider
-Allow: /
-Crawl-delay: 3
-
-# ── Yandex ───────────────────────────────────────────────────────────────────
-User-agent: YandexBot
-Allow: /
-Crawl-delay: 2
-
-# ── Apple ────────────────────────────────────────────────────────────────────
-User-agent: Applebot
-Allow: /
-
-# ── Social crawlers (for Open Graph / rich previews) ─────────────────────────
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /
-
-User-agent: WhatsApp
-Allow: /
-
-User-agent: Slackbot
-Allow: /
-
-User-agent: TelegramBot
-Allow: /
-
-# ── AI Answer Engine Crawlers ─────────────────────────────────────────────────
-# Explicitly allow all AI crawlers for AEO (Answer Engine Optimisation).
-# These feed ChatGPT, Perplexity, Claude, Gemini, and Copilot search citations.
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: Claude-Web
-Allow: /
+# ── AI Crawlers — explicitly allowed for GEO (Generative Engine Optimisation) ─
+# Allowing AI crawlers helps your content appear in ChatGPT, Claude, Perplexity,
+# Gemini, and Copilot answers — a growing source of referral traffic.
 
 User-agent: ClaudeBot
 Allow: /
@@ -114,47 +34,29 @@ Allow: /
 User-agent: anthropic-ai
 Allow: /
 
-User-agent: PerplexityBot
+User-agent: GPTBot
 Allow: /
 
-User-agent: YouBot
-Allow: /
-
-User-agent: cohere-ai
-Allow: /
-
-User-agent: Gemini-Bot
+User-agent: ChatGPT-User
 Allow: /
 
 User-agent: Google-Extended
 Allow: /
 
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
 User-agent: meta-externalagent
 Allow: /
 
-User-agent: Bytespider
+User-agent: Applebot-Extended
 Allow: /
-Crawl-delay: 2
 
-# ── Block abusive scrapers and cost-generating bots ──────────────────────────
-# These are mass scrapers that generate server load with no SEO benefit.
-# Note: Only block these if you do NOT use their services for your own SEO.
-
-User-agent: MJ12bot
-Disallow: /
-
-User-agent: DotBot
-Disallow: /
-
-User-agent: SeznamBot
-Disallow: /
-
-User-agent: BLEXBot
-Disallow: /
-
-User-agent: DataForSeoBot
-Disallow: /
-
-# ── Sitemap declarations ──────────────────────────────────────────────────────
-# Declare the sitemap index. All search engines will find all sub-sitemaps from here.
+# ── Sitemap ───────────────────────────────────────────────────────────────────
 Sitemap: https://myzonetime.com/sitemap.xml
