@@ -29,7 +29,7 @@
     <link rel="dns-prefetch" href="//googleads.g.doubleclick.net" />
     <link rel="dns-prefetch" href="//adservice.google.com" />
 
-    <!-- Non-blocking font load (replaces CSS @import which was render-blocking) -->
+    <!-- Non-blocking font load -->
     <link
       rel="preload"
       as="style"
@@ -58,7 +58,7 @@
       crossorigin="anonymous"
     ></script>
 
-    <!-- SSR meta tags injected by server/index.js go here -->
+    <!-- server.js injects <title>, <meta description>, <canonical>, OG, Twitter, H1 here -->
   </head>
   <body>
     <!-- Skip to content — WCAG 2.1 AA compliance -->
@@ -83,8 +83,7 @@
       Skip to main content
     </a>
 
+    <!-- SSR_H1_INJECT -->
     <div id="root"></div>
-
-    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
