@@ -15,6 +15,30 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="MyZoneTime" />
 
+    <!-- ============================================================
+         STATIC FALLBACK SEO META TAGS
+         server.js will replace these at request time per route.
+         These ensure crawlers always see valid tags even if SSR
+         injection fails or the page is fetched before JS runs.
+    ============================================================ -->
+    <title>MyZoneTime – World Clock &amp; Time Zone Converter</title>
+    <meta name="description" content="MyZoneTime: live world clock, time zone converter, meeting planner &amp; Hijri calendar for 500+ cities. Free, accurate, no sign-up required." />
+    <link rel="canonical" href="https://myzonetime.com/" />
+
+    <!-- Open Graph fallback -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MyZoneTime" />
+    <meta property="og:title" content="MyZoneTime – World Clock &amp; Time Zone Converter" />
+    <meta property="og:description" content="MyZoneTime: live world clock, time zone converter, meeting planner &amp; Hijri calendar for 500+ cities. Free, accurate, no sign-up required." />
+    <meta property="og:url" content="https://myzonetime.com/" />
+    <meta property="og:image" content="https://myzonetime.com/og-image.png" />
+
+    <!-- Twitter Card fallback -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MyZoneTime – World Clock &amp; Time Zone Converter" />
+    <meta name="twitter:description" content="MyZoneTime: live world clock, time zone converter, meeting planner &amp; Hijri calendar for 500+ cities. Free, accurate, no sign-up required." />
+    <meta name="twitter:image" content="https://myzonetime.com/og-image.png" />
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
@@ -29,7 +53,7 @@
     <link rel="dns-prefetch" href="//googleads.g.doubleclick.net" />
     <link rel="dns-prefetch" href="//adservice.google.com" />
 
-    <!-- Non-blocking font load (replaces CSS @import which was render-blocking) -->
+    <!-- Non-blocking font load -->
     <link
       rel="preload"
       as="style"
@@ -58,13 +82,14 @@
       crossorigin="anonymous"
     ></script>
 
-    <!-- SSR meta tags injected by server/index.js go here -->
+    <!-- SSR meta tags injected by server.js replace the static tags above at request time -->
+
     <script type="module" crossorigin src="/assets/index-Co-Wfggy.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-BBR5m66-.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-ui-Bs0n-ePb.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-helmet-UrcSeOuv.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-icons-D17535Nk.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-B8wEjVTy.css">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-BBR5m66-.js" />
+    <link rel="modulepreload" crossorigin href="/assets/vendor-ui-Bs0n-ePb.js" />
+    <link rel="modulepreload" crossorigin href="/assets/vendor-helmet-UrcSeOuv.js" />
+    <link rel="modulepreload" crossorigin href="/assets/vendor-icons-D17535Nk.js" />
+    <link rel="stylesheet" crossorigin href="/assets/index-B8wEjVTy.css" />
   </head>
   <body>
     <!-- Skip to content — WCAG 2.1 AA compliance -->
@@ -89,8 +114,9 @@
       Skip to main content
     </a>
 
+    <!-- SSR_H1_INJECT — server.js replaces this comment with a real <h1> tag per route -->
     <!-- SSR_H1_INJECT -->
-    <div id="root"></div>
 
+    <div id="root"></div>
   </body>
 </html>
