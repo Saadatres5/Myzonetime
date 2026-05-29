@@ -58,7 +58,7 @@
       crossorigin="anonymous"
     ></script>
 
-    <!-- server.js injects <title>, <meta description>, <canonical>, OG, Twitter, H1 here -->
+    <!-- server.js injects title, meta, canonical, OG, JSON-LD here -->
   </head>
   <body>
     <!-- Skip to content — WCAG 2.1 AA compliance -->
@@ -85,5 +85,8 @@
 
     <!-- SSR_H1_INJECT -->
     <div id="root"></div>
+
+    <!-- App entry point — Vite replaces this with hashed bundle on build -->
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
