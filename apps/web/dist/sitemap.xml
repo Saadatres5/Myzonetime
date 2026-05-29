@@ -5,183 +5,341 @@
 
   <!-- ═══════════════════════════════════════════════ -->
   <!--  MyZoneTime · https://myzonetime.com           -->
-  <!--  Generated: 2026-05-20                         -->
+  <!--  Generated: 2026-05-29                         -->
   <!-- ═══════════════════════════════════════════════ -->
 
   <!-- Home -->
   <url>
     <loc>https://myzonetime.com/</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/"/>
   </url>
 
   <!-- Core Tools -->
   <url>
     <loc>https://myzonetime.com/world-clock</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/world-clock"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/world-clock"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/timezone-converter</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/timezone-converter"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/timezone-converter"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/meeting-planner</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/meeting-planner"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/meeting-planner"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/hijri-calendar</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/hijri-calendar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/hijri-calendar"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/time-difference-calculator</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/time-difference-calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/time-difference-calculator"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/date-calculator</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/date-calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/date-calculator"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/work-hours-calculator</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/work-hours-calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/work-hours-calculator"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/stopwatch</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/stopwatch"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/stopwatch"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/timer</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/timer"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/timer"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/countdown</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/countdown"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/countdown"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/world-clock-widget</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/world-clock-widget"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/world-clock-widget"/>
   </url>
 
-  <!-- City Pages -->
+  <!-- Tier-1 City Pages -->
   <url>
     <loc>https://myzonetime.com/dubai</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/dubai"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/dubai"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/london</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/london"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/london"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/new-york</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/new-york"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/new-york"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/tokyo</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/tokyo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/tokyo"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/singapore</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/singapore"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/singapore"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/sydney</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/sydney"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/sydney"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/riyadh</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/riyadh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/riyadh"/>
   </url>
 
   <url>
     <loc>https://myzonetime.com/abu-dhabi</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/abu-dhabi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/abu-dhabi"/>
+  </url>
+
+  <!-- Tier-2 City Pages (NEW — were missing from sitemap) -->
+  <url>
+    <loc>https://myzonetime.com/istanbul</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/istanbul"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/istanbul"/>
+  </url>
+
+  <url>
+    <loc>https://myzonetime.com/paris</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/paris"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/paris"/>
+  </url>
+
+  <url>
+    <loc>https://myzonetime.com/oslo</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/oslo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/oslo"/>
+  </url>
+
+  <url>
+    <loc>https://myzonetime.com/bangkok</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/bangkok"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/bangkok"/>
+  </url>
+
+  <url>
+    <loc>https://myzonetime.com/kuala-lumpur</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://myzonetime.com/kuala-lumpur"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://myzonetime.com/kuala-lumpur"/>
+  </url>
+
+  <!-- Top City-Pair Time Difference Pages (NEW — longtail traffic) -->
+  <url>
+    <loc>https://myzonetime.com/time-difference/new-york-and-london</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/dubai-and-london</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/dubai-and-new-york</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/tokyo-and-new-york</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/london-and-sydney</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/singapore-and-london</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/riyadh-and-london</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/istanbul-and-dubai</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/paris-and-dubai</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/sydney-and-dubai</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/new-york-and-dubai</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/bangkok-and-london</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/kuala-lumpur-and-london</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/tokyo-and-london</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myzonetime.com/time-difference/singapore-and-new-york</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <!-- Legal -->
   <url>
     <loc>https://myzonetime.com/privacy-policy</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://myzonetime.com/terms-of-service</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

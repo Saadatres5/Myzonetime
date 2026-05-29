@@ -3,11 +3,12 @@
 
 User-agent: *
 Allow: /
+Allow: /world-clock$
 Disallow: /embed/
 Disallow: /world-clock?search=
 Disallow: /api/
 
-# Allow all major search engines
+# Googlebot
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
@@ -18,10 +19,12 @@ Allow: /
 User-agent: Googlebot-Mobile
 Allow: /
 
+# Bingbot
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 2
 
+# Other search engines
 User-agent: Slurp
 Allow: /
 Crawl-delay: 2
@@ -37,8 +40,11 @@ User-agent: YandexBot
 Allow: /
 Crawl-delay: 2
 
-# AI Crawlers — allow for AEO / Answer Engine indexing
+# AI Crawlers — allow for AEO / Answer Engine Optimization
 User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
 Allow: /
 
 User-agent: ClaudeBot
@@ -59,6 +65,10 @@ Allow: /
 User-agent: Applebot
 Allow: /
 
+User-agent: Amazonbot
+Allow: /
+
+# Social media crawlers
 User-agent: FacebookExternalHit
 Allow: /
 
@@ -71,7 +81,13 @@ Allow: /
 User-agent: WhatsApp
 Allow: /
 
-# Block bad / scraper bots
+User-agent: Slackbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+# Block scraper / SEO tool bots
 User-agent: AhrefsBot
 Disallow: /
 
@@ -85,6 +101,9 @@ User-agent: DotBot
 Disallow: /
 
 User-agent: PetalBot
+Disallow: /
+
+User-agent: DataForSeoBot
 Disallow: /
 
 # Sitemap

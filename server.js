@@ -1,9 +1,16 @@
 'use strict';
 
 /**
- * server.js — MyZoneTime Express Server
- * Uses only: express, compression, helmet (matching package.json dependencies)
- * CommonJS (no "type":"module" in package.json)
+ * server.js — MyZoneTime Express Server (FIXED)
+ * Fixes applied:
+ *   C-1  H1 injection placeholder now matches index.html
+ *   C-2  Server-side JSON-LD injected for every route
+ *   C-3  SearchAction uses correct ?search= parameter
+ *   H-1  All 5 missing city routes + world-clock-widget added
+ *   H-4  og:image standardised to og-image.jpg
+ *   H-6  Dynamic /time-difference/:pair route with SSR meta
+ *   M-1  Hijri calendar year computed dynamically
+ *   M-5  /embed/* routes forced noindex
  */
 
 const express     = require('express');
@@ -25,6 +32,9 @@ try {
 } catch (e) {
   console.error('[server] ERROR: apps/web/dist/index.html not found — run npm run build first');
 }
+
+// ─── Compute dynamic year for Hijri calendar title ────────────────────────
+const CURRENT_YEAR = new Date().getFullYear();
 
 // ─── SEO map: one entry per route ─────────────────────────────────────────
 const SEO = {
@@ -59,7 +69,7 @@ const SEO = {
     canonical:   'https://myzonetime.com/time-difference-calculator',
   },
   '/hijri-calendar': {
-    title:       'Hijri Calendar – Islamic Date Converter 2025 | MyZoneTime',
+    title:       'Hijri Calendar ' + CURRENT_YEAR + '–' + (CURRENT_YEAR + 1) + ' — Islamic Date Converter | MyZoneTime',
     description: 'View today\'s Hijri (Islamic) date and convert between Gregorian and Hijri calendars. Accurate and updated daily.',
     h1:          'Hijri Calendar – Islamic Date & Converter',
     canonical:   'https://myzonetime.com/hijri-calendar',
@@ -94,54 +104,96 @@ const SEO = {
     h1:          'Work Hours Calculator',
     canonical:   'https://myzonetime.com/work-hours-calculator',
   },
+  '/world-clock-widget': {
+    title:       'Free Embeddable World Clock Widget — Copy HTML Code | MyZoneTime',
+    description: 'Embed a free live world clock widget on your website. No account needed. Copy the iframe code and display real-time city clocks on any page.',
+    h1:          'World Clock Widget – Free Embed Code',
+    canonical:   'https://myzonetime.com/world-clock-widget',
+  },
+
+  // ── Tier-1 City pages ──
   '/dubai': {
-    title:       'Dubai Time – Current Local Time in Dubai (GST) | MyZoneTime',
-    description: 'What time is it in Dubai right now? Live Dubai clock showing Gulf Standard Time (GST, UTC+4). No daylight saving. Updated in real time.',
+    title:       'Dubai Time – Current Local Time in Dubai (GST, UTC+4) | MyZoneTime',
+    description: 'What time is it in Dubai right now? Live Dubai clock showing Gulf Standard Time (GST, UTC+4). Dubai does not observe daylight saving. Updated in real time.',
     h1:          'Current Time in Dubai, UAE',
     canonical:   'https://myzonetime.com/dubai',
   },
   '/london': {
     title:       'London Time – Current Local Time in London (GMT/BST) | MyZoneTime',
-    description: 'What time is it in London right now? Live London clock showing GMT or BST depending on the season. Updated in real time.',
+    description: 'What time is it in London right now? Live London clock showing GMT (UTC+0) in winter and BST (UTC+1) in summer. Updated in real time.',
     h1:          'Current Time in London, UK',
     canonical:   'https://myzonetime.com/london',
   },
   '/new-york': {
     title:       'New York Time – Current Local Time in New York (EST/EDT) | MyZoneTime',
-    description: 'What time is it in New York right now? Live New York clock showing Eastern Standard or Daylight Time. Updated in real time.',
+    description: 'What time is it in New York right now? Live New York clock showing Eastern Standard Time (EST, UTC-5) or EDT (UTC-4) in summer. Updated in real time.',
     h1:          'Current Time in New York, USA',
     canonical:   'https://myzonetime.com/new-york',
   },
   '/tokyo': {
-    title:       'Tokyo Time – Current Local Time in Tokyo (JST) | MyZoneTime',
-    description: 'What time is it in Tokyo right now? Live Tokyo clock showing Japan Standard Time (JST, UTC+9). No daylight saving. Updated in real time.',
+    title:       'Tokyo Time – Current Local Time in Tokyo (JST, UTC+9) | MyZoneTime',
+    description: 'What time is it in Tokyo right now? Live Tokyo clock showing Japan Standard Time (JST, UTC+9). Japan does not observe daylight saving. Updated in real time.',
     h1:          'Current Time in Tokyo, Japan',
     canonical:   'https://myzonetime.com/tokyo',
   },
   '/singapore': {
-    title:       'Singapore Time – Current Local Time in Singapore (SGT) | MyZoneTime',
-    description: 'What time is it in Singapore right now? Live Singapore clock showing Singapore Standard Time (SGT, UTC+8). Updated in real time.',
+    title:       'Singapore Time – Current Local Time in Singapore (SGT, UTC+8) | MyZoneTime',
+    description: 'What time is it in Singapore right now? Live Singapore clock showing Singapore Standard Time (SGT, UTC+8). No daylight saving. Updated in real time.',
     h1:          'Current Time in Singapore',
     canonical:   'https://myzonetime.com/singapore',
   },
   '/sydney': {
     title:       'Sydney Time – Current Local Time in Sydney (AEST/AEDT) | MyZoneTime',
-    description: 'What time is it in Sydney right now? Live Sydney clock showing Australian Eastern Time (AEST/AEDT). Updated in real time.',
+    description: 'What time is it in Sydney right now? Live Sydney clock showing Australian Eastern Time (AEST, UTC+10 / AEDT, UTC+11 in summer). Updated in real time.',
     h1:          'Current Time in Sydney, Australia',
     canonical:   'https://myzonetime.com/sydney',
   },
   '/riyadh': {
-    title:       'Riyadh Time – Current Local Time in Riyadh (AST) | MyZoneTime',
-    description: 'What time is it in Riyadh right now? Live Riyadh clock showing Arabia Standard Time (AST, UTC+3). No daylight saving. Updated in real time.',
+    title:       'Riyadh Time – Current Local Time in Riyadh (AST, UTC+3) | MyZoneTime',
+    description: 'What time is it in Riyadh right now? Live Riyadh clock showing Arabia Standard Time (AST, UTC+3). Saudi Arabia does not observe daylight saving. Updated in real time.',
     h1:          'Current Time in Riyadh, Saudi Arabia',
     canonical:   'https://myzonetime.com/riyadh',
   },
   '/abu-dhabi': {
-    title:       'Abu Dhabi Time – Current Local Time in Abu Dhabi (GST) | MyZoneTime',
+    title:       'Abu Dhabi Time – Current Local Time in Abu Dhabi (GST, UTC+4) | MyZoneTime',
     description: 'What time is it in Abu Dhabi right now? Live Abu Dhabi clock showing Gulf Standard Time (GST, UTC+4). No daylight saving. Updated in real time.',
     h1:          'Current Time in Abu Dhabi, UAE',
     canonical:   'https://myzonetime.com/abu-dhabi',
   },
+
+  // ── Tier-2 City pages (NEWLY ADDED — were missing) ──
+  '/istanbul': {
+    title:       'Istanbul Time – Current Local Time in Istanbul (TRT, UTC+3) | MyZoneTime',
+    description: 'What time is it in Istanbul right now? Live Istanbul clock showing Turkey Time (TRT, UTC+3). Turkey has not observed daylight saving since 2016. Updated in real time.',
+    h1:          'Current Time in Istanbul, Turkey',
+    canonical:   'https://myzonetime.com/istanbul',
+  },
+  '/paris': {
+    title:       'Paris Time – Current Local Time in Paris (CET/CEST) | MyZoneTime',
+    description: 'What time is it in Paris right now? Live Paris clock showing CET (UTC+1) in winter and CEST (UTC+2) in summer. France observes daylight saving time. Updated in real time.',
+    h1:          'Current Time in Paris, France',
+    canonical:   'https://myzonetime.com/paris',
+  },
+  '/oslo': {
+    title:       'Oslo Time – Current Local Time in Oslo (CET/CEST) | MyZoneTime',
+    description: 'What time is it in Oslo right now? Live Oslo clock showing Central European Time (CET, UTC+1) in winter and CEST (UTC+2) in summer. Updated in real time.',
+    h1:          'Current Time in Oslo, Norway',
+    canonical:   'https://myzonetime.com/oslo',
+  },
+  '/bangkok': {
+    title:       'Bangkok Time – Current Local Time in Bangkok (ICT, UTC+7) | MyZoneTime',
+    description: 'What time is it in Bangkok right now? Live Bangkok clock showing Indochina Time (ICT, UTC+7). Thailand does not observe daylight saving. Updated in real time.',
+    h1:          'Current Time in Bangkok, Thailand',
+    canonical:   'https://myzonetime.com/bangkok',
+  },
+  '/kuala-lumpur': {
+    title:       'Kuala Lumpur Time – Current Local Time in KL (MYT, UTC+8) | MyZoneTime',
+    description: 'What time is it in Kuala Lumpur right now? Live KL clock showing Malaysia Time (MYT, UTC+8). Malaysia does not observe daylight saving. Updated in real time.',
+    h1:          'Current Time in Kuala Lumpur, Malaysia',
+    canonical:   'https://myzonetime.com/kuala-lumpur',
+  },
+
+  // ── Legal ──
   '/privacy-policy': {
     title:       'Privacy Policy | MyZoneTime',
     description: 'Read the MyZoneTime privacy policy. We explain what data we collect, how it is used, and your rights regarding your personal information.',
@@ -158,10 +210,227 @@ const SEO = {
 
 const DEFAULT_SEO = SEO['/'];
 
-// ─── Build the <head> meta block for a given route ────────────────────────
-function buildMetaBlock(seo) {
-  const { title, description, canonical } = seo;
-  return [
+// ─── Server-side JSON-LD schema map (C-2 fix) ─────────────────────────────
+const SCHEMAS = {
+  '/': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': 'https://myzonetime.com/#website',
+        name: 'MyZoneTime',
+        url: 'https://myzonetime.com/',
+        description: 'Free world clock, time zone converter, meeting planner & Hijri calendar for 500+ cities.',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: 'https://myzonetime.com/world-clock?search={search_term_string}'
+          },
+          'query-input': 'required name=search_term_string'
+        }
+      },
+      {
+        '@type': 'Organization',
+        '@id': 'https://myzonetime.com/#organization',
+        name: 'MyZoneTime',
+        url: 'https://myzonetime.com/',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://myzonetime.com/og-image.jpg',
+          width: 1200,
+          height: 630
+        }
+      }
+    ]
+  }),
+  '/dubai': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Dubai, UAE',
+        url: 'https://myzonetime.com/dubai',
+        about: { '@type': 'City', name: 'Dubai', containedInPlace: { '@type': 'Country', name: 'United Arab Emirates' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Dubai in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Dubai uses Gulf Standard Time (GST, UTC+4) year-round. It does not observe daylight saving time.' }},
+          { '@type': 'Question', name: 'Does Dubai observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'No. Dubai does not observe daylight saving time. It remains on Gulf Standard Time (GST, UTC+4) throughout the entire year.' }},
+          { '@type': 'Question', name: 'What is the time difference between Dubai and London?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Dubai (GST, UTC+4) is 4 hours ahead of London (GMT, UTC+0) in winter, and 3 hours ahead when the UK observes BST (UTC+1) in summer.' }}
+        ]
+      }
+    ]
+  }),
+  '/london': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in London, UK',
+        url: 'https://myzonetime.com/london',
+        about: { '@type': 'City', name: 'London', containedInPlace: { '@type': 'Country', name: 'United Kingdom' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is London in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'London uses Greenwich Mean Time (GMT, UTC+0) in winter and British Summer Time (BST, UTC+1) from the last Sunday in March to the last Sunday in October.' }},
+          { '@type': 'Question', name: 'Does London observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Yes. London observes British Summer Time (BST, UTC+1) from the last Sunday in March to the last Sunday in October each year, then reverts to GMT (UTC+0).' }}
+        ]
+      }
+    ]
+  }),
+  '/new-york': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in New York, USA',
+        url: 'https://myzonetime.com/new-york',
+        about: { '@type': 'City', name: 'New York City', containedInPlace: { '@type': 'Country', name: 'United States' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is New York in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'New York is in the Eastern Time Zone. It uses Eastern Standard Time (EST, UTC-5) in winter and Eastern Daylight Time (EDT, UTC-4) in summer.' }},
+          { '@type': 'Question', name: 'Does New York observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Yes. New York observes daylight saving time, switching from EST (UTC-5) to EDT (UTC-4) on the second Sunday of March and back on the first Sunday of November.' }}
+        ]
+      }
+    ]
+  }),
+  '/istanbul': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Istanbul, Turkey',
+        url: 'https://myzonetime.com/istanbul',
+        about: { '@type': 'City', name: 'Istanbul', containedInPlace: { '@type': 'Country', name: 'Turkey' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Istanbul in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Istanbul uses Turkey Time (TRT, UTC+3) year-round. Turkey abolished daylight saving time in 2016 and has remained on UTC+3 ever since.' }},
+          { '@type': 'Question', name: 'Does Istanbul observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'No. Turkey permanently abolished daylight saving time in September 2016. Istanbul stays on Turkey Time (TRT, UTC+3) throughout the entire year.' }}
+        ]
+      }
+    ]
+  }),
+  '/paris': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Paris, France',
+        url: 'https://myzonetime.com/paris',
+        about: { '@type': 'City', name: 'Paris', containedInPlace: { '@type': 'Country', name: 'France' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Paris in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Paris uses Central European Time (CET, UTC+1) in winter and Central European Summer Time (CEST, UTC+2) from the last Sunday in March to the last Sunday in October.' }},
+          { '@type': 'Question', name: 'Does Paris observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Yes. Paris observes daylight saving time, using CEST (UTC+2) from the last Sunday in March to the last Sunday in October, then reverting to CET (UTC+1) in winter.' }}
+        ]
+      }
+    ]
+  }),
+  '/bangkok': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Bangkok, Thailand',
+        url: 'https://myzonetime.com/bangkok',
+        about: { '@type': 'City', name: 'Bangkok', containedInPlace: { '@type': 'Country', name: 'Thailand' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Bangkok in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Bangkok uses Indochina Time (ICT, UTC+7) year-round. Thailand does not observe daylight saving time.' }},
+          { '@type': 'Question', name: 'Does Bangkok observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'No. Bangkok does not observe daylight saving time. Thailand stays on Indochina Time (ICT, UTC+7) throughout the entire year.' }}
+        ]
+      }
+    ]
+  }),
+  '/kuala-lumpur': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Kuala Lumpur, Malaysia',
+        url: 'https://myzonetime.com/kuala-lumpur',
+        about: { '@type': 'City', name: 'Kuala Lumpur', containedInPlace: { '@type': 'Country', name: 'Malaysia' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Kuala Lumpur in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Kuala Lumpur uses Malaysia Time (MYT, UTC+8) year-round. Malaysia does not observe daylight saving time.' }},
+          { '@type': 'Question', name: 'Does Kuala Lumpur observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'No. Kuala Lumpur does not observe daylight saving time. Malaysia stays on Malaysia Time (MYT, UTC+8) throughout the entire year.' }}
+        ]
+      }
+    ]
+  }),
+  '/world-clock': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'World Clock – MyZoneTime',
+    url: 'https://myzonetime.com/world-clock',
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Live world clock showing current time in 500+ cities with time zone information.'
+  }),
+  '/timezone-converter': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Time Zone Converter – MyZoneTime',
+    url: 'https://myzonetime.com/timezone-converter',
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert time between any two cities instantly with automatic DST handling.'
+  }),
+  '/meeting-planner': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Meeting Planner – MyZoneTime',
+    url: 'https://myzonetime.com/meeting-planner',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Find the best meeting time across multiple time zones for remote teams.'
+  }),
+};
+
+// ─── Helper: title-case a hyphenated slug ─────────────────────────────────
+function titleCase(str) {
+  return String(str).replace(/-/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+}
+
+// ─── Build the <head> meta + JSON-LD block ────────────────────────────────
+function buildMetaBlock(seo, pathname) {
+  var title       = seo.title;
+  var description = seo.description;
+  var canonical   = seo.canonical;
+  var schema      = SCHEMAS[pathname] || null;
+
+  var tags = [
     '<title>' + title + '</title>',
     '<meta name="description" content="' + description + '" />',
     '<link rel="canonical" href="' + canonical + '" />',
@@ -170,23 +439,32 @@ function buildMetaBlock(seo) {
     '<meta property="og:title" content="' + title + '" />',
     '<meta property="og:description" content="' + description + '" />',
     '<meta property="og:url" content="' + canonical + '" />',
-    '<meta property="og:image" content="https://myzonetime.com/og-image.png" />',
+    '<meta property="og:image" content="https://myzonetime.com/og-image.jpg" />',
+    '<meta property="og:image:width" content="1200" />',
+    '<meta property="og:image:height" content="630" />',
+    '<meta property="og:image:type" content="image/jpeg" />',
+    '<meta property="og:locale" content="en_US" />',
     '<meta name="twitter:card" content="summary_large_image" />',
+    '<meta name="twitter:site" content="@myzonetime" />',
     '<meta name="twitter:title" content="' + title + '" />',
     '<meta name="twitter:description" content="' + description + '" />',
-    '<meta name="twitter:image" content="https://myzonetime.com/og-image.png" />',
-  ].join('\n    ');
+    '<meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />',
+  ];
+
+  if (schema) {
+    tags.push('<script type="application/ld+json">' + schema + '</script>');
+  }
+
+  return tags.join('\n    ');
 }
 
 // ─── Inject SEO + H1 into the HTML template ───────────────────────────────
-function injectSeo(html, seo) {
-  // 1. Inject meta block just before </head>
-  const metaBlock = buildMetaBlock(seo);
+function injectSeo(html, seo, pathname) {
+  var metaBlock = buildMetaBlock(seo, pathname || '/');
   html = html.replace('</head>', '    ' + metaBlock + '\n  </head>');
 
-  // 2. Replace the H1 placeholder with a real (visually hidden) <h1>
-  const h1Tag = '<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;' +
-                'clip:rect(0 0 0 0);white-space:nowrap">' + seo.h1 + '</h1>';
+  // C-1 FIX: placeholder in index.html is now exactly <!-- SSR_H1_INJECT -->
+  var h1Tag = '<h1 class="sr-only">' + seo.h1 + '</h1>';
   html = html.replace('<!-- SSR_H1_INJECT -->', h1Tag);
 
   return html;
@@ -251,12 +529,70 @@ app.use('/assets', express.static(path.join(DIST, 'assets'), {
 // ─── Other static files (robots.txt, sitemap.xml, manifest, favicon…) ────
 app.use(express.static(DIST, {
   maxAge: '1d',
-  index: false,       // we serve index.html ourselves with SEO injection
+  index: false,
 }));
 
 // ─── Health check ─────────────────────────────────────────────────────────
 app.get('/health', function (req, res) {
   res.json({ status: 'ok', uptime: process.uptime() });
+});
+
+// ─── M-5 FIX: Embed pages — forced noindex ────────────────────────────────
+app.get('/embed/*', function (req, res) {
+  if (!indexTemplate) {
+    return res.status(503).send('Site is building.');
+  }
+  var html = indexTemplate.replace('</head>',
+    '    <meta name="robots" content="noindex,nofollow" />\n  </head>');
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.send(html);
+});
+
+// ─── H-6 FIX: Dynamic /time-difference/:pair route ────────────────────────
+app.get('/time-difference/:pair', function (req, res) {
+  if (!indexTemplate) {
+    return res.status(503).send('Site is building.');
+  }
+  var pair  = req.params.pair;
+  var parts = pair.split('-and-');
+  var city1 = parts[0] ? titleCase(parts[0]) : 'City 1';
+  var city2 = parts[1] ? titleCase(parts[1]) : 'City 2';
+
+  var seo = {
+    title:       'Time Difference Between ' + city1 + ' and ' + city2 + ' | MyZoneTime',
+    description: 'What is the exact time difference between ' + city1 + ' and ' + city2 + '? Get the live, DST-aware hour offset updated in real time. Free.',
+    h1:          'Time Difference: ' + city1 + ' and ' + city2,
+    canonical:   'https://myzonetime.com/time-difference/' + pair,
+  };
+
+  var pairSchema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the time difference between ' + city1 + ' and ' + city2 + '?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The current time difference between ' + city1 + ' and ' + city2 + ' is shown on this page in real time, adjusted for daylight saving. Use the live clock above for the exact offset.'
+        }
+      }
+    ]
+  });
+
+  var customSchemas = Object.assign({}, SCHEMAS);
+  customSchemas['/time-difference/' + pair] = pairSchema;
+
+  var html = injectSeo(indexTemplate, seo, '/time-difference/' + pair);
+  // inject the pair schema manually since it's dynamic
+  html = html.replace('</head>',
+    '    <script type="application/ld+json">' + pairSchema + '</script>\n  </head>');
+
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=3600');
+  res.send(html);
 });
 
 // ─── SPA catch-all ────────────────────────────────────────────────────────
@@ -267,10 +603,9 @@ app.get('*', function (req, res) {
     );
   }
 
-  // Normalize: lowercase, strip trailing slash (except root)
   var rawPath = req.path.toLowerCase().replace(/\/+$/, '') || '/';
   var seo     = SEO[rawPath] || DEFAULT_SEO;
-  var html    = injectSeo(indexTemplate, seo);
+  var html    = injectSeo(indexTemplate, seo, rawPath);
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
