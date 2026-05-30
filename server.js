@@ -416,8 +416,6 @@ const SCHEMAS = {
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     description: 'Find the best meeting time across multiple time zones for remote teams.'
   }),
-};
-
   '/abu-dhabi': JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
@@ -631,6 +629,7 @@ const SCHEMAS = {
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     description: 'Free embeddable world clock widget. Copy the iframe code and display live city times on any website.'
   }),
+};
 // ─── Helper: title-case a hyphenated slug ─────────────────────────────────
 function titleCase(str) {
   return String(str).replace(/-/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
