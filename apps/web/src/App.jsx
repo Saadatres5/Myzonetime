@@ -22,6 +22,7 @@ const WorldClockWidgetPage         = React.lazy(() => import('./pages/WorldClock
 const EmbedPage                    = React.lazy(() => import('./pages/EmbedPage.jsx'));
 const PrivacyPolicyPage            = React.lazy(() => import('./pages/PrivacyPolicyPage.jsx'));
 const TermsOfServicePage           = React.lazy(() => import('./pages/TermsOfServicePage.jsx'));
+const ContactPage                  = React.lazy(() => import('./pages/ContactPage.jsx'));
 
 // ── City-pair time-difference pages (new — SEO/GEO traffic) ─────────────────
 // Single component handles all /time-difference/:pair routes.
@@ -93,6 +94,7 @@ function AppContent() {
             <Route path="/embed/world-clock"            element={<EmbedPage />} />
             <Route path="/privacy-policy"               element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-service"             element={<TermsOfServicePage />} />
+            <Route path="/contact-us"                  element={<ContactPage />} />
 
             {/* ── City-pair time-difference pages ─────────────────────────── */}
             {/*

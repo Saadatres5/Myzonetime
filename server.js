@@ -194,6 +194,12 @@ const SEO = {
   },
 
   // ── Legal ──
+  '/contact-us': {
+    title:       'Contact Us — Queries & Suggestions | MyZoneTime',
+    description: 'Have a question, suggestion or found a bug? Contact the MyZoneTime team. We read every message and reply within 48 hours.',
+    h1:          'Contact Us',
+    canonical:   'https://myzonetime.com/contact-us',
+  },
   '/privacy-policy': {
     title:       'Privacy Policy | MyZoneTime',
     description: 'Read the MyZoneTime privacy policy. We explain what data we collect, how it is used, and your rights regarding your personal information.',
