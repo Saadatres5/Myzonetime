@@ -7,104 +7,44 @@ Allow: /world-clock$
 Disallow: /embed/
 Disallow: /world-clock?search=
 Disallow: /api/
-
 # Googlebot
 User-agent: Googlebot
-Allow: /
 Crawl-delay: 1
-
 User-agent: Googlebot-Image
-Allow: /
-
 User-agent: Googlebot-Mobile
-Allow: /
-
 # Bingbot
 User-agent: Bingbot
-Allow: /
 Crawl-delay: 2
-
 # Other search engines
 User-agent: Slurp
-Allow: /
-Crawl-delay: 2
-
 User-agent: DuckDuckBot
-Allow: /
-
 User-agent: Baiduspider
-Allow: /
 Crawl-delay: 3
-
 User-agent: YandexBot
-Allow: /
-Crawl-delay: 2
-
 # AI Crawlers — allow for AEO / Answer Engine Optimization
 User-agent: GPTBot
-Allow: /
-
 User-agent: ChatGPT-User
-Allow: /
-
 User-agent: ClaudeBot
-Allow: /
-
 User-agent: anthropic-ai
-Allow: /
-
 User-agent: PerplexityBot
-Allow: /
-
 User-agent: YouBot
-Allow: /
-
 User-agent: cohere-ai
-Allow: /
-
 User-agent: Applebot
-Allow: /
-
 User-agent: Amazonbot
-Allow: /
-
 # Social media crawlers
 User-agent: FacebookExternalHit
-Allow: /
-
 User-agent: Twitterbot
-Allow: /
-
 User-agent: LinkedInBot
-Allow: /
-
 User-agent: WhatsApp
-Allow: /
-
 User-agent: Slackbot
-Allow: /
-
 User-agent: Discordbot
-Allow: /
-
 # Block scraper / SEO tool bots
 User-agent: AhrefsBot
 Disallow: /
-
 User-agent: SemrushBot
-Disallow: /
-
 User-agent: MJ12bot
-Disallow: /
-
 User-agent: DotBot
-Disallow: /
-
 User-agent: PetalBot
-Disallow: /
-
 User-agent: DataForSeoBot
-Disallow: /
-
 # Sitemap
 Sitemap: https://myzonetime.com/sitemap.xml

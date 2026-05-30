@@ -418,6 +418,219 @@ const SCHEMAS = {
   }),
 };
 
+  '/abu-dhabi': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Abu Dhabi, UAE',
+        url: 'https://myzonetime.com/abu-dhabi',
+        about: { '@type': 'City', name: 'Abu Dhabi', containedInPlace: { '@type': 'Country', name: 'United Arab Emirates' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Abu Dhabi in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Abu Dhabi uses Gulf Standard Time (GST, UTC+4) year-round. The UAE does not observe daylight saving time.' }},
+          { '@type': 'Question', name: 'Does Abu Dhabi observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'No. Abu Dhabi does not observe daylight saving time. It stays on Gulf Standard Time (GST, UTC+4) throughout the entire year.' }}
+        ]
+      }
+    ]
+  }),
+  '/oslo': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Oslo, Norway',
+        url: 'https://myzonetime.com/oslo',
+        about: { '@type': 'City', name: 'Oslo', containedInPlace: { '@type': 'Country', name: 'Norway' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Oslo in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Oslo uses Central European Time (CET, UTC+1) in winter and Central European Summer Time (CEST, UTC+2) in summer.' }},
+          { '@type': 'Question', name: 'Does Oslo observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Yes. Oslo observes daylight saving time, switching to CEST (UTC+2) on the last Sunday in March and back to CET (UTC+1) on the last Sunday in October.' }}
+        ]
+      }
+    ]
+  }),
+  '/riyadh': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Riyadh, Saudi Arabia',
+        url: 'https://myzonetime.com/riyadh',
+        about: { '@type': 'City', name: 'Riyadh', containedInPlace: { '@type': 'Country', name: 'Saudi Arabia' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Riyadh in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Riyadh uses Arabia Standard Time (AST, UTC+3) year-round. Saudi Arabia does not observe daylight saving time.' }},
+          { '@type': 'Question', name: 'Does Riyadh observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'No. Riyadh does not observe daylight saving time. Saudi Arabia remains on Arabia Standard Time (AST, UTC+3) throughout the entire year.' }}
+        ]
+      }
+    ]
+  }),
+  '/singapore': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Singapore',
+        url: 'https://myzonetime.com/singapore',
+        about: { '@type': 'City', name: 'Singapore', containedInPlace: { '@type': 'Country', name: 'Singapore' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Singapore in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Singapore uses Singapore Standard Time (SGT, UTC+8) year-round. Singapore does not observe daylight saving time.' }},
+          { '@type': 'Question', name: 'Does Singapore observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'No. Singapore does not observe daylight saving time. It remains on Singapore Standard Time (SGT, UTC+8) throughout the entire year.' }}
+        ]
+      }
+    ]
+  }),
+  '/sydney': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Sydney, Australia',
+        url: 'https://myzonetime.com/sydney',
+        about: { '@type': 'City', name: 'Sydney', containedInPlace: { '@type': 'Country', name: 'Australia' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Sydney in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Sydney uses Australian Eastern Standard Time (AEST, UTC+10) in winter and Australian Eastern Daylight Time (AEDT, UTC+11) in summer.' }},
+          { '@type': 'Question', name: 'Does Sydney observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Yes. Sydney observes daylight saving time, switching to AEDT (UTC+11) on the first Sunday in October and back to AEST (UTC+10) on the first Sunday in April.' }}
+        ]
+      }
+    ]
+  }),
+  '/tokyo': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: 'Current Time in Tokyo, Japan',
+        url: 'https://myzonetime.com/tokyo',
+        about: { '@type': 'City', name: 'Tokyo', containedInPlace: { '@type': 'Country', name: 'Japan' } }
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What time zone is Tokyo in?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Tokyo uses Japan Standard Time (JST, UTC+9) year-round. Japan does not observe daylight saving time.' }},
+          { '@type': 'Question', name: 'Does Tokyo observe daylight saving time?',
+            acceptedAnswer: { '@type': 'Answer', text: 'No. Tokyo does not observe daylight saving time. Japan remains on Japan Standard Time (JST, UTC+9) throughout the entire year.' }}
+        ]
+      }
+    ]
+  }),
+  '/hijri-calendar': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebApplication',
+        name: 'Hijri Calendar — Islamic Date Converter',
+        url: 'https://myzonetime.com/hijri-calendar',
+        applicationCategory: 'UtilityApplication',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        description: 'Convert between Hijri (Islamic) and Gregorian calendar dates. View today Islamic date updated daily.'
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What is today Hijri date?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Today Hijri date is shown live on this page, automatically calculated and updated daily. The Hijri calendar is a lunar calendar used in Islamic countries.' }},
+          { '@type': 'Question', name: 'How many days are in a Hijri year?',
+            acceptedAnswer: { '@type': 'Answer', text: 'A Hijri (Islamic) year has 354 or 355 days, which is 10 to 11 days shorter than the Gregorian year. This is why Islamic dates shift earlier each Gregorian year.' }}
+        ]
+      }
+    ]
+  }),
+  '/stopwatch': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Online Stopwatch with Laps — MyZoneTime',
+    url: 'https://myzonetime.com/stopwatch',
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Free online stopwatch with lap timer. Precision timing in your browser — no download needed.'
+  }),
+  '/timer': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Online Countdown Timer — MyZoneTime',
+    url: 'https://myzonetime.com/timer',
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Free online countdown timer. Set hours, minutes or seconds and get an alert when time is up.'
+  }),
+  '/countdown': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Event Countdown Timer — MyZoneTime',
+    url: 'https://myzonetime.com/countdown',
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Count down to any event — birthdays, holidays, launches. Shows days, hours, minutes and seconds.'
+  }),
+  '/date-calculator': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Date Calculator — Days Between Dates | MyZoneTime',
+    url: 'https://myzonetime.com/date-calculator',
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate the number of days, weeks or months between two dates. Add or subtract days from any date.'
+  }),
+  '/work-hours-calculator': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Work Hours Calculator — Timesheet Tool | MyZoneTime',
+    url: 'https://myzonetime.com/work-hours-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate total work hours and overtime from your timesheet. Add shifts and breaks instantly.'
+  }),
+  '/time-difference-calculator': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Time Difference Calculator — MyZoneTime',
+    url: 'https://myzonetime.com/time-difference-calculator',
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate the exact time difference between any two cities with automatic DST handling.'
+  }),
+  '/world-clock-widget': JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Free Embeddable World Clock Widget — MyZoneTime',
+    url: 'https://myzonetime.com/world-clock-widget',
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Free embeddable world clock widget. Copy the iframe code and display live city times on any website.'
+  }),
 // ─── Helper: title-case a hyphenated slug ─────────────────────────────────
 function titleCase(str) {
   return String(str).replace(/-/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
