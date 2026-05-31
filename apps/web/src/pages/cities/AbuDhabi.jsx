@@ -5,107 +5,77 @@ import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
-import FAQSchema from '@/components/FAQSchema.jsx';
 
 export default function AbuDhabi() {
   const [timeStr, setTimeStr] = useState('');
-
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTimeStr(now.toLocaleTimeString('en-US', { timeZone: 'Asia/Dubai', hour12: true, hour: 'numeric', minute: '2-digit' }));
-    };
-    updateTime();
-    const timer = setInterval(updateTime, 60000);
-    return () => clearInterval(timer);
+    const update = () => setTimeStr(new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dubai', hour12: true, hour: 'numeric', minute: '2-digit' }));
+    update();
+    const t = setInterval(update, 60000);
+    return () => clearInterval(t);
   }, []);
 
   const faqs = [
-    {
-      question: "What time is it in Abu Dhabi right now?",
-      answer: `The current time in Abu Dhabi is ${timeStr}. This time is synchronized automatically with the Asia/Dubai timezone.`
-    },
-    {
-      question: "What timezone is Abu Dhabi in?",
-      answer: "Abu Dhabi is in the Asia/Dubai timezone. It observes Gulf Standard Time (GST), which is UTC+4."
-    },
-    {
-      question: "Is Abu Dhabi observing daylight saving time?",
-      answer: "No, the United Arab Emirates does not observe Daylight Saving Time. Abu Dhabi remains on Gulf Standard Time (UTC+4) year-round."
-    }
+    { question: 'What time zone is Abu Dhabi in?', answer: 'Abu Dhabi is in the Gulf Standard Time (GST) zone, which is UTC+4. Abu Dhabi is the capital of the UAE and shares the same timezone as Dubai, Sharjah, Ajman, Fujairah, Ras Al Khaimah and Umm Al Quwain.' },
+    { question: 'Does Abu Dhabi observe daylight saving time?', answer: 'No. Abu Dhabi does not observe daylight saving time. The UAE permanently stays on GST (UTC+4) year-round. This makes Abu Dhabi one of the most predictable time zones for international scheduling in the region.' },
+    { question: 'What are standard business hours in Abu Dhabi?', answer: 'Standard government office hours in Abu Dhabi are Monday to Friday, 7:30 AM to 3:30 PM GST. Private sector businesses typically operate Monday to Friday, 9:00 AM to 6:00 PM GST. The Abu Dhabi Securities Exchange (ADX) operates Monday to Friday, 10:00 AM to 3:15 PM GST.' },
+    { question: 'What is the difference between Abu Dhabi time and Dubai time?', answer: 'There is no difference. Abu Dhabi and Dubai are both in the same UAE timezone, Gulf Standard Time (GST, UTC+4). They always display exactly the same time, 24 hours a day, 365 days a year.' },
+    { question: 'What is the time difference between Abu Dhabi and London?', answer: 'Abu Dhabi (GST, UTC+4) is 4 hours ahead of London in winter (GMT, UTC+0) and 3 hours ahead when London is on British Summer Time (BST, UTC+1) from late March to late October. Abu Dhabi\'s clock never changes.' },
+    { question: 'What is the time difference between Abu Dhabi and New York?', answer: 'Abu Dhabi (GST, UTC+4) is 9 hours ahead of New York in winter (EST, UTC−5) and 8 hours ahead in summer (EDT, UTC−4). The variation is due entirely to New York\'s daylight saving schedule.' },
+    { question: 'What is the time difference between Abu Dhabi and India?', answer: 'Abu Dhabi (GST, UTC+4) is 30 minutes behind India (IST, UTC+5:30). For example, when it is 9:00 AM in Abu Dhabi, it is 9:30 AM in Mumbai, New Delhi and Kolkata. Both countries have fixed offsets, so this 30-minute gap never changes.' },
+    { question: 'What is the best time to call Abu Dhabi from the US?', answer: 'From New York, the best time to call Abu Dhabi is 8:00 PM–11:00 PM EST (which is 9:00 AM–12:00 PM the next day in Abu Dhabi). From Los Angeles (PST, UTC−8), call 5:00 PM–8:00 PM to reach Abu Dhabi at the start of its business day.' },
   ];
 
-  const citySchema = {
-    "@type": "City",
-    "name": "Abu Dhabi",
-    "containedInPlace": {
-      "@type": "Country",
-      "name": "United Arab Emirates"
-    },
-    "description": "Current local time in Abu Dhabi. Timezone: GST (UTC+4).",
-    "url": "https://myzonetime.com/abudhabi"
-  };
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://myzonetime.com" },
-      { "@type": "ListItem", "position": 2, "name": "Abu Dhabi", "item": "https://myzonetime.com/abudhabi" }
-    ]
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'City', name: 'Abu Dhabi', containedInPlace: { '@type': 'Country', name: 'United Arab Emirates' }, url: 'https://myzonetime.com/abu-dhabi' },
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
+        { '@type': 'ListItem', position: 2, name: 'Abu Dhabi Time', item: 'https://myzonetime.com/abu-dhabi' },
+      ]},
+      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
+        '@type': 'Question', name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      }))},
+    ],
   };
 
   return (
     <>
-            <Helmet>
-        <title>Current Time in Abu Dhabi, United Arab Emirates — UTC+4 | MyZoneTime</title>
-        <meta name="description" content="Check the exact time in Abu Dhabi now. Live clock, timezone info (GST, UTC+4), weather, and best time to call Abu Dhabi." />
-        <meta name="author" content="MyZoneTime" />
+      <Helmet>
+        <title>Abu Dhabi Time — Live Clock, GST UTC+4 | MyZoneTime</title>
+        <meta name="description" content="Current time in Abu Dhabi, UAE. Gulf Standard Time (GST, UTC+4), no DST. ADX hours, time difference to London, India and New York explained." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-        {/* GEO targeting */}
         <meta name="geo.region" content="AE-AZ" />
         <meta name="geo.placename" content="Abu Dhabi, United Arab Emirates" />
         <meta name="geo.position" content="24.4539;54.3773" />
         <meta name="ICBM" content="24.4539, 54.3773" />
-        {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyZoneTime" />
-        <meta property="og:locale" content="en_US" />
         <meta property="og:url" content="https://myzonetime.com/abu-dhabi" />
-        <meta property="og:title" content="Current Time in Abu Dhabi, United Arab Emirates — UTC+4 | MyZoneTime" />
-        <meta property="og:description" content="Live clock for Abu Dhabi, UAE. Gulf Standard Time (GST), UTC+4. No daylight saving. Weather, business hours, and best time to call." />
+        <meta property="og:title" content="Abu Dhabi Time — Live Clock GST UTC+4 | MyZoneTime" />
+        <meta property="og:description" content="Live time in Abu Dhabi, UAE. GST (UTC+4), no daylight saving. ADX hours, time differences to London, India and New York." />
         <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/jpeg" />
-        <meta property="og:image:alt" content="Current time in Abu Dhabi — MyZoneTime world clock" />
-        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
-        <meta name="twitter:creator" content="@myzonetime" />
-        <meta name="twitter:title" content="Current Time in Abu Dhabi, United Arab Emirates — UTC+4 | MyZoneTime" />
-        <meta name="twitter:description" content="Live clock for Abu Dhabi, UAE. Gulf Standard Time (GST), UTC+4. No daylight saving. Weather, business hours, and best time to call." />
+        <meta name="twitter:title" content="Abu Dhabi Time — GST Live Clock | MyZoneTime" />
+        <meta name="twitter:description" content="Live time in Abu Dhabi. GST (UTC+4), fixed year-round. Time differences to London, India and New York." />
         <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
-        <meta name="twitter:image:alt" content="Current time in Abu Dhabi — MyZoneTime" />
       </Helmet>
-      <CanonicalTag pathname="/abudhabi" />
-
-      <StructuredData schema={citySchema} breadcrumbSchema={breadcrumbSchema} />
-      <FAQSchema cityName="Abu Dhabi" timezone="Asia/Dubai" utcOffset="+4" currentTime={timeStr} />
-
-      <CityPage 
-        city="Abu Dhabi" 
-        country="United Arab Emirates" 
-        region="Emirate of Abu Dhabi"
-        currency="AED (د.إ)"
-        timezone="Asia/Dubai" 
-        lat={24.4539} 
-        lon={54.3773} 
-        pathname="/abudhabi"
-        description="Abu Dhabi operates on Gulf Standard Time (GST) year-round, sharing the same time zone as Dubai. It does not observe Daylight Saving Time."
+      <CanonicalTag pathname="/abu-dhabi" />
+      <StructuredData schema={schema} />
+      <CityPage
+        city="Abu Dhabi" country="United Arab Emirates" timezone="Asia/Dubai"
+        lat={24.4539} lon={54.3773}
+        heroImage="https://images.unsplash.com/photo-1512453979798-5ea266f8880c"
+        pathname="/abu-dhabi"
+        description="Abu Dhabi, the capital of the UAE and seat of the federal government, operates on Gulf Standard Time (GST, UTC+4) year-round without daylight saving. Home to sovereign wealth fund ADIA, the Abu Dhabi Securities Exchange (ADX) and the headquarters of leading energy companies, Abu Dhabi's stable clock is a cornerstone of Gulf region financial scheduling."
       >
         <FAQSection faqs={faqs} includeSchema={false} />
-        <RelatedTools city="AbuDhabi" relatedCity="Dubai" />
+        <RelatedTools city="Abu Dhabi" relatedCity="Dubai" />
       </CityPage>
     </>
   );

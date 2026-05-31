@@ -98,7 +98,7 @@ export default function Istanbul() {
     <main id="main-content" className="flex-1 w-full bg-background text-foreground">
       {/* Client-side Helmet fallback — SSR tags set in server.js */}
       <Helmet>
-        <title>Current Time in Istanbul, Turkey — Live Clock TRT (UTC+3) | MyZoneTime</title>
+        <title>Istanbul Time — Live Clock, TRT UTC+3 | MyZoneTime</title>
         <meta name="description" content="Live clock for Istanbul, Turkey. Turkey Time (TRT), UTC+3. No daylight saving since 2016. Current time, weather, business hours, and best time to call Istanbul." />
         <meta property="og:title" content="Current Time in Istanbul, Turkey — UTC+3 | MyZoneTime" />
         <meta property="og:description" content="Live clock for Istanbul. Turkey Time (TRT), UTC+3 year-round. No DST since 2016." />

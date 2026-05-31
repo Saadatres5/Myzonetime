@@ -86,7 +86,7 @@ export default function KualaLumpur() {
   return (
     <main id="main-content" className="flex-1 w-full bg-background text-foreground">
       <Helmet>
-        <title>Current Time in Kuala Lumpur, Malaysia — Live Clock MYT (UTC+8) | MyZoneTime</title>
+        <title>Kuala Lumpur Time — Live Clock, MYT UTC+8 | MyZoneTime</title>
         <meta name="description" content="Live clock for Kuala Lumpur, Malaysia. Malaysia Time (MYT), UTC+8. No daylight saving. Current time, weather, business hours, and best time to call KL." />
         <meta property="og:title" content="Current Time in Kuala Lumpur, Malaysia — UTC+8 | MyZoneTime" />
         <meta property="og:description" content="Live clock for Kuala Lumpur. Malaysia Time (MYT), UTC+8. No DST." />

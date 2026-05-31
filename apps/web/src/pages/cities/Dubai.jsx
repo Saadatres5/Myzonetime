@@ -5,94 +5,74 @@ import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
-import FAQSchema from '@/components/FAQSchema.jsx';
 
 export default function Dubai() {
   const [timeStr, setTimeStr] = useState('');
-
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTimeStr(now.toLocaleTimeString('en-US', { timeZone: 'Asia/Dubai', hour12: true, hour: 'numeric', minute: '2-digit' }));
-    };
-    updateTime();
-    const timer = setInterval(updateTime, 60000);
-    return () => clearInterval(timer);
+    const update = () => setTimeStr(new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dubai', hour12: true, hour: 'numeric', minute: '2-digit' }));
+    update();
+    const t = setInterval(update, 60000);
+    return () => clearInterval(t);
   }, []);
 
   const faqs = [
-    { question: "What timezone is Dubai in?", answer: "Dubai is in the Asia/Dubai timezone. It observes Gulf Standard Time (GST), which is UTC+4." },
-    { question: "Is Dubai observing daylight saving time?", answer: "No, Dubai does not observe Daylight Saving Time. It remains on Gulf Standard Time (UTC+4) year-round." },
-    { question: "What are standard business hours in Dubai?", answer: "Standard business hours are typically Monday to Friday, 9:00 AM to 6:00 PM. The weekend is Saturday and Sunday." }
+    { question: 'What time zone is Dubai in?', answer: 'Dubai is in the Gulf Standard Time (GST) zone, which is UTC+4. It is 4 hours ahead of Coordinated Universal Time (UTC) and does not shift for any season.' },
+    { question: 'Does Dubai observe daylight saving time?', answer: 'No. Dubai does not observe daylight saving time. The UAE permanently stays on GST (UTC+4) year-round, so the offset never changes regardless of the season.' },
+    { question: 'What are standard business hours in Dubai?', answer: 'Standard business hours in Dubai are Sunday to Thursday, 9:00 AM to 6:00 PM GST. Friday and Saturday form the UAE weekend. Many international businesses also operate Monday to Friday.' },
+    { question: 'What is the time difference between Dubai and London?', answer: 'Dubai (UTC+4) is 4 hours ahead of London in winter (when London is on GMT, UTC+0), and 3 hours ahead in summer when the UK observes British Summer Time (BST, UTC+1).' },
+    { question: 'What is the time difference between Dubai and New York?', answer: 'Dubai (UTC+4) is 9 hours ahead of New York in winter (when New York is on EST, UTC−5) and 8 hours ahead in summer when New York observes EDT (UTC−4).' },
+    { question: 'What is the time difference between Dubai and India?', answer: 'Dubai (UTC+4) is 30 minutes behind India Standard Time (IST, UTC+5:30). For example, when it is 12:00 PM in Dubai, it is 12:30 PM in Mumbai or Delhi.' },
+    { question: 'Is Dubai a good location for international business calls?', answer: 'Yes. Dubai\'s UTC+4 position overlaps with European afternoons and Asian mornings, making 9 AM–12 PM Dubai time an excellent window for calls with both London (5–8 AM GMT) and Mumbai (10:30 AM–1:30 PM IST).' },
+    { question: 'How do I convert Dubai time to my local time?', answer: 'Add or subtract from UTC+4. For Los Angeles (UTC−8), subtract 12 hours. For Paris (UTC+1 in winter), subtract 3 hours. Use MyZoneTime\'s free time zone converter for an instant, DST-aware result.' },
   ];
 
-  const citySchema = {
-    "@type": "City",
-    "name": "Dubai",
-    "containedInPlace": {
-      "@type": "Country",
-      "name": "United Arab Emirates"
-    },
-    "description": "Current local time in Dubai. Timezone: GST (UTC+4).",
-    "url": "https://myzonetime.com/dubai"
-  };
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://myzonetime.com" },
-      { "@type": "ListItem", "position": 2, "name": "Dubai", "item": "https://myzonetime.com/dubai" }
-    ]
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'City', name: 'Dubai', containedInPlace: { '@type': 'Country', name: 'United Arab Emirates' }, url: 'https://myzonetime.com/dubai' },
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
+        { '@type': 'ListItem', position: 2, name: 'Dubai Time', item: 'https://myzonetime.com/dubai' },
+      ]},
+      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
+        '@type': 'Question', name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      }))},
+    ],
   };
 
   return (
     <>
-            <Helmet>
-        <title>Current Time in Dubai, United Arab Emirates — UTC+4 | MyZoneTime</title>
-        <meta name="description" content="Check the exact time in Dubai now. Live clock, timezone info (GST, UTC+4), weather, and best time to call Dubai." />
-        <meta name="author" content="MyZoneTime" />
+      <Helmet>
+        <title>Dubai Time — Live Clock, GST UTC+4 | MyZoneTime</title>
+        <meta name="description" content="Current local time in Dubai, UAE. Gulf Standard Time (GST, UTC+4). No daylight saving. Business hours, time differences to London, New York and India." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-        {/* GEO targeting */}
         <meta name="geo.region" content="AE-DU" />
         <meta name="geo.placename" content="Dubai, United Arab Emirates" />
         <meta name="geo.position" content="25.2048;55.2708" />
         <meta name="ICBM" content="25.2048, 55.2708" />
-        {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyZoneTime" />
-        <meta property="og:locale" content="en_US" />
         <meta property="og:url" content="https://myzonetime.com/dubai" />
-        <meta property="og:title" content="Current Time in Dubai, United Arab Emirates — UTC+4 | MyZoneTime" />
-        <meta property="og:description" content="Live clock for Dubai, UAE. Gulf Standard Time (GST), UTC+4. No daylight saving. Weather, business hours, and best time to call." />
+        <meta property="og:title" content="Dubai Time — Live Clock, GST UTC+4 | MyZoneTime" />
+        <meta property="og:description" content="Live clock for Dubai, UAE. Gulf Standard Time (GST, UTC+4). No daylight saving ever. Business hours, call windows, and time differences." />
         <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/jpeg" />
-        <meta property="og:image:alt" content="Current time in Dubai — MyZoneTime world clock" />
-        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
-        <meta name="twitter:creator" content="@myzonetime" />
-        <meta name="twitter:title" content="Current Time in Dubai, United Arab Emirates — UTC+4 | MyZoneTime" />
-        <meta name="twitter:description" content="Live clock for Dubai, UAE. Gulf Standard Time (GST), UTC+4. No daylight saving. Weather, business hours, and best time to call." />
+        <meta name="twitter:title" content="Dubai Time — Live Clock GST UTC+4 | MyZoneTime" />
+        <meta name="twitter:description" content="Live time in Dubai, UAE. GST (UTC+4), no daylight saving. Compare with London, New York, India." />
         <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
-        <meta name="twitter:image:alt" content="Current time in Dubai — MyZoneTime" />
       </Helmet>
       <CanonicalTag pathname="/dubai" />
-      
-      <StructuredData schema={citySchema} breadcrumbSchema={breadcrumbSchema} />
-      <FAQSchema cityName="Dubai" timezone="Asia/Dubai" utcOffset="+4" currentTime={timeStr} />
-      
-      <CityPage 
-        city="Dubai" 
-        country="United Arab Emirates" 
-        timezone="Asia/Dubai" 
-        lat={25.2048} 
-        lon={55.2708} 
+      <StructuredData schema={schema} />
+      <CityPage
+        city="Dubai" country="United Arab Emirates" timezone="Asia/Dubai"
+        lat={25.2048} lon={55.2708}
         heroImage="https://images.unsplash.com/photo-1637739256584-43c96dac387f"
         pathname="/dubai"
-        description="Dubai operates on Gulf Standard Time (GST) year-round and does not observe Daylight Saving Time. It serves as a crucial bridge between Asian and European markets, making it a global hub for international business."
+        description="Dubai runs on Gulf Standard Time (GST, UTC+4) year-round with no daylight saving adjustments. As the commercial heart of the UAE and a global aviation hub, it bridges Asian mornings with European afternoons — making it one of the world's most strategically timed cities for international business."
       >
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Dubai" relatedCity="London" />

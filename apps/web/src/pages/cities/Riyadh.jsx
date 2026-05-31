@@ -5,104 +5,74 @@ import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
-import FAQSchema from '@/components/FAQSchema.jsx';
 
 export default function Riyadh() {
   const [timeStr, setTimeStr] = useState('');
-
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTimeStr(now.toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh', hour12: true, hour: 'numeric', minute: '2-digit' }));
-    };
-    updateTime();
-    const timer = setInterval(updateTime, 60000);
-    return () => clearInterval(timer);
+    const update = () => setTimeStr(new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh', hour12: true, hour: 'numeric', minute: '2-digit' }));
+    update();
+    const t = setInterval(update, 60000);
+    return () => clearInterval(t);
   }, []);
 
   const faqs = [
-    {
-      question: "What time is it in Riyadh right now?",
-      answer: `The current time in Riyadh is ${timeStr}. This time is synchronized automatically with the Asia/Riyadh timezone.`
-    },
-    {
-      question: "What timezone is Riyadh in?",
-      answer: "Riyadh is in the Asia/Riyadh timezone. It observes Arabia Standard Time (AST), which is UTC+3."
-    },
-    {
-      question: "Is Riyadh observing daylight saving time?",
-      answer: "No, Saudi Arabia does not observe Daylight Saving Time. Riyadh remains on Arabia Standard Time (UTC+3) year-round."
-    }
+    { question: 'What time zone is Riyadh in?', answer: 'Riyadh is in the Arabia Standard Time (AST) zone, which is UTC+3. This is the official timezone for the entire Kingdom of Saudi Arabia.' },
+    { question: 'Does Riyadh observe daylight saving time?', answer: 'No. Saudi Arabia does not observe daylight saving time. Riyadh stays on AST (UTC+3) year-round, making it a highly predictable clock for international business and Islamic prayer-time calculations.' },
+    { question: 'What are standard business hours in Riyadh?', answer: 'Standard government and public business hours in Riyadh are Sunday to Thursday, 7:30 AM to 3:30 PM AST. Private sector businesses typically operate Sunday to Thursday, 9:00 AM to 6:00 PM AST. Friday and Saturday form the Saudi weekend. Prayer times may cause brief business closures throughout the day.' },
+    { question: 'What is the time difference between Riyadh and London?', answer: 'Riyadh (AST, UTC+3) is 3 hours ahead of London in winter (GMT, UTC+0) and 2 hours ahead in summer when London is on BST (UTC+1). Saudi Arabia never changes its clocks.' },
+    { question: 'What is the time difference between Riyadh and Dubai?', answer: 'Riyadh (AST, UTC+3) and Dubai (GST, UTC+4) differ by exactly 1 hour — Dubai is always 1 hour ahead. Neither city observes DST, so this difference is constant throughout the year.' },
+    { question: 'What is the time difference between Riyadh and New York?', answer: 'Riyadh (AST, UTC+3) is 8 hours ahead of New York in winter (EST, UTC−5) and 7 hours ahead in summer (EDT, UTC−4). The variation is caused entirely by New York\'s daylight saving schedule.' },
+    { question: 'What is the best time to call Riyadh from the UK?', answer: 'The best time to call Riyadh from London is 7:00 AM–1:00 PM GMT in winter (10:00 AM–4:00 PM Riyadh time) or 7:00 AM–12:00 PM BST in summer. Avoid calling around prayer times, especially Dhuhr (midday) and Asr (mid-afternoon).' },
+    { question: 'What is Riyadh time called in English?', answer: 'Riyadh time is officially called Arabia Standard Time (AST), abbreviated as AST and running at UTC+3. It is shared by Saudi Arabia, Iraq, Kuwait, Yemen, Bahrain and Qatar (though Qatar officially uses its own Qatar Time label for the same UTC+3 offset).' },
   ];
 
-  const citySchema = {
-    "@type": "City",
-    "name": "Riyadh",
-    "containedInPlace": {
-      "@type": "Country",
-      "name": "Saudi Arabia"
-    },
-    "description": "Current local time in Riyadh. Timezone: AST (UTC+3).",
-    "url": "https://myzonetime.com/riyadh"
-  };
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://myzonetime.com" },
-      { "@type": "ListItem", "position": 2, "name": "Riyadh", "item": "https://myzonetime.com/riyadh" }
-    ]
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'City', name: 'Riyadh', containedInPlace: { '@type': 'Country', name: 'Saudi Arabia' }, url: 'https://myzonetime.com/riyadh' },
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
+        { '@type': 'ListItem', position: 2, name: 'Riyadh Time', item: 'https://myzonetime.com/riyadh' },
+      ]},
+      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
+        '@type': 'Question', name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      }))},
+    ],
   };
 
   return (
     <>
-            <Helmet>
-        <title>Current Time in Riyadh, Saudi Arabia — UTC+3 | MyZoneTime</title>
-        <meta name="description" content="Check the exact time in Riyadh now. Live clock, timezone info (AST, UTC+3), weather, and best time to call Riyadh." />
-        <meta name="author" content="MyZoneTime" />
+      <Helmet>
+        <title>Riyadh Time — Live Clock, AST UTC+3 | MyZoneTime</title>
+        <meta name="description" content="Current local time in Riyadh, Saudi Arabia. AST (UTC+3), no daylight saving. Business hours, prayer schedule and time differences to London and Dubai." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-        {/* GEO targeting */}
         <meta name="geo.region" content="SA-01" />
         <meta name="geo.placename" content="Riyadh, Saudi Arabia" />
         <meta name="geo.position" content="24.7136;46.6753" />
         <meta name="ICBM" content="24.7136, 46.6753" />
-        {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyZoneTime" />
-        <meta property="og:locale" content="en_US" />
         <meta property="og:url" content="https://myzonetime.com/riyadh" />
-        <meta property="og:title" content="Current Time in Riyadh, Saudi Arabia — UTC+3 | MyZoneTime" />
-        <meta property="og:description" content="Live clock for Riyadh, Saudi Arabia. Arabia Standard Time (AST), UTC+3. No daylight saving. Weather, business hours, and best time to call." />
+        <meta property="og:title" content="Riyadh Time — Live Clock AST UTC+3 | MyZoneTime" />
+        <meta property="og:description" content="Live time in Riyadh, Saudi Arabia. AST (UTC+3), no daylight saving. Saudi business hours and time differences to London, Dubai and New York." />
         <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/jpeg" />
-        <meta property="og:image:alt" content="Current time in Riyadh — MyZoneTime world clock" />
-        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
-        <meta name="twitter:creator" content="@myzonetime" />
-        <meta name="twitter:title" content="Current Time in Riyadh, Saudi Arabia — UTC+3 | MyZoneTime" />
-        <meta name="twitter:description" content="Live clock for Riyadh, Saudi Arabia. Arabia Standard Time (AST), UTC+3. No daylight saving. Weather, business hours, and best time to call." />
+        <meta name="twitter:title" content="Riyadh Time — AST Live Clock | MyZoneTime" />
+        <meta name="twitter:description" content="Live time in Riyadh. AST (UTC+3), never changes. Time differences to London, Dubai and New York." />
         <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
-        <meta name="twitter:image:alt" content="Current time in Riyadh — MyZoneTime" />
       </Helmet>
       <CanonicalTag pathname="/riyadh" />
-
-      <StructuredData schema={citySchema} breadcrumbSchema={breadcrumbSchema} />
-      <FAQSchema cityName="Riyadh" timezone="Asia/Riyadh" utcOffset="+3" currentTime={timeStr} />
-
-      <CityPage 
-        city="Riyadh" 
-        country="Saudi Arabia" 
-        region="Riyadh Province"
-        currency="SAR (ر.س)"
-        timezone="Asia/Riyadh" 
-        lat={24.7136} 
-        lon={46.6753} 
+      <StructuredData schema={schema} />
+      <CityPage
+        city="Riyadh" country="Saudi Arabia" timezone="Asia/Riyadh"
+        lat={24.7136} lon={46.6753}
+        heroImage="https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6"
         pathname="/riyadh"
-        description="Riyadh operates on Arabia Standard Time (AST) year-round and does not observe Daylight Saving Time. It is a central time zone for the Middle East."
+        description="Riyadh, the capital of Saudi Arabia, operates on Arabia Standard Time (AST, UTC+3) all year with no daylight saving adjustments. As the political and economic capital of the Arab world's largest economy and home to Saudi Aramco headquarters, Riyadh's fixed clock is a key reference point for energy markets, Islamic finance and Gulf region business scheduling."
       >
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Riyadh" relatedCity="Dubai" />
