@@ -756,28 +756,41 @@ app.get('/health', function (req, res) {
 });
 
 
-// ─── Explicit sitemap.xml — correct Content-Type, immune to build wipe ──────
+// ─── Sitemap — read file directly, guaranteed correct Content-Type ──────────
 app.get('/sitemap.xml', function (req, res) {
-  var sitemapPath = path.join(DIST, 'sitemap.xml');
-  // Fallback to public/ if dist/ was wiped by a build
-  if (!require('fs').existsSync(sitemapPath)) {
-    sitemapPath = path.join(__dirname, 'apps', 'web', 'public', 'sitemap.xml');
+  var distPath   = path.join(DIST, 'sitemap.xml');
+  var publicPath = path.join(__dirname, 'apps', 'web', 'public', 'sitemap.xml');
+  var xmlPath    = fs.existsSync(distPath) ? distPath : publicPath;
+  try {
+    var xml = fs.readFileSync(xmlPath, 'utf8');
+    res.writeHead(200, {
+      'Content-Type':  'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
+      'X-Robots-Tag':  'noindex',
+    });
+    res.end(xml);
+  } catch (e) {
+    res.writeHead(500, { 'Content-Type': 'text/plain' });
+    res.end('Sitemap not found');
   }
-  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, max-age=3600');
-  res.setHeader('X-Robots-Tag', 'noindex');
-  res.sendFile(sitemapPath);
 });
 
-// ─── Explicit robots.txt route ───────────────────────────────────────────────
+// ─── robots.txt — read file directly ─────────────────────────────────────────
 app.get('/robots.txt', function (req, res) {
-  var robotsPath = path.join(DIST, 'robots.txt');
-  if (!require('fs').existsSync(robotsPath)) {
-    robotsPath = path.join(__dirname, 'apps', 'web', 'public', 'robots.txt');
+  var distPath   = path.join(DIST, 'robots.txt');
+  var publicPath = path.join(__dirname, 'apps', 'web', 'public', 'robots.txt');
+  var txtPath    = fs.existsSync(distPath) ? distPath : publicPath;
+  try {
+    var txt = fs.readFileSync(txtPath, 'utf8');
+    res.writeHead(200, {
+      'Content-Type':  'text/plain; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
+    });
+    res.end(txt);
+  } catch (e) {
+    res.writeHead(500, { 'Content-Type': 'text/plain' });
+    res.end('robots.txt not found');
   }
-  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, max-age=3600');
-  res.sendFile(robotsPath);
 });
 
 // ─── M-5 FIX: Embed pages — forced noindex ────────────────────────────────
