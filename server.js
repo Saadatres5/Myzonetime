@@ -755,6 +755,31 @@ app.get('/health', function (req, res) {
   res.json({ status: 'ok', uptime: process.uptime() });
 });
 
+
+// ─── Explicit sitemap.xml — correct Content-Type, immune to build wipe ──────
+app.get('/sitemap.xml', function (req, res) {
+  var sitemapPath = path.join(DIST, 'sitemap.xml');
+  // Fallback to public/ if dist/ was wiped by a build
+  if (!require('fs').existsSync(sitemapPath)) {
+    sitemapPath = path.join(__dirname, 'apps', 'web', 'public', 'sitemap.xml');
+  }
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.setHeader('X-Robots-Tag', 'noindex');
+  res.sendFile(sitemapPath);
+});
+
+// ─── Explicit robots.txt route ───────────────────────────────────────────────
+app.get('/robots.txt', function (req, res) {
+  var robotsPath = path.join(DIST, 'robots.txt');
+  if (!require('fs').existsSync(robotsPath)) {
+    robotsPath = path.join(__dirname, 'apps', 'web', 'public', 'robots.txt');
+  }
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.sendFile(robotsPath);
+});
+
 // ─── M-5 FIX: Embed pages — forced noindex ────────────────────────────────
 app.get('/embed/*', function (req, res) {
   if (!indexTemplate) {
