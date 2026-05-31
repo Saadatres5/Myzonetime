@@ -20,7 +20,7 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    <!-- DNS prefetch / preconnect for third-party origins -->
+    <!-- DNS prefetch / preconnect (max 4) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
@@ -30,65 +30,142 @@
     <link rel="dns-prefetch" href="//api.open-meteo.com" />
 
     <!-- Non-blocking font load -->
-    <link
-      rel="preload"
-      as="style"
+    <link rel="preload" as="style"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
+      media="print" onload="this.media='all'" />
     <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
-      />
+      <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
     </noscript>
 
-    <!-- Google AdSense account verification -->
+    <!-- ═══════════════════════════════════════════════════════════
+         CRITICAL INLINE CSS — hero renders before JS/CSS bundle
+         Only the above-fold hero section styles are here.
+         Full Tailwind bundle loads normally in parallel.
+    ════════════════════════════════════════════════════════════ -->
+    <style id="critical-css">
+      *,*::before,*::after{box-sizing:border-box}
+      html{font-size:16px;-webkit-text-size-adjust:100%}
+      body{margin:0;background:#0f1923;color:#e2e8f0;font-family:'Geist',system-ui,-apple-system,sans-serif;line-height:1.5}
+      #static-hero{
+        min-height:80vh;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;
+        padding:5rem 1.5rem;text-align:center;position:relative;overflow:hidden;
+      }
+      #static-hero-glow{
+        position:absolute;top:25%;left:50%;transform:translate(-50%,-50%);
+        width:min(80vw,56rem);height:min(80vw,56rem);
+        background:rgba(14,165,233,.2);border-radius:50%;
+        filter:blur(120px);pointer-events:none;opacity:.5;
+      }
+      #static-hero-badge{
+        display:inline-flex;align-items:center;gap:.5rem;
+        padding:.4rem 1rem;border-radius:9999px;
+        background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+        font-size:.875rem;font-weight:500;margin-bottom:1.5rem;position:relative;z-index:1;
+      }
+      #static-hero h1{
+        font-size:clamp(2.25rem,7vw,4.5rem);font-weight:700;
+        letter-spacing:-.025em;line-height:1.1;max-width:56rem;
+        margin:0 0 1.5rem;position:relative;z-index:1;
+      }
+      #static-hero p{
+        font-size:1.25rem;color:#94a3b8;max-width:42rem;
+        margin:0 auto 2rem;line-height:1.625;position:relative;z-index:1;
+      }
+      #static-hero-btns{
+        display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;
+        position:relative;z-index:1;
+      }
+      .sh-btn{
+        display:inline-flex;align-items:center;gap:.5rem;
+        padding:.875rem 2rem;border-radius:9999px;font-size:1.125rem;
+        font-weight:500;text-decoration:none;transition:opacity .2s;
+        cursor:pointer;border:none;
+      }
+      .sh-btn-primary{background:#0EA5E9;color:#fff;}
+      .sh-btn-outline{
+        background:transparent;color:#e2e8f0;
+        border:1px solid rgba(255,255,255,.2);
+      }
+      .sh-btn:hover{opacity:.85}
+      .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+      /* Hide static hero as soon as React has rendered */
+      .react-ready #static-hero{display:none}
+    </style>
+
+    <!-- AdSense account verification -->
     <meta name="google-adsense-account" content="ca-pub-1017873487030471" />
 
-    <!-- Google AdSense — deferred to not block FCP/LCP -->
+    <!-- AdSense — delayed 4s after load so it never blocks LCP -->
     <script>
       window.addEventListener('load', function() {
-        var s = document.createElement('script');
-        s.async = true;
-        s.crossOrigin = 'anonymous';
-        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1017873487030471';
-        document.head.appendChild(s);
+        setTimeout(function() {
+          var s = document.createElement('script');
+          s.async = true;
+          s.crossOrigin = 'anonymous';
+          s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1017873487030471';
+          document.head.appendChild(s);
+        }, 4000);
       });
     </script>
 
     <!-- server.js injects title, meta, canonical, OG, JSON-LD here -->
   </head>
   <body>
-    <!-- Skip to content — WCAG 2.1 AA compliance -->
-    <a
-      href="#main-content"
-      style="
-        position: absolute;
-        left: -9999px;
-        top: 4px;
-        z-index: 9999;
-        background: #0EA5E9;
-        color: white;
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 500;
-        text-decoration: none;
-      "
-      onfocus="this.style.left='16px'"
-      onblur="this.style.left='-9999px'"
-    >
+    <!-- Skip to content — WCAG 2.1 AA -->
+    <a href="#main-content"
+      style="position:absolute;left:-9999px;top:4px;z-index:9999;background:#0EA5E9;color:white;padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;"
+      onfocus="this.style.left='16px'" onblur="this.style.left='-9999px'">
       Skip to main content
     </a>
 
     <!-- SSR_H1_INJECT -->
+
+    <!--
+      ═══════════════════════════════════════════════════════════════
+      STATIC HERO — painted immediately at ~FCP, before React loads.
+      React hides this via .react-ready class once it has rendered.
+      This makes the LCP element available at CSS-load time (~540ms)
+      instead of waiting for React (~6200ms).
+      ═══════════════════════════════════════════════════════════════
+    -->
+    <div id="static-hero" aria-hidden="true">
+      <div id="static-hero-glow"></div>
+      <div id="static-hero-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Global Time Intelligence — 500+ Cities
+      </div>
+      <h1>World Clock &amp; Time Zone Converter</h1>
+      <p>The premium platform for international teams. Convert time zones, plan meetings, and track global business hours effortlessly.</p>
+      <div id="static-hero-btns">
+        <a href="/timezone-converter" class="sh-btn sh-btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          Time Converter
+        </a>
+        <a href="/meeting-planner" class="sh-btn sh-btn-outline">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Meeting Planner
+        </a>
+      </div>
+    </div>
+
     <div id="root"></div>
+
+    <!-- Tell React to hide the static hero once it renders -->
+    <script>
+      // As soon as React mounts, add .react-ready to body → CSS hides #static-hero
+      var _origRender = document.getElementById('root');
+      var _obs = new MutationObserver(function(m) {
+        if (_origRender && _origRender.children.length > 0) {
+          document.body.classList.add('react-ready');
+          _obs.disconnect();
+        }
+      });
+      _obs.observe(_origRender, { childList: true });
+    </script>
 
     <!-- App entry point — Vite replaces this with hashed bundle on build -->
     <script type="module" src="/src/main.jsx"></script>

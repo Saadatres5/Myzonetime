@@ -57,6 +57,13 @@ export default function HomePage() {
     return () => { clearInterval(timer); document.removeEventListener('visibilitychange', tick); };
   }, []);
 
+  // Hide static hero placeholder once React has rendered
+  useEffect(() => {
+    document.body.classList.add('react-ready');
+    const el = document.getElementById('static-hero');
+    if (el) el.style.display = 'none';
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) setShowDropdown(false);
