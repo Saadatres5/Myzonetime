@@ -1,50 +1,76 @@
-# MyZoneTime — robots.txt
+# MyZoneTime Robots.txt
 # https://myzonetime.com
 
 User-agent: *
 Allow: /
-Allow: /world-clock$
+
+# Block non-public paths
+Disallow: /api/
 Disallow: /embed/
 Disallow: /world-clock?search=
-Disallow: /api/
-# Googlebot
-User-agent: Googlebot
-Crawl-delay: 1
-User-agent: Googlebot-Image
-User-agent: Googlebot-Mobile
-# Bingbot
-User-agent: Bingbot
-Crawl-delay: 2
-# Other search engines
-User-agent: Slurp
-User-agent: DuckDuckBot
-User-agent: Baiduspider
-Crawl-delay: 3
-User-agent: YandexBot
-# AI Crawlers — allow for AEO / Answer Engine Optimization
+
+# AI Crawlers (Allowed)
 User-agent: GPTBot
+Allow: /
+
 User-agent: ChatGPT-User
+Allow: /
+
 User-agent: ClaudeBot
+Allow: /
+
 User-agent: anthropic-ai
+Allow: /
+
 User-agent: PerplexityBot
-User-agent: YouBot
+Allow: /
+
 User-agent: cohere-ai
+Allow: /
+
 User-agent: Applebot
+Allow: /
+
 User-agent: Amazonbot
-# Social media crawlers
+Allow: /
+
+# Social Crawlers (Allowed)
 User-agent: FacebookExternalHit
+Allow: /
+
 User-agent: Twitterbot
+Allow: /
+
 User-agent: LinkedInBot
+Allow: /
+
 User-agent: WhatsApp
+Allow: /
+
 User-agent: Slackbot
+Allow: /
+
 User-agent: Discordbot
-# Block scraper / SEO tool bots
+Allow: /
+
+# Block SEO Scrapers
 User-agent: AhrefsBot
 Disallow: /
+
 User-agent: SemrushBot
+Disallow: /
+
 User-agent: MJ12bot
+Disallow: /
+
 User-agent: DotBot
+Disallow: /
+
 User-agent: PetalBot
+Disallow: /
+
 User-agent: DataForSeoBot
+Disallow: /
+
 # Sitemap
 Sitemap: https://myzonetime.com/sitemap.xml
