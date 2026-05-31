@@ -23,11 +23,11 @@
     <!-- DNS prefetch / preconnect for third-party origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://api.open-meteo.com" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-    <link rel="preconnect" href="https://images.unsplash.com" />
     <link rel="dns-prefetch" href="//googleads.g.doubleclick.net" />
     <link rel="dns-prefetch" href="//adservice.google.com" />
+    <link rel="dns-prefetch" href="//images.unsplash.com" />
+    <link rel="dns-prefetch" href="//api.open-meteo.com" />
 
     <!-- Non-blocking font load -->
     <link
@@ -51,12 +51,16 @@
     <!-- Google AdSense account verification -->
     <meta name="google-adsense-account" content="ca-pub-1017873487030471" />
 
-    <!-- Google AdSense — async, non-blocking -->
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1017873487030471"
-      crossorigin="anonymous"
-    ></script>
+    <!-- Google AdSense — deferred to not block FCP/LCP -->
+    <script>
+      window.addEventListener('load', function() {
+        var s = document.createElement('script');
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1017873487030471';
+        document.head.appendChild(s);
+      });
+    </script>
 
     <!-- server.js injects title, meta, canonical, OG, JSON-LD here -->
   </head>

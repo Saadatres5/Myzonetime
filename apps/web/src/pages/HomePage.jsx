@@ -10,13 +10,14 @@ import AdSenseAd, { AD_SLOTS } from '@/components/AdSenseAd.jsx';
 import { useGeolocation } from '@/hooks/useGeolocation.js';
 import { useWeather } from '@/hooks/useWeather.js';
 
-function unsplashUrl(url, width = 600) {
+function unsplashUrl(url, width = 400) {
   try {
     const u = new URL(url);
     u.searchParams.set('w', width);
     u.searchParams.set('auto', 'format');
-    u.searchParams.set('q', '75');
+    u.searchParams.set('q', '50');
     u.searchParams.set('fit', 'crop');
+    u.searchParams.set('fm', 'webp');
     return u.toString();
   } catch { return url; }
 }
@@ -182,7 +183,7 @@ export default function HomePage() {
 
       {/* ── Hero ── */}
       <section className="relative w-full min-h-[80vh] flex flex-col items-center justify-center py-20 overflow-hidden">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] max-w-4xl bg-primary/20 rounded-full blur-[120px] pointer-events-none opacity-50 mix-blend-screen" aria-hidden="true" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] max-w-4xl bg-primary/20 rounded-full blur-[120px] pointer-events-none opacity-50 mix-blend-screen will-change-transform" aria-hidden="true" style={{contain:'strict',width:'min(80vw,56rem)',height:'min(80vw,56rem)'}} />
         <div className="container relative z-10 flex flex-col items-center text-center space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/20 border border-secondary/30 text-sm font-medium mb-4">
             <Globe2 className="w-4 h-4 text-primary" aria-hidden="true" />
@@ -286,15 +287,16 @@ export default function HomePage() {
                 className="block group relative h-48 rounded-2xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 transition-all duration-300"
                 aria-label={`Current time in ${city.name}`}>
                 <img
-                  src={unsplashUrl(city.img, 600)}
-                  srcSet={`${unsplashUrl(city.img, 400)} 400w, ${unsplashUrl(city.img, 800)} 800w`}
+                  src={unsplashUrl(city.img, 400)}
+                  srcSet={`${unsplashUrl(city.img, 300)} 300w, ${unsplashUrl(city.img, 600)} 600w`}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   alt=""
                   aria-hidden="true"
-                  loading={index < 4 ? 'eager' : 'lazy'}
-                  decoding="async"
-                  width="600"
-                  height="300"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={index === 0 ? 'high' : 'low'}
+                  decoding={index === 0 ? 'sync' : 'async'}
+                  width="400"
+                  height="200"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" aria-hidden="true" />
@@ -316,7 +318,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Features ── */}
-      <section className="py-20 border-t border-border/40" aria-labelledby="features-heading">
+      <section className="py-20 border-t border-border/40" style={{contentVisibility:'auto',containIntrinsicSize:'0 800px'}} aria-labelledby="features-heading">
         <div className="container max-w-6xl mx-auto">
           <div className="text-center space-y-4 mb-16">
             <h2 id="features-heading" className="text-3xl md:text-4xl font-bold tracking-tight">Everything You Need for Global Time</h2>

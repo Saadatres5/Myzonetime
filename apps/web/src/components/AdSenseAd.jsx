@@ -1,13 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-/**
- * MyZoneTime AdSense Configuration
- * Publisher:  ca-pub-1017873487030471
- * Home Banner slot: 2320643248
- *
- * All placements use the same slot (2320643248) with responsive format.
- * Google auto-selects the best ad size per placement.
- */
 const PUBLISHER_ID = 'ca-pub-1017873487030471';
 const DEFAULT_SLOT  = '2320643248';
 
@@ -21,7 +13,9 @@ export const AD_SLOTS = {
 
 /**
  * CLS-safe AdSense ad unit.
- * Reserves minHeight before the ad loads — prevents layout shift.
+ * - Reserves minHeight to prevent layout shift.
+ * - Uses IntersectionObserver to defer .push({}) until ad is near viewport.
+ * - Improves LCP/FCP by not blocking main thread at page load.
  */
 export default function AdSenseAd({
   slot = DEFAULT_SLOT,
@@ -30,17 +24,38 @@ export default function AdSenseAd({
   className = '',
   minHeight = 90,
 }) {
-  const adRef = useRef(null);
+  const adRef      = useRef(null);
   const initialized = useRef(false);
+  const [visible, setVisible] = useState(false);
 
+  // Become visible when within 200px of viewport
   useEffect(() => {
-    if (initialized.current) return;
+    if (!adRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { rootMargin: '200px' }
+    );
+    observer.observe(adRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // Push ad only after visible + adsbygoogle script is loaded
+  useEffect(() => {
+    if (!visible || initialized.current) return;
     if (!adRef.current) return;
     initialized.current = true;
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (_) {}
-  }, []);
+
+    const push = () => {
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
+    };
+
+    // If adsbygoogle already loaded, push immediately; else wait for script
+    if (window.adsbygoogle && window.adsbygoogle.loaded) {
+      push();
+    } else {
+      window.addEventListener('load', push, { once: true });
+    }
+  }, [visible]);
 
   return (
     <div
