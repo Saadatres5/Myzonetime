@@ -52,6 +52,52 @@
     --ring: 193 100% 58%;
   }
 
+  .theme-light {
+    --background: 210 20% 98%;
+    --foreground: 222 16% 14%;
+    --card: 210 20% 96%;
+    --card-foreground: 222 16% 14%;
+    --popover: 210 20% 96%;
+    --popover-foreground: 222 16% 14%;
+    --primary: 200 100% 42%;
+    --btn-primary: 200 100% 38%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 214 100% 45%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 206 18% 88%;
+    --muted-foreground: 217 25% 45%;
+    --accent: 189 95% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 348 90% 62%;
+    --destructive-foreground: 222 16% 14%;
+    --border: 214 18% 86%;
+    --input: 214 18% 94%;
+    --ring: 200 100% 46%;
+  }
+
+  .theme-ocean {
+    --background: 199 100% 8%;
+    --foreground: 205 34% 96%;
+    --card: 206 40% 12%;
+    --card-foreground: 205 34% 96%;
+    --popover: 206 40% 12%;
+    --popover-foreground: 205 34% 96%;
+    --primary: 187 100% 52%;
+    --btn-primary: 187 100% 46%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 187 83% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 205 40% 18%;
+    --muted-foreground: 210 30% 72%;
+    --accent: 187 100% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 348 90% 62%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 204 45% 16%;
+    --input: 204 45% 14%;
+    --ring: 187 100% 58%;
+  }
+
   * {
     @apply border-border;
   }
@@ -62,6 +108,34 @@
                 radial-gradient(circle at 20% 15%, rgba(168,85,247,0.16), transparent 20%),
                 radial-gradient(circle at 80% 10%, rgba(59,130,246,0.12), transparent 24%),
                 linear-gradient(180deg, #050916 0%, #090f1f 100%);
+  }
+
+  .theme-light {
+    background: linear-gradient(180deg, hsl(210 68% 95%), hsl(210 68% 92%));
+  }
+
+  .theme-light body {
+    color-scheme: light;
+  }
+
+  .theme-light body::before {
+    background:
+      radial-gradient(circle at 18% 14%, rgba(59,130,246,0.12), transparent 18%),
+      radial-gradient(circle at 78% 18%, rgba(168,85,247,0.08), transparent 22%),
+      radial-gradient(circle at 55% 82%, rgba(56,189,248,0.06), transparent 24%);
+    opacity: 0.55;
+  }
+
+  .theme-ocean {
+    background: linear-gradient(180deg, hsl(203 68% 14%), hsl(205 96% 7%));
+  }
+
+  .theme-ocean body::before {
+    background:
+      radial-gradient(circle at 15% 12%, rgba(34,211,238,0.16), transparent 18%),
+      radial-gradient(circle at 82% 18%, rgba(59,130,246,0.10), transparent 22%),
+      radial-gradient(circle at 50% 78%, rgba(14,165,233,0.12), transparent 24%);
+    opacity: 0.78;
   }
 
   body {

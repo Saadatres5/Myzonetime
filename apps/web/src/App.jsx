@@ -5,6 +5,7 @@ import ScrollToTop from './components/ScrollToTop.jsx';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
+import { useSettings } from './hooks/useSettings.js';
 
 // ── Core tool pages ──────────────────────────────────────────────────────────
 const HomePage                     = React.lazy(() => import('./pages/HomePage.jsx'));
@@ -72,12 +73,12 @@ function PageSkeleton() {
   );
 }
 
-function AppContent() {
+function AppContent({ settings, updateSetting }) {
   const location = useLocation();
 
   return (
     <div className="min-h-screen flex flex-col w-full bg-background text-foreground">
-      <Header />
+      <Header settings={settings} updateSetting={updateSetting} />
       <ErrorBoundary key={location.pathname}>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
@@ -150,6 +151,8 @@ function AppContent() {
 }
 
 export default function App() {
+  const { settings, updateSetting } = useSettings();
+
   return (
     <HelmetProvider>
       <Helmet
@@ -177,7 +180,7 @@ export default function App() {
       </Helmet>
       <Router>
         <ScrollToTop />
-        <AppContent />
+        <AppContent settings={settings} updateSetting={updateSetting} />
       </Router>
     </HelmetProvider>
   );

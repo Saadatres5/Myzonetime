@@ -6,6 +6,7 @@ const KEY = 'chronos_settings';
 const DEFAULTS = {
   is24Hour: false,
   isDark: false,
+  theme: 'dark',
   defaultLocation: 'Sharjah',
   showSeconds: true,
 };
@@ -15,7 +16,11 @@ function safeRead() {
     const raw = localStorage.getItem(KEY);
     if (!raw) return DEFAULTS;
     const parsed = JSON.parse(raw);
-    return { ...DEFAULTS, ...parsed };   // merge so new keys always exist
+    const settings = { ...DEFAULTS, ...parsed };
+    if (!settings.theme) {
+      settings.theme = settings.isDark ? 'dark' : 'light';
+    }
+    return settings;
   } catch {
     return DEFAULTS;
   }
@@ -31,10 +36,14 @@ export function useSettings() {
 
   useEffect(() => {
     safeWrite(settings);
-    if (settings.isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    const root = document.documentElement;
+    root.classList.remove('theme-light', 'theme-ocean', 'dark');
+    if (settings.theme === 'dark') {
+      root.classList.add('dark');
+    } else if (settings.theme === 'light') {
+      root.classList.add('theme-light');
+    } else if (settings.theme === 'ocean') {
+      root.classList.add('theme-ocean');
     }
   }, [settings]);
 
