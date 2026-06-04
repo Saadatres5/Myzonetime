@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO FIX: server.js injects per-route title/description/canonical/OG/JSON-LD here -->
   <!-- SSR meta tags injected by server/index.js go here -->
 
   <!-- Theme color & PWA -->
@@ -21,7 +20,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
 
   <!-- DNS prefetch / preconnect for third-party origins -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,10 +31,7 @@
   <link rel="dns-prefetch" href="//googleads.g.doubleclick.net" />
   <link rel="dns-prefetch" href="//adservice.google.com" />
 
-  <!--
-    SEO FIX: Non-blocking font load pattern (was already correct — kept as-is)
-    print → all swap prevents render-blocking
-  -->
+  <!-- Non-blocking font load -->
   <link
     rel="preload"
     as="style"
@@ -64,11 +60,6 @@
     crossorigin="anonymous"
   ></script>
 
-  <!--
-    SEO FIX: Vite injects hashed asset links here at build time.
-    DO NOT hardcode asset filenames — they change on every build.
-    The lines below are intentionally removed; Vite re-adds them via index.html processing.
-  -->
 </head>
 <body>
   <!-- Skip to content — WCAG 2.1 AA compliance -->
@@ -93,15 +84,10 @@
     Skip to main content
   </a>
 
-  <!-- SEO FIX: server.js injects a hidden H1 here for non-JS crawlers -->
   <!-- SSR_H1_INJECT -->
 
   <div id="root"></div>
 
-  <!--
-    SEO FIX: structured data fallback for non-JS crawlers (Organisation schema)
-    React Helmet will replace this client-side, but Google sees this on first crawl.
-  -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",

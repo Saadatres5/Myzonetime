@@ -1,46 +1,14 @@
-# MyZoneTime — robots.txt
+# MyZoneTime Robots.txt
 # https://myzonetime.com
 
 User-agent: *
 Allow: /
-Allow: /world-clock$
-Disallow: /embed/
-Disallow: /world-clock?search=
+
+# Block non-public paths
 Disallow: /api/
+Disallow: /world-clock?search=
 
-# Googlebot
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Googlebot-Image
-Allow: /
-
-User-agent: Googlebot-Mobile
-Allow: /
-
-# Bingbot
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 2
-
-# Other search engines
-User-agent: Slurp
-Allow: /
-Crawl-delay: 2
-
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: Baiduspider
-Allow: /
-Crawl-delay: 3
-
-User-agent: YandexBot
-Allow: /
-Crawl-delay: 2
-
-# AI Crawlers — allow for AEO / Answer Engine Optimization
+# AI Crawlers (Allowed)
 User-agent: GPTBot
 Allow: /
 
@@ -56,9 +24,6 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: YouBot
-Allow: /
-
 User-agent: cohere-ai
 Allow: /
 
@@ -68,7 +33,7 @@ Allow: /
 User-agent: Amazonbot
 Allow: /
 
-# Social media crawlers
+# Social Crawlers (Allowed)
 User-agent: FacebookExternalHit
 Allow: /
 
@@ -87,7 +52,7 @@ Allow: /
 User-agent: Discordbot
 Allow: /
 
-# Block scraper / SEO tool bots
+# Block SEO Scrapers
 User-agent: AhrefsBot
 Disallow: /
 
@@ -106,5 +71,5 @@ Disallow: /
 User-agent: DataForSeoBot
 Disallow: /
 
-# Sitemap
-Sitemap: https://myzonetime.com/sitemap.xml
+# Sitemaps — use the sitemap index to avoid duplicate URLs
+Sitemap: https://myzonetime.com/sitemap-index.xml

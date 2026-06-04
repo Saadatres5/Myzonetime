@@ -105,11 +105,11 @@ export default function HomePage() {
     '@type': 'Organization',
     name: 'MyZoneTime',
     url: 'https://myzonetime.com',
-    logo: { '@type': 'ImageObject', url: 'https://myzonetime.com/og-image.png', width: 1200, height: 630 },
+    logo: { '@type': 'ImageObject', url: 'https://myzonetime.com/favicon.svg', width: 1200, height: 630 },
     sameAs: [],
     contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', availableLanguage: 'English' },
   };
-
+  
   const webApplicationSchema = {
     '@type': 'WebApplication',
     name: 'MyZoneTime',
@@ -117,7 +117,7 @@ export default function HomePage() {
     description: 'World Clock & Time Zone Converter — Live time in 500+ cities, meeting planner, Hijri calendar and more.',
     applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'All',
-    image: 'https://myzonetime.com/og-image.jpg',
+    image: 'https://myzonetime.com/favicon.svg',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     featureList: ['Time zone conversion', 'World clock', 'Meeting planner', 'Hijri calendar', 'Live weather'],
   };
@@ -182,7 +182,7 @@ export default function HomePage() {
         <meta name="twitter:creator" content="@myzonetime" />
         <meta name="twitter:title" content="World Clock &amp; Time Zone Converter | MyZoneTime" />
         <meta name="twitter:description" content="Free world clock, time zone converter, meeting planner, and live weather for 500+ cities." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+         <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
         <meta name="twitter:image:alt" content="MyZoneTime — World Clock" />
       </Helmet>
       <CanonicalTag pathname="/" />

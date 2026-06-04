@@ -71,14 +71,14 @@ export default function DynamicCityPage() {
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
       <CanonicalTag pathname={`/${citySlug}`} />
       <StructuredData schema={schema} />

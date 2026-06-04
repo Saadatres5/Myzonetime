@@ -625,8 +625,58 @@ export const SEO = {
  * Helper: get SEO config for a given pathname.
  * Falls back to home config if route is not found.
  */
+function formatSlugToWords(slug) {
+  return slug
+    .replace(/\//g, ' ')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function getDynamicSEO(pathname) {
+  const cleanPath = pathname.replace(/\/$/, '') || '/';
+
+  if (cleanPath.startsWith('/time-difference/')) {
+    const tail = cleanPath.replace('/time-difference/', '');
+    const parts = tail.split('-and-');
+    if (parts.length === 2) {
+      const city1 = formatSlugToWords(parts[0]);
+      const city2 = formatSlugToWords(parts[1]);
+      return {
+        title: `Time Difference: ${city1} vs ${city2} — Live Clock & Meeting Planner | MyZoneTime`,
+        description: `Calculate the current time difference between ${city1} and ${city2}. See live local times, best meeting windows, and DST-aware conversion tips.`,
+        canonical: `https://myzonetime.com/time-difference/${parts[0]}-and-${parts[1]}`,
+        ogType: 'website',
+      };
+    }
+  }
+
+  if (cleanPath.startsWith('/timezone/') && !SEO[cleanPath]) {
+    const tzSlug = cleanPath.replace('/timezone/', '');
+    const prettyName = formatSlugToWords(tzSlug);
+    return {
+      title: `${prettyName} — Time Zone Info & Current UTC Offset | MyZoneTime`,
+      description: `Learn the current UTC offset for ${prettyName}. Explore countries, cities, daylight saving rules, and time conversion examples for this time zone.`,
+      canonical: `https://myzonetime.com/timezone/${tzSlug}`,
+      ogType: 'website',
+    };
+  }
+
+  if (/^\/[a-z0-9-]+$/.test(cleanPath)) {
+    const cityName = formatSlugToWords(cleanPath.slice(1));
+    return {
+      title: `Current Time in ${cityName} — ${cityName} Local Clock | MyZoneTime`,
+      description: `Check the current local time in ${cityName}. Live city clock, time zone details, and DST-aware conversion for international scheduling.`,
+      canonical: `https://myzonetime.com${cleanPath}`,
+      ogType: 'website',
+    };
+  }
+
+  return null;
+}
+
 export function getSEO(pathname) {
-  return SEO[pathname] || SEO['/'];
+  const config = SEO[pathname];
+  return config || getDynamicSEO(pathname) || SEO['/'];
 }
 
 /**

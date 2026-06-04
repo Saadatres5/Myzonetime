@@ -1,0 +1,11 @@
+node_modules/
+apps/web/node_modules/
+dist/
+apps/web/dist/
+.env
+/.idea
+.vscode
+npm-debug.log
+yarn-error.log
+pm2.log
+node_modules
