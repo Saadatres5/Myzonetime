@@ -91,8 +91,8 @@ app.use("/assets", express.static(path.join(DIST, "assets"), {
 app.get("/robots.txt", (req, res) => {
   res.set("Content-Type", "text/plain");
   res.set("X-Robots-Tag", "noindex"); // robots.txt itself should not be indexed
-  // Prefer sitemap-index to ensure large city sitemaps are discovered
-  const sitemapUrl = `${BASE}/sitemap-index.xml`;
+  const sitemapIndexUrl = `${BASE}/sitemap-index.xml`;
+  const sitemapUrl = `${BASE}/sitemap.xml`;
   res.send(
 `User-agent: *
 Allow: /
@@ -104,7 +104,9 @@ Disallow: /*?*
 Disallow: /health
 Disallow: /api/
 
+# Sitemap files
 Sitemap: ${sitemapUrl}
+Sitemap: ${sitemapIndexUrl}
 `
   );
 });

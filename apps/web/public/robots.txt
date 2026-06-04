@@ -71,5 +71,6 @@ Disallow: /
 User-agent: DataForSeoBot
 Disallow: /
 
-# Sitemaps — use the sitemap index to avoid duplicate URLs
+# Sitemaps
+Sitemap: https://myzonetime.com/sitemap.xml
 Sitemap: https://myzonetime.com/sitemap-index.xml
