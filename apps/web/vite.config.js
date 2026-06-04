@@ -42,6 +42,8 @@ export default defineConfig({
           'vendor-icons': ['lucide-react'],
           'vendor-helmet': ['react-helmet-async'],
           'vendor-charts': ['recharts'],
+          'seo-city-data': ['./src/data/cityPageData.js'],
+          'seo-timezone-data': ['./src/data/timezoneData.js'],
         },
         chunkFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash][extname]',

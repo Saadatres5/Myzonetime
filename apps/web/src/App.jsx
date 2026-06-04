@@ -24,29 +24,33 @@ const PrivacyPolicyPage            = React.lazy(() => import('./pages/PrivacyPol
 const TermsOfServicePage           = React.lazy(() => import('./pages/TermsOfServicePage.jsx'));
 const ContactPage                  = React.lazy(() => import('./pages/ContactPage.jsx'));
 
-// ── City-pair time-difference pages (new — SEO/GEO traffic) ─────────────────
-// Single component handles all /time-difference/:pair routes.
-// Reversed pairs are 301-redirected to canonical order inside the component.
+// ── City-pair time-difference pages ─────────────────────────────────────────
+// Canonical format: /time-difference/city1-and-city2
+// Legacy /time-difference/:pair redirects to canonical inside component
 const TimeDifferencePairPage = React.lazy(() => import('./pages/TimeDifferencePairPage.jsx'));
 
-// ── City pages (existing) ────────────────────────────────────────────────────
-const London    = React.lazy(() => import('./pages/cities/London.jsx'));
-const Dubai     = React.lazy(() => import('./pages/cities/Dubai.jsx'));
-const NewYork   = React.lazy(() => import('./pages/cities/NewYork.jsx'));
-const Tokyo     = React.lazy(() => import('./pages/cities/Tokyo.jsx'));
-const Singapore = React.lazy(() => import('./pages/cities/Singapore.jsx'));
-const Sydney    = React.lazy(() => import('./pages/cities/Sydney.jsx'));
-const Riyadh    = React.lazy(() => import('./pages/cities/Riyadh.jsx'));
-const AbuDhabi  = React.lazy(() => import('./pages/cities/AbuDhabi.jsx'));
+// ── Timezone pages ───────────────────────────────────────────────────────────
+const TimezoneIndexPage   = React.lazy(() => import('./pages/TimezoneIndexPage.jsx'));
+const DynamicTimezonePage = React.lazy(() => import('./pages/DynamicTimezonePage.jsx'));
 
-// ── New city pages (to be created — stub to CityPage until built) ────────────
-// Each city is lazily loaded. If the file doesn't exist yet, React.lazy
-// will throw and ErrorBoundary will catch it. Create each file when ready.
-const Istanbul    = React.lazy(() => import('./pages/cities/Istanbul.jsx'));
-const Oslo        = React.lazy(() => import('./pages/cities/Oslo.jsx'));
-const Bangkok     = React.lazy(() => import('./pages/cities/Bangkok.jsx'));
-const Paris       = React.lazy(() => import('./pages/cities/Paris.jsx'));
+// ── Programmatic city pages ───────────────────────────────────────────────────
+// Static hand-crafted city pages (Tier 1 — retain for SEO continuity)
+const London     = React.lazy(() => import('./pages/cities/London.jsx'));
+const Dubai      = React.lazy(() => import('./pages/cities/Dubai.jsx'));
+const NewYork    = React.lazy(() => import('./pages/cities/NewYork.jsx'));
+const Tokyo      = React.lazy(() => import('./pages/cities/Tokyo.jsx'));
+const Singapore  = React.lazy(() => import('./pages/cities/Singapore.jsx'));
+const Sydney     = React.lazy(() => import('./pages/cities/Sydney.jsx'));
+const Riyadh     = React.lazy(() => import('./pages/cities/Riyadh.jsx'));
+const AbuDhabi   = React.lazy(() => import('./pages/cities/AbuDhabi.jsx'));
+const Istanbul   = React.lazy(() => import('./pages/cities/Istanbul.jsx'));
+const Oslo       = React.lazy(() => import('./pages/cities/Oslo.jsx'));
+const Bangkok    = React.lazy(() => import('./pages/cities/Bangkok.jsx'));
+const Paris      = React.lazy(() => import('./pages/cities/Paris.jsx'));
 const KualaLumpur = React.lazy(() => import('./pages/cities/KualaLumpur.jsx'));
+
+// ── Dynamic programmatic city page (Tier 2 — all other cities) ───────────────
+const DynamicCityPage = React.lazy(() => import('./pages/DynamicCityPage.jsx'));
 
 // ── 404 page ─────────────────────────────────────────────────────────────────
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage.jsx'));
@@ -94,59 +98,48 @@ function AppContent() {
             <Route path="/embed/world-clock"            element={<EmbedPage />} />
             <Route path="/privacy-policy"               element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-service"             element={<TermsOfServicePage />} />
-            <Route path="/contact-us"                  element={<ContactPage />} />
+            <Route path="/contact-us"                   element={<ContactPage />} />
 
-            {/* ── City-pair time-difference pages ─────────────────────────── */}
-            {/*
-              /time-difference/:pair handles all city-pair URLs.
-              The component itself parses the pair string, resolves cities
-              from citiesData, and redirects reversed pairs to canonical.
-              Examples:
-                /time-difference/new-york-london
-                /time-difference/dubai-london
-                /time-difference/london-new-york  (→ redirects to new-york-london)
-            */}
-            <Route path="/time-difference/:pair"        element={<TimeDifferencePairPage />} />
+            {/* ── Timezone pages ───────────────────────────────────────────── */}
+            <Route path="/timezone"       element={<TimezoneIndexPage />} />
+            <Route path="/timezone/:tz"   element={<DynamicTimezonePage />} />
 
-            {/* ── Legacy / short redirects (301 permanent via Navigate) ───── */}
+            {/* ── Time-difference pair pages ───────────────────────────────── */}
+            {/* Canonical: /time-difference/city1-and-city2                    */}
+            {/* Legacy:    /time-difference/city1-city2 → 301 inside component */}
+            <Route path="/time-difference/:pair" element={<TimeDifferencePairPage />} />
+
+            {/* ── Legacy / short redirects ─────────────────────────────────── */}
             <Route path="/converter"    element={<Navigate to="/timezone-converter" replace />} />
             <Route path="/newyork"      element={<Navigate to="/new-york"           replace />} />
             <Route path="/abudhabi"     element={<Navigate to="/abu-dhabi"          replace />} />
             <Route path="/world_clock"  element={<Navigate to="/world-clock"        replace />} />
 
-            {/* ── City pages (Tier 1 — existing) ──────────────────────────── */}
-            <Route path="/london"    element={<London />} />
-            <Route path="/dubai"     element={<Dubai />} />
-            <Route path="/new-york"  element={<NewYork />} />
-            <Route path="/tokyo"     element={<Tokyo />} />
-            <Route path="/singapore" element={<Singapore />} />
-            <Route path="/sydney"    element={<Sydney />} />
-            <Route path="/riyadh"    element={<Riyadh />} />
-            <Route path="/abu-dhabi" element={<AbuDhabi />} />
+            {/* ── Tier-1 hand-crafted city pages (retain for SEO continuity) ─ */}
+            <Route path="/london"        element={<London />} />
+            <Route path="/dubai"         element={<Dubai />} />
+            <Route path="/new-york"      element={<NewYork />} />
+            <Route path="/tokyo"         element={<Tokyo />} />
+            <Route path="/singapore"     element={<Singapore />} />
+            <Route path="/sydney"        element={<Sydney />} />
+            <Route path="/riyadh"        element={<Riyadh />} />
+            <Route path="/abu-dhabi"     element={<AbuDhabi />} />
+            <Route path="/istanbul"      element={<Istanbul />} />
+            <Route path="/oslo"          element={<Oslo />} />
+            <Route path="/bangkok"       element={<Bangkok />} />
+            <Route path="/paris"         element={<Paris />} />
+            <Route path="/kuala-lumpur"  element={<KualaLumpur />} />
 
-            {/* ── City pages (Tier 2 — new, build these files next) ───────── */}
-            {/*
-              ⚠️ CREATE THESE FILES before deploying:
-                apps/web/src/pages/cities/Istanbul.jsx
-                apps/web/src/pages/cities/Oslo.jsx
-                apps/web/src/pages/cities/Bangkok.jsx
-                apps/web/src/pages/cities/Paris.jsx
-                apps/web/src/pages/cities/KualaLumpur.jsx
-              Copy Dubai.jsx as a template and change:
-                - cityName, timezone, region, UTC offset text
-                - FAQs (update DST status, business hours, UTC offset)
-                - Helmet title/description
-                - geoMeta values (lat/lng)
-              Istanbul is highest priority: it has position 40 in GSC already.
-            */}
-            <Route path="/istanbul"     element={<Istanbul />} />
-            <Route path="/oslo"         element={<Oslo />} />
-            <Route path="/bangkok"      element={<Bangkok />} />
-            <Route path="/paris"        element={<Paris />} />
-            <Route path="/kuala-lumpur" element={<KualaLumpur />} />
+            {/* ── Tier-2 programmatic city pages ───────────────────────────── */}
+            {/* DynamicCityPage handles: /mumbai /delhi /karachi /lahore        */}
+            {/* /doha /muscat /kuwait-city /hong-kong /seoul /beijing /cairo    */}
+            {/* /nairobi /johannesburg /los-angeles /chicago /toronto /berlin   */}
+            {/* /rome /madrid /amsterdam and all other cities in cityPageData   */}
+            <Route path="/:citySlug"     element={<DynamicCityPage />} />
 
             {/* ── 404 ─────────────────────────────────────────────────────── */}
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/404"           element={<NotFoundPage />} />
+            <Route path="*"              element={<NotFoundPage />} />
 
           </Routes>
         </Suspense>

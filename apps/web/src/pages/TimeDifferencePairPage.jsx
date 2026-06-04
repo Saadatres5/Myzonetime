@@ -30,34 +30,101 @@ import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
 
 // ── City slug → citiesData lookup map ────────────────────────────────────────
-// Maps URL slugs to citiesData IDs.
-// Add entries here as you expand the city list.
 const SLUG_TO_ID = {
-  'new-york':       'nyc',
-  'london':         'lon',
-  'dubai':          'dxb',
-  'singapore':      'sin',
-  'sydney':         'syd',
-  'tokyo':          'tyo',
-  'riyadh':         'ruh',
-  'abu-dhabi':      'auh',
-  'oslo':           'osl',
-  'paris':          'par',
-  'istanbul':       'ist',
-  'bangkok':        'bkk',
-  'kuala-lumpur':   'kul',
-  'hong-kong':      'hkg',
-  'mumbai':         'bom',
-  'toronto':        'yyz',
-  'los-angeles':    'lax',
-  'chicago':        'ord',
-  'amsterdam':      'ams',
-  'berlin':         'ber',
-  'doha':           'doh',
-  'cairo':          'cai',
-  'nairobi':        'nbi',
-  'johannesburg':   'jnb',
-  'auckland':       'akl',
+  'new-york':         'nyc',
+  'london':           'lon',
+  'dubai':            'dxb',
+  'singapore':        'sin',
+  'sydney':           'syd',
+  'tokyo':            'tyo',
+  'riyadh':           'ruh',
+  'abu-dhabi':        'auh',
+  'oslo':             'osl',
+  'paris':            'par',
+  'istanbul':         'ist',
+  'bangkok':          'bkk',
+  'kuala-lumpur':     'kul',
+  'hong-kong':        'hkg',
+  'mumbai':           'bom',
+  'toronto':          'yyz',
+  'los-angeles':      'lax',
+  'chicago':          'chi2',
+  'amsterdam':        'ams',
+  'berlin':           'ber',
+  'doha':             'doh',
+  'cairo':            'cai',
+  'nairobi':          'nai',
+  'johannesburg':     'jnb',
+  'auckland':         'akl',
+  'delhi':            'del',
+  'karachi':          'khi',
+  'lahore':           'lhe',
+  'rome':             'rom',
+  'madrid':           'mad',
+  'beijing':          'bej',
+  'seoul':            'sel',
+  'muscat':           'mct',
+  'kuwait-city':      'kwi',
+  'moscow':           'mow',
+  'frankfurt':        'fra',
+  'zurich':           'zur',
+  'brussels':         'bru',
+  'vienna':           'vie',
+  'warsaw':           'waw',
+  'athens':           'ath',
+  'stockholm':        'sto',
+  'copenhagen':       'cph',
+  'helsinki':         'hel',
+  'lisbon':           'lis',
+  'dublin':           'dub',
+  'melbourne':        'mel',
+  'brisbane':         'bne',
+  'perth':            'per',
+  'san-francisco':    'sfc',
+  'seattle':          'sea',
+  'miami':            'mia',
+  'boston':           'bos',
+  'washington-dc':    'wdc',
+  'houston':          'hou',
+  'dallas':           'dal',
+  'denver':           'den',
+  'las-vegas':        'las',
+  'montreal':         'yul',
+  'vancouver':        'yvr',
+  'mexico-city':      'mex',
+  'sao-paulo':        'sao',
+  'buenos-aires':     'bue',
+  'bogota':           'bog',
+  'lima':             'lim',
+  'santiago':         'scl',
+  'lagos':            'lax2',
+  'addis-ababa':      'add',
+  'accra':            'acc',
+  'casablanca':       'cas',
+  'tunis':            'tun',
+  'algiers':          'alg',
+  'manila':           'mnl',
+  'jakarta':          'jkt',
+  'colombo':          'cmb',
+  'dhaka':            'dac',
+  'kathmandu':        'ktm',
+  'tehran':           'thr',
+  'baghdad':          'bgw',
+  'amman':            'amm',
+  'beirut':           'bey',
+  'tel-aviv':         'tlv',
+  'kyiv':             'kyi',
+  'bucharest':        'buc',
+  'budapest':         'bud',
+  'prague':           'pra',
+  'sofia':            'sof',
+  'zagreb':           'zag',
+  'tallinn':          'tal',
+  'riga':             'rig',
+  'vilnius':          'vil',
+  'reykjavik':        'rey',
+  'taipei':           'tpe',
+  'osaka':            'osa',
 };
 
 // ── Canonical pair ordering ────────────────────────────────────────────────────
@@ -168,14 +235,24 @@ function formatUTCHour(utcH, tz) {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function TimeDifferencePairPage() {
-  const { pair } = useParams(); // e.g. "new-york-london"
+  const { pair } = useParams(); // e.g. "new-york-and-london" or legacy "new-york-london"
 
   // Parse pair into two slugs
-  // Strategy: split on '-' and try all cut points to find two valid slugs
+  // New canonical format: "city1-and-city2"
+  // Legacy fallback: try all hyphen split points
   const [slug1, slug2] = useMemo(() => {
     if (!pair) return [null, null];
+
+    // Try new canonical "-and-" separator first
+    const andIdx = pair.indexOf('-and-');
+    if (andIdx !== -1) {
+      const s1 = pair.slice(0, andIdx);
+      const s2 = pair.slice(andIdx + 5);
+      if (SLUG_TO_ID[s1] && SLUG_TO_ID[s2]) return [s1, s2];
+    }
+
+    // Legacy fallback: try all hyphen cut points
     const parts = pair.split('-');
-    // Try each possible split point
     for (let i = 1; i < parts.length; i++) {
       const s1 = parts.slice(0, i).join('-');
       const s2 = parts.slice(i).join('-');
@@ -184,14 +261,21 @@ export default function TimeDifferencePairPage() {
     return [null, null];
   }, [pair]);
 
-  // Redirect reversed pairs to canonical
+  // Redirect legacy format to canonical -and- format
   const [canonical1, canonical2] = slug1 && slug2
     ? getCanonicalOrder(slug1, slug2)
     : [slug1, slug2];
 
+  // Redirect legacy hyphen-only URLs to new -and- format
+  const isLegacyFormat = slug1 && slug2 && pair && !pair.includes('-and-');
+  if (isLegacyFormat) {
+    return <Navigate to={`/time-difference/${canonical1}-and-${canonical2}`} replace />;
+  }
+
+  // Redirect reversed pairs to canonical
   const isReversed = slug1 && slug2 && canonical1 !== slug1;
   if (isReversed) {
-    return <Navigate to={`/time-difference/${canonical1}-${canonical2}`} replace />;
+    return <Navigate to={`/time-difference/${canonical1}-and-${canonical2}`} replace />;
   }
 
   const city1 = slug1 ? citiesData.find(c => c.id === SLUG_TO_ID[slug1]) : null;

@@ -6,7 +6,6 @@ Allow: /
 
 # Block non-public paths
 Disallow: /api/
-Disallow: /embed/
 Disallow: /world-clock?search=
 
 # AI Crawlers (Allowed)
@@ -72,5 +71,9 @@ Disallow: /
 User-agent: DataForSeoBot
 Disallow: /
 
-# Sitemap
+# Sitemaps — index references all sub-sitemaps
+Sitemap: https://myzonetime.com/sitemap-index.xml
 Sitemap: https://myzonetime.com/sitemap.xml
+Sitemap: https://myzonetime.com/city-sitemap.xml
+Sitemap: https://myzonetime.com/time-difference-sitemap.xml
+Sitemap: https://myzonetime.com/timezone-sitemap.xml
