@@ -49,6 +49,14 @@ export default function HomePage() {
   const [citiesData, setCitiesData] = useState([]);
   const searchRef = useRef(null);
   const dropdownId = 'city-search-results';
+  const MAX_CITY_SEARCH_RESULTS = 60;
+
+  const loadCitiesData = useCallback(async () => {
+    if (citiesData.length === 0) {
+      const { citiesData: data } = await import('@/data/citiesData.js');
+      setCitiesData(data);
+    }
+  }, [citiesData.length]);
 
   useEffect(() => {
     const tick = () => { if (!document.hidden) setLocalTime(new Date()); };
@@ -75,22 +83,18 @@ export default function HomePage() {
   const handleSearchInput = useCallback(async (e) => {
     const val = e.target.value;
     setCityQuery(val);
-    if (val.length > 1) {
-      if (citiesData.length === 0) {
-        const { citiesData: data } = await import('@/data/citiesData.js');
-        setCitiesData(data);
-      }
-      setShowDropdown(true);
-    } else {
-      setShowDropdown(false);
-    }
-  }, [citiesData]);
+    await loadCitiesData();
+    setShowDropdown(true);
+  }, [loadCitiesData]);
 
-  const filteredCities = cityQuery.length > 1 && citiesData.length > 0
-    ? citiesData.filter(c =>
-        c.name.toLowerCase().includes(cityQuery.toLowerCase()) ||
-        c.country.toLowerCase().includes(cityQuery.toLowerCase())
-      ).slice(0, 8)
+  const filteredCities = citiesData.length > 0
+    ? (cityQuery.trim().length > 0
+        ? citiesData.filter(c =>
+            c.name.toLowerCase().includes(cityQuery.toLowerCase()) ||
+            c.country.toLowerCase().includes(cityQuery.toLowerCase())
+          )
+        : citiesData)
+      .slice(0, MAX_CITY_SEARCH_RESULTS)
     : [];
 
   const handleCitySelect = (city) => {
@@ -114,12 +118,12 @@ export default function HomePage() {
     '@type': 'WebApplication',
     name: 'MyZoneTime',
     url: 'https://myzonetime.com',
-    description: 'World Clock & Time Zone Converter — Live time in 500+ cities, meeting planner, Hijri calendar and more.',
+    description: 'AI-powered world clock & time zone converter for 500+ cities, smart search, meeting planning, and modern audience growth.',
     applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'All',
     image: 'https://myzonetime.com/favicon.svg',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    featureList: ['Time zone conversion', 'World clock', 'Meeting planner', 'Hijri calendar', 'Live weather'],
+    featureList: ['AI-powered search', 'Time zone conversion', 'World clock', 'Meeting planner', 'Hijri calendar', 'Live weather'],
   };
 
   const websiteSchema = {
@@ -163,7 +167,7 @@ export default function HomePage() {
     <main className="flex-1 w-full bg-background text-foreground" id="main-content">
       <Helmet>
         <title>World Clock &amp; Time Zone Converter — Live Time in 500+ Cities | MyZoneTime</title>
-        <meta name="description" content="Check the exact local time in 500+ cities worldwide. Free world clock, time zone converter, meeting planner, and live weather for Dubai, London, New York, Tokyo and more." />
+        <meta name="description" content="AI-powered world clock for 500+ cities. Smart city search, international time conversion, and modern audience-ready tools for global teams." />
         <meta name="author" content="MyZoneTime" />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta property="og:type" content="website" />
@@ -194,13 +198,13 @@ export default function HomePage() {
         <div className="container relative z-10 flex flex-col items-center text-center space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/20 border border-secondary/30 text-sm font-medium mb-4">
             <Globe2 className="w-4 h-4 text-primary" aria-hidden="true" />
-            Global Time Intelligence — 500+ Cities
+            AI-powered global time intelligence — 500+ Cities
           </div>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight max-w-4xl" style={{ textWrap: 'balance' }}>
             World Clock &amp; Time Zone Converter
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            The premium platform for international teams. Convert time zones, plan meetings, and track global business hours effortlessly.
+            AI-first city search and time tools for modern global teams. Convert time zones, plan meetings, and attract the right audience with smarter world clock insights.
           </p>
 
           {/* Accessible Search Combobox */}
@@ -211,8 +215,8 @@ export default function HomePage() {
                 type="search"
                 value={cityQuery}
                 onChange={handleSearchInput}
-                onFocus={() => cityQuery.length > 1 && setShowDropdown(true)}
-                placeholder="Search any city in the world…"
+                onFocus={() => { loadCitiesData(); setShowDropdown(true); }}
+                placeholder="Search any city worldwide with AI-informed suggestions…"
                 aria-label="Search for a city"
                 aria-autocomplete="list"
                 aria-controls={dropdownId}
@@ -328,17 +332,17 @@ export default function HomePage() {
       <section className="py-20 border-t border-border/40" style={{contentVisibility:'auto',containIntrinsicSize:'0 800px'}} aria-labelledby="features-heading">
         <div className="container max-w-6xl mx-auto">
           <div className="text-center space-y-4 mb-16">
-            <h2 id="features-heading" className="text-3xl md:text-4xl font-bold tracking-tight">Everything You Need for Global Time</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Professional tools for remote teams, international business, and global travellers</p>
+            <h2 id="features-heading" className="text-3xl md:text-4xl font-bold tracking-tight">Everything You Need for AI-Smart Global Time</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Professional tools for remote teams, international business, and modern audience growth</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: Globe2, title: 'World Clock', desc: 'Live time in 500+ cities with instant search and favourites.', path: '/world-clock' },
+              { icon: Globe2, title: 'World Clock', desc: 'Live time in 500+ cities with instant AI search and favourites.', path: '/world-clock' },
               { icon: ArrowRightLeft, title: 'Time Zone Converter', desc: 'Compare any two cities side-by-side with exact hour differences and share links.', path: '/timezone-converter' },
               { icon: Calendar, title: 'Meeting Planner', desc: 'Find overlapping business hours for distributed teams across up to 5 cities.', path: '/meeting-planner' },
               { icon: Moon, title: 'Hijri Calendar', desc: "Today's Islamic date with full Gregorian comparison and month guide.", path: '/hijri-calendar' },
               { icon: Timer, title: 'Time Difference', desc: 'Calculate exact hours between any two cities, DST-aware and always accurate.', path: '/time-difference-calculator' },
-              { icon: MapPin, title: 'City Pages', desc: 'Deep-dive pages for Dubai, London, Tokyo and 200+ more — weather, FAQs included.', path: '/world-clock' },
+              { icon: MapPin, title: 'City Pages', desc: 'Deep-dive city pages built for global audiences with weather, FAQs, and intelligent discovery.', path: '/world-clock' },
             ].map(({ icon: Icon, title, desc, path }) => (
               <Link key={title} to={path} className="premium-card p-6 flex flex-col gap-4">
                 <div className="p-3 bg-primary/10 rounded-xl w-fit">

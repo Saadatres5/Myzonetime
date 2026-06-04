@@ -156,7 +156,7 @@ export default function WorldClockPage() {
           (c.name.toLowerCase().includes(search.toLowerCase()) ||
            c.country.toLowerCase().includes(search.toLowerCase()))
         )
-        .slice(0, 8)
+        .slice(0, 40)
     : [];
 
   const addCity = useCallback((city) => {
