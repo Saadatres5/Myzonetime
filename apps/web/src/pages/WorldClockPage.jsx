@@ -4,7 +4,7 @@ import { Search, X, Plus, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
-import { citiesData } from '@/data/citiesData.js';
+import { citiesData } from '@/data/worldCitiesData.js';
 
 // ─── Default 8 cities (matching screenshot order) ─────────────────────────
 const DEFAULT_CITY_IDS = ['dxb', 'auh', 'shj', 'ruh', 'jed', 'dmm', 'mcc', 'med'];

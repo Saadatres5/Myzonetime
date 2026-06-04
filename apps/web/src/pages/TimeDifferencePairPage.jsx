@@ -24,7 +24,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowRightLeft, Clock, Globe, CalendarDays, Users } from 'lucide-react';
-import { citiesData } from '@/data/citiesData.js';
+import { citiesData } from '@/data/worldCitiesData.js';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';

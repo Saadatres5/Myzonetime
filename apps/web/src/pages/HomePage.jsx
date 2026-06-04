@@ -53,7 +53,7 @@ export default function HomePage() {
 
   const loadCitiesData = useCallback(async () => {
     if (citiesData.length === 0) {
-      const { citiesData: data } = await import('@/data/citiesData.js');
+      const { citiesData: data } = await import('@/data/worldCitiesData.js');
       setCitiesData(data);
     }
   }, [citiesData.length]);

@@ -4,7 +4,7 @@ import { Clock, ArrowRightLeft, Lightbulb } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
-import { citiesData } from '@/data/citiesData.js';
+import { citiesData } from '@/data/worldCitiesData.js';
 import { useLocalTime } from '@/hooks/useLocalTime.js';
 
 export default function TimeDifferenceCalculatorPage() {

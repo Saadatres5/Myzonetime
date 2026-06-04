@@ -12,10 +12,12 @@
     "build": "npm install --prefix apps/web && npm run build --prefix apps/web",
     "build:prod": "cross-env NODE_ENV=production npm run build",
     "dev": "npm run dev --prefix apps/web",
-    "postinstall": "npm install --prefix apps/web && npm run build --prefix apps/web"
+    "postinstall": "npm install --prefix apps/web && npm run build --prefix apps/web",
+    "import:cities": "node scripts/import-world-cities.js"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "xlsx": "^0.18.5"
   },
   "dependencies": {
     "compression": "^1.7.4",

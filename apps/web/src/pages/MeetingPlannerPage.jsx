@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Users, Globe, X, Search, Share2, Check, Calendar, ChevronLeft, ChevronRight, Clock, Zap, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { citiesData } from '@/data/citiesData.js';
+import { citiesData } from '@/data/worldCitiesData.js';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
