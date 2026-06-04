@@ -30,7 +30,7 @@ export default function CityPage({ city, country, region, currency, timezone, la
     } catch { return 'UTC'; }
   }, [timezone]);
 
-  const timeString = time.toLocaleTimeString('en-US', { timeZone: timezone, hour12: true, hour: 'numeric', minute: '2-digit', second: '2-digit' });
+  const timeString = time.toLocaleTimeString('en-US', { timeZone: timezone, hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h12' });
   const dateString = time.toLocaleDateString('en-US', { timeZone: timezone, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
   return (
@@ -47,7 +47,7 @@ export default function CityPage({ city, country, region, currency, timezone, la
           </h1>
           <time
             dateTime={time.toISOString()}
-            className="text-clock-giant font-mono-time font-bold text-primary tabular-nums block"
+            className="text-clock-giant font-mono-time font-bold text-primary tabular-nums inline-flex items-center justify-center mx-auto"
             aria-label={`Current time in ${city}: ${timeString}`}
           >
             {timeString}

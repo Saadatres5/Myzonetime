@@ -64,7 +64,7 @@ function CityCard({ city, time, onRemove, index }) {
   const timeStr = time.toLocaleTimeString('en-US', {
     timeZone: city.timezone,
     hour12: true,
-    hour: 'numeric',
+    hour: '2-digit',
     minute: '2-digit',
   });
 
