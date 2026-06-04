@@ -113,6 +113,9 @@ Sitemap: ${sitemapIndexUrl}
 
 // Serve sitemap-index.xml (references sub-sitemaps). Fall back to static file in dist/ if present.
 app.get('/sitemap-index.xml', (req, res) => {
+  const sourceIp = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress || 'unknown';
+  console.log(`[sitemap-index] ${sourceIp} ${req.method} ${req.path} UA:${req.headers['user-agent'] || 'unknown'}`);
+
   const staticIndex = path.join(DIST, 'sitemap-index.xml');
   if (fs.existsSync(staticIndex)) {
     res.set('Content-Type', 'application/xml; charset=utf-8');
@@ -350,8 +353,11 @@ const ROUTES = uniqueRoutes([
 const TODAY = new Date().toISOString().split("T")[0];
 
 app.get("/sitemap.xml", (req, res) => {
-  // If a static sitemap was generated at build time, serve it (contains full city lists).
+  const sourceIp = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress || 'unknown';
   const staticSitemap = path.join(DIST, 'sitemap.xml');
+  console.log(`[sitemap] ${sourceIp} ${req.method} ${req.path} UA:${req.headers['user-agent'] || 'unknown'} static=${fs.existsSync(staticSitemap)}`);
+
+  // If a static sitemap was generated at build time, serve it (contains full city lists).
   if (fs.existsSync(staticSitemap)) {
     res.set('Content-Type', 'application/xml; charset=utf-8');
     res.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
