@@ -4,25 +4,16 @@ import { Search, X, Plus, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
-import { citiesData } from '@/data/worldCitiesData.js';
+import { useWorldCitiesData } from '@/hooks/useWorldCitiesData.js';
 
 // ─── Default 8 cities (matching screenshot order) ─────────────────────────
 const DEFAULT_CITY_IDS = ['dxb', 'auh', 'shj', 'ruh', 'jed', 'dmm', 'mcc', 'med'];
 
 const STORAGE_KEY = 'mzt_displayed_cities';
 
-function loadDisplayedCities() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const ids = JSON.parse(saved);
-      if (Array.isArray(ids) && ids.length === 8) {
-        const cities = ids.map(id => citiesData.find(c => c.id === id)).filter(Boolean);
-        if (cities.length === 8) return cities;
-      }
-    }
-  } catch (_) {}
-  return DEFAULT_CITY_IDS.map(id => citiesData.find(c => c.id === id)).filter(Boolean);
+function decodeCities(param) {
+  if (!param) return [];
+  return param.split(',').filter(Boolean);
 }
 
 function saveDisplayedCities(cities) {
@@ -112,13 +103,25 @@ function CityCard({ city, time, onRemove, index }) {
 
 // ─── Main page ─────────────────────────────────────────────────────────────
 export default function WorldClockPage() {
-  const [displayedCities, setDisplayedCities] = useState(loadDisplayedCities);
+  const { citiesData, loading } = useWorldCitiesData();
+  const [displayedCities, setDisplayedCities] = useState([]);
   const [time, setTime]                       = useState(new Date());
   const [search, setSearch]                   = useState('');
   const [dropdownOpen, setDropdownOpen]       = useState(false);
   const [activeIdx, setActiveIdx]             = useState(-1);
   const searchRef  = useRef(null);
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    if (!loading && citiesData?.length) {
+      const params = new URLSearchParams(window.location.search);
+      const cityIds = decodeCities(params.get('cities'));
+      const initial = cityIds.length
+        ? cityIds.map(id => citiesData.find(c => c.id === id)).filter(Boolean)
+        : DEFAULT_CITY_IDS.map(id => citiesData.find(c => c.id === id)).filter(Boolean);
+      setDisplayedCities(initial);
+    }
+  }, [loading, citiesData]);
 
   // Tick every second
   useEffect(() => {
@@ -149,8 +152,8 @@ export default function WorldClockPage() {
 
   // Filter cities for dropdown — exclude already displayed
   const displayedIds = new Set(displayedCities.map(c => c.id));
-  const searchResults = search.trim().length > 0
-    ? citiesData
+  const searchResults = !loading && search.trim().length > 0
+    ? (citiesData || [])
         .filter(c =>
           !displayedIds.has(c.id) &&
           (c.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -223,6 +226,17 @@ export default function WorldClockPage() {
       { '@type': 'ListItem', position: 2, name: 'World Clock', item: 'https://myzonetime.com/world-clock' },
     ],
   };
+
+  if (loading) {
+    return (
+      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-6xl">
+        <div className="rounded-3xl border border-border/60 bg-card p-12 text-center">
+          <p className="text-lg font-medium text-foreground">Loading world clock data…</p>
+          <p className="text-sm text-muted-foreground mt-2">Preparing city lookup data for 500+ time zones.</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-6xl">

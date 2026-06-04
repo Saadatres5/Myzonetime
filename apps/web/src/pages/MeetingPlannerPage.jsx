@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Users, Globe, X, Search, Share2, Check, Calendar, ChevronLeft, ChevronRight, Clock, Zap, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { citiesData } from '@/data/worldCitiesData.js';
+import { useWorldCitiesData } from '@/hooks/useWorldCitiesData.js';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
@@ -125,6 +125,7 @@ const MEETING_FAQS = [
 ];
 
 export default function MeetingPlannerPage() {
+  const { citiesData, loading } = useWorldCitiesData();
   const [selectedCities, setSelectedCities] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -140,13 +141,14 @@ export default function MeetingPlannerPage() {
 
   // ── init from URL or defaults ──
   useEffect(() => {
+    if (loading || !citiesData?.length) return;
     const params = new URLSearchParams(window.location.search);
     const cityIds = decodeCities(params.get('cities'));
     const initial = cityIds.length
       ? cityIds.map(id => citiesData.find(c => c.id === id)).filter(Boolean)
       : DEFAULT_CITIES.map(id => citiesData.find(c => c.id === id)).filter(Boolean);
     setSelectedCities(initial);
-  }, []);
+  }, [loading, citiesData]);
 
   // ── tick every minute ──
   useEffect(() => {
@@ -180,8 +182,8 @@ export default function MeetingPlannerPage() {
 
   const selectedIds = new Set(selectedCities.map(c => c.id));
 
-  const filteredCities = searchQuery.trim().length > 0
-    ? citiesData.filter(c =>
+  const filteredCities = !loading && searchQuery.trim().length > 0
+    ? (citiesData || []).filter(c =>
         !selectedIds.has(c.id) &&
         (
           c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -224,6 +226,17 @@ export default function MeetingPlannerPage() {
   const overlapHours = selectedCities.length >= 2
     ? Array.from({ length: 24 }, (_, i) => i).filter(h => isOverlapHour(h, selectedCities))
     : [];
+
+  if (loading) {
+    return (
+      <main className="flex-1 w-full bg-background text-foreground">
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="text-lg font-medium">Loading meeting planner data…</p>
+          <p className="text-sm text-muted-foreground mt-2">Preparing city lookup and timezone data for meeting planning.</p>
+        </div>
+      </main>
+    );
+  }
 
   // ── Structured data (client-side supplement to server-side SSR) ──
   const webAppSchema = {

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { ArrowRightLeft, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { citiesData } from '@/data/worldCitiesData.js';
+import { useWorldCitiesData } from '@/hooks/useWorldCitiesData.js';
 import StructuredData from '@/components/StructuredData.jsx';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 
@@ -64,9 +64,25 @@ function CitySelect({ value, onChange, exclude }) {
 
 /* ─── Page ─────────────────────────────────────────────────────────────────── */
 export default function TimeZoneConverterPage() {
+  const { citiesData, loading } = useWorldCitiesData();
   const [id1, setId1] = useState('nyc');
   const [id2, setId2] = useState('lon');
   const [time, setTime]  = useState(new Date());
+
+  if (loading) {
+    return (
+      <main className="flex-1 w-full bg-background text-foreground">
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="text-lg font-medium">Loading time zone converter data…</p>
+          <p className="text-sm text-muted-foreground mt-2">Preparing city list for instant conversion.</p>
+        </div>
+      </main>
+    );
+  }
+
+  const getCity = (id) => (citiesData || []).find(c => c.id === id) || (citiesData?.[0] || { id: 'nyc', name: 'New York', country: 'United States', timezone: 'America/New_York' });
+  const city1 = getCity(id1);
+  const city2 = getCity(id2);
 
   /* live clock */
   useEffect(() => {

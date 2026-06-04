@@ -4,15 +4,27 @@ import { Clock, ArrowRightLeft, Lightbulb } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
-import { citiesData } from '@/data/worldCitiesData.js';
+import { useWorldCitiesData } from '@/hooks/useWorldCitiesData.js';
 import { useLocalTime } from '@/hooks/useLocalTime.js';
 
 export default function TimeDifferenceCalculatorPage() {
+  const { citiesData, loading } = useWorldCitiesData();
   const [city1Id, setCity1Id] = useState('lon');
   const [city2Id, setCity2Id] = useState('dxb');
 
-  const city1 = citiesData.find(c => c.id === city1Id) || citiesData[0];
-  const city2 = citiesData.find(c => c.id === city2Id) || citiesData[1];
+  if (loading) {
+    return (
+      <main className="flex-1 w-full bg-background text-foreground">
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="text-lg font-medium">Loading city data…</p>
+          <p className="text-sm text-muted-foreground mt-2">Preparing the time difference calculator for 500+ cities.</p>
+        </div>
+      </main>
+    );
+  }
+
+  const city1 = (citiesData || []).find(c => c.id === city1Id) || (citiesData?.[0] || { id: 'lon', name: 'London', country: 'United Kingdom', timezone: 'Europe/London' });
+  const city2 = (citiesData || []).find(c => c.id === city2Id) || (citiesData?.[1] || { id: 'dxb', name: 'Dubai', country: 'United Arab Emirates', timezone: 'Asia/Dubai' });
 
   const { time: time1, formatTime: formatTime1 } = useLocalTime(city1.timezone);
   const { time: time2, formatTime: formatTime2 } = useLocalTime(city2.timezone);
