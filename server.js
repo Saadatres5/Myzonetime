@@ -11,7 +11,7 @@
  *  7. HSTS + security headers moved here (belt-and-suspenders with .htaccess)
  *  8. /health route excluded from sitemap and given X-Robots-Tag: noindex
  *  9. City pages now have unique, keyword-rich meta (not duplicates of home)
- * 10. Rate-limiter kept; express-rate-limit added as dependency
+ *10. Rate-limiter kept; using a lightweight custom in-memory implementation
  */
 
 "use strict";
@@ -66,7 +66,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// ─── 4. Rate limiting (in-memory, 300 req/min/IP) ──────────────────────────
+// ─── 4. Rate limiting (custom in-memory limiter, 300 req/min/IP) ───────────
 const rateLimitMap = new Map();
 app.use((req, res, next) => {
   const ip  = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress || "unknown";
@@ -91,6 +91,8 @@ app.use("/assets", express.static(path.join(DIST, "assets"), {
 app.get("/robots.txt", (req, res) => {
   res.set("Content-Type", "text/plain");
   res.set("X-Robots-Tag", "noindex"); // robots.txt itself should not be indexed
+  // Prefer sitemap-index to ensure large city sitemaps are discovered
+  const sitemapUrl = `${BASE}/sitemap-index.xml`;
   res.send(
 `User-agent: *
 Allow: /
@@ -102,9 +104,23 @@ Disallow: /*?*
 Disallow: /health
 Disallow: /api/
 
-Sitemap: ${BASE}/sitemap.xml
+Sitemap: ${sitemapUrl}
 `
   );
+});
+
+// Serve sitemap-index.xml (references sub-sitemaps). Fall back to static file in dist/ if present.
+app.get('/sitemap-index.xml', (req, res) => {
+  const staticIndex = path.join(DIST, 'sitemap-index.xml');
+  if (fs.existsSync(staticIndex)) {
+    res.set('Content-Type', 'application/xml; charset=utf-8');
+    return res.sendFile(staticIndex);
+  }
+
+  // Fallback: build a simple sitemap-index pointing to /sitemap.xml
+  const indexXml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap>\n    <loc>${BASE}/sitemap.xml</loc>\n  </sitemap>\n</sitemapindex>`;
+  res.set('Content-Type', 'application/xml; charset=utf-8');
+  res.send(indexXml);
 });
 
 // ─── 7. ads.txt ────────────────────────────────────────────────────────────
@@ -130,55 +146,221 @@ Allow: /
 });
 
 // ─── 9. Dynamic sitemap.xml ────────────────────────────────────────────────
-// SEO FIX: Replaces static sitemap.xml in dist/ which was not auto-updating.
-// All 21 indexable routes included. /health excluded. City pages get priority 0.7.
+// SEO FIX: Build sitemap routes from source data rather than a fixed list.
+// This ensures city and timezone routes stay up to date with the data layer.
+function parseTopLevelObjectKeys(filePath, exportName) {
+  if (!fs.existsSync(filePath)) return [];
+  const text = fs.readFileSync(filePath, 'utf8');
+  const marker = `export const ${exportName}`;
+  const start = text.indexOf(marker);
+  if (start === -1) return [];
+  const braceStart = text.indexOf('{', start);
+  if (braceStart === -1) return [];
 
-const ROUTES = [
-  { path: "/",                          priority: "1.0", changefreq: "daily"   },
-  { path: "/world-clock",               priority: "0.9", changefreq: "daily"   },
-  { path: "/timezone-converter",        priority: "0.9", changefreq: "daily"   },
-  { path: "/meeting-planner",           priority: "0.8", changefreq: "weekly"  },
-  { path: "/time-difference-calculator",priority: "0.8", changefreq: "weekly"  },
-  { path: "/hijri-calendar",            priority: "0.8", changefreq: "daily"   },
-  { path: "/stopwatch",                 priority: "0.7", changefreq: "monthly" },
-  { path: "/timer",                     priority: "0.7", changefreq: "monthly" },
-  { path: "/countdown",                 priority: "0.7", changefreq: "monthly" },
-  { path: "/date-calculator",           priority: "0.7", changefreq: "monthly" },
-  { path: "/work-hours-calculator",     priority: "0.7", changefreq: "monthly" },
-  // City pages
-  { path: "/dubai",                     priority: "0.7", changefreq: "weekly"  },
-  { path: "/london",                    priority: "0.7", changefreq: "weekly"  },
-  { path: "/new-york",                  priority: "0.7", changefreq: "weekly"  },
-  { path: "/tokyo",                     priority: "0.7", changefreq: "weekly"  },
-  { path: "/singapore",                 priority: "0.7", changefreq: "weekly"  },
-  { path: "/sydney",                    priority: "0.7", changefreq: "weekly"  },
-  { path: "/riyadh",                    priority: "0.7", changefreq: "weekly"  },
-  { path: "/abu-dhabi",                 priority: "0.7", changefreq: "weekly"  },
-  // Legal
-  { path: "/privacy-policy",            priority: "0.3", changefreq: "yearly"  },
-  { path: "/terms-of-service",          priority: "0.3", changefreq: "yearly"  },
+  let depth = 1;
+  let inString = false;
+  let quote = '';
+  let escaped = false;
+  const bodyStart = braceStart + 1;
+  let i = bodyStart;
+
+  for (; i < text.length; i++) {
+    const ch = text[i];
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+      } else if (ch === '\\') {
+        escaped = true;
+      } else if (ch === quote) {
+        inString = false;
+      }
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      inString = true;
+      quote = ch;
+      continue;
+    }
+    if (ch === '{') {
+      depth++;
+      continue;
+    }
+    if (ch === '}') {
+      depth--;
+      if (depth === 0) break;
+      continue;
+    }
+  }
+
+  const objectBody = text.slice(bodyStart, i);
+  const keys = [];
+  let j = 0;
+  depth = 0;
+  inString = false;
+  quote = '';
+  escaped = false;
+
+  while (j < objectBody.length) {
+    const ch = objectBody[j];
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+      } else if (ch === '\\') {
+        escaped = true;
+      } else if (ch === quote) {
+        inString = false;
+      }
+      j++;
+      continue;
+    }
+
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+      inString = true;
+      let key = '';
+      j++;
+      while (j < objectBody.length) {
+        const c = objectBody[j];
+        if (escaped) {
+          escaped = false;
+          key += c;
+          j++;
+          continue;
+        }
+        if (c === '\\') {
+          escaped = true;
+          j++;
+          continue;
+        }
+        if (c === quote) {
+          inString = false;
+          j++;
+          break;
+        }
+        key += c;
+        j++;
+      }
+      while (j < objectBody.length && /\s/.test(objectBody[j])) j++;
+      if (objectBody[j] === ':') {
+        keys.push(key);
+      }
+      j++;
+      continue;
+    }
+
+    if (depth === 0) {
+      if (/\s/.test(ch) || ch === ',') {
+        j++;
+        continue;
+      }
+      if (/[A-Za-z0-9_\-]/.test(ch)) {
+        let key = '';
+        while (j < objectBody.length && /[A-Za-z0-9_\-]/.test(objectBody[j])) {
+          key += objectBody[j];
+          j++;
+        }
+        while (j < objectBody.length && /\s/.test(objectBody[j])) j++;
+        if (objectBody[j] === ':') {
+          keys.push(key);
+        }
+        j++;
+        continue;
+      }
+    }
+
+    if (ch === '{') {
+      depth++;
+    } else if (ch === '}') {
+      if (depth > 0) depth--;
+    }
+    j++;
+  }
+
+  return keys;
+}
+
+function getCityRoutePaths() {
+  const cityFile = path.join(__dirname, 'apps/web/src/data/cityPageData.js');
+  const keys = parseTopLevelObjectKeys(cityFile, 'CITY_SEO_DATA');
+  return keys.sort().map(key => `/${key}`);
+}
+
+function getTimezoneRoutePaths() {
+  const tzFile = path.join(__dirname, 'apps/web/src/data/timezoneData.js');
+  const keys = parseTopLevelObjectKeys(tzFile, 'TIMEZONE_DATA');
+  return ['@timezone-index@', ...keys.sort().map(key => `/timezone/${key}`)];
+}
+
+function uniqueRoutes(routes) {
+  const seen = new Set();
+  return routes.filter(route => {
+    if (seen.has(route.path)) return false;
+    seen.add(route.path);
+    return true;
+  });
+}
+
+const CORE_ROUTES = [
+  { path: "/",                           priority: "1.0", changefreq: "daily"   },
+  { path: "/world-clock",                priority: "0.9", changefreq: "daily"   },
+  { path: "/timezone-converter",         priority: "0.9", changefreq: "daily"   },
+  { path: "/meeting-planner",            priority: "0.8", changefreq: "weekly"  },
+  { path: "/time-difference-calculator", priority: "0.8", changefreq: "weekly"  },
+  { path: "/hijri-calendar",             priority: "0.8", changefreq: "daily"   },
+  { path: "/stopwatch",                  priority: "0.7", changefreq: "monthly" },
+  { path: "/timer",                      priority: "0.7", changefreq: "monthly" },
+  { path: "/countdown",                  priority: "0.7", changefreq: "monthly" },
+  { path: "/date-calculator",            priority: "0.7", changefreq: "monthly" },
+  { path: "/work-hours-calculator",      priority: "0.7", changefreq: "monthly" },
+  { path: "/timezone",                   priority: "0.8", changefreq: "weekly"  },
 ];
+
+const TIME_DIFFERENCE_ROUTES = [
+  { path: '/time-difference/new-york-and-london',     priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/dubai-and-london',        priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/dubai-and-new-york',      priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/tokyo-and-new-york',      priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/london-and-sydney',       priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/singapore-and-london',    priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/riyadh-and-london',       priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/istanbul-and-dubai',      priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/paris-and-dubai',         priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/sydney-and-dubai',        priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/bangkok-and-london',      priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/kuala-lumpur-and-london', priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/tokyo-and-london',        priority: '0.7', changefreq: 'weekly' },
+  { path: '/time-difference/singapore-and-new-york',  priority: '0.7', changefreq: 'weekly' },
+];
+
+const ROUTES = uniqueRoutes([
+  ...CORE_ROUTES,
+  ...getCityRoutePaths().map(path => ({ path, priority: '0.7', changefreq: 'weekly' })),
+  ...getTimezoneRoutePaths().map(path => ({
+    path: path === '@timezone-index@' ? '/timezone' : path,
+    priority: path === '@timezone-index@' ? '0.8' : '0.7',
+    changefreq: 'weekly',
+  })),
+  ...TIME_DIFFERENCE_ROUTES,
+  { path: "/privacy-policy",    priority: "0.3", changefreq: "yearly"  },
+  { path: "/terms-of-service",  priority: "0.3", changefreq: "yearly"  },
+]);
 
 const TODAY = new Date().toISOString().split("T")[0];
 
 app.get("/sitemap.xml", (req, res) => {
-  const urls = ROUTES.map(r => `
-  <url>
-    <loc>${BASE}${r.path}</loc>
-    <lastmod>${TODAY}</lastmod>
-    <changefreq>${r.changefreq}</changefreq>
-    <priority>${r.priority}</priority>
-  </url>`).join("");
+  // If a static sitemap was generated at build time, serve it (contains full city lists).
+  const staticSitemap = path.join(DIST, 'sitemap.xml');
+  if (fs.existsSync(staticSitemap)) {
+    res.set('Content-Type', 'application/xml; charset=utf-8');
+    res.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    return res.sendFile(staticSitemap);
+  }
 
-  res.set("Content-Type", "application/xml; charset=utf-8");
-  res.set("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
-  res.send(`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-          http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-${urls}
-</urlset>`);
+  // Fallback: generate a minimal sitemap from ROUTES (used in dev or when static missing)
+  const urls = ROUTES.map(r => `\n  <url>\n    <loc>${BASE}${r.path}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`).join("");
+  res.set('Content-Type', 'application/xml; charset=utf-8');
+  res.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+  res.send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9\n          http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n${urls}\n</urlset>`);
 });
 
 // ─── 10. Health check (noindex) ────────────────────────────────────────────
@@ -369,8 +551,50 @@ function renderHtml(routePath) {
     description: "Free online world clock, time zone converter, and time tools.",
     canonical:   `${BASE}${routePath}`,
   };
+  // Dynamic meta generation for routes not present in the static META map
+  if (!META[routePath]) {
+    // Helper: turn 'new-york' -> 'New York'
+    const formatSlug = s => s.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 
-  const ogImage = `${BASE}/og-image.png`;
+    if (routePath.startsWith('/time-difference/')) {
+      const tail = routePath.replace('/time-difference/', '');
+      const parts = tail.split('-and-').map(p => formatSlug(p.replace(/\//g, '')));
+      if (parts.length === 2) {
+        meta.title = `Time difference between ${parts[0]} and ${parts[1]} — ${SITE_NAME}`;
+        meta.description = `Calculate the time difference between ${parts[0]} and ${parts[1]}. Convert times, plan meetings, and see local offsets instantly.`;
+        meta.canonical = `${BASE}${routePath}`;
+      }
+    } else if (routePath.startsWith('/timezone/')) {
+      const tzSlug = routePath.replace('/timezone/', '');
+      const tzName = formatSlug(tzSlug);
+      meta.title = `${tzName} — Time Zone Info & Current UTC Offset | ${SITE_NAME}`;
+      meta.description = `Learn the current UTC offset for ${tzName}. See countries, cities, daylight saving rules, and conversion examples for this time zone.`;
+      meta.canonical = `${BASE}${routePath}`;
+      meta.schema = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: meta.title,
+        description: meta.description,
+        url: meta.canonical,
+      });
+    } else if (/^\/[a-z0-9\-]+$/.test(routePath)) {
+      // single city slug, e.g. /istanbul
+      const slug = routePath.replace(/^\//, '');
+      const cityName = formatSlug(slug);
+      meta.title = `Current Time in ${cityName} — ${SITE_NAME}`;
+      meta.description = `What time is it in ${cityName} right now? Live local time and timezone information for ${cityName}.`;
+      meta.canonical = `${BASE}${routePath}`;
+      meta.schema = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: meta.title,
+        description: meta.description,
+        url: meta.canonical,
+      });
+    }
+  }
+
+  const ogImage = `${BASE}/favicon.svg`;
   const h1Tag   = meta.h1 ? `<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">${meta.h1}</h1>` : "";
   const robotsMeta = meta.noindex
     ? `<meta name="robots" content="noindex, follow" />`
@@ -420,13 +644,22 @@ app.use(express.static(DIST, {
 
 // ─── 14. SPA catch-all (SSR meta injection per route) ──────────────────────
 const KNOWN_ROUTES = new Set(ROUTES.map(r => r.path));
+const SPA_ROUTE_PATTERNS = [
+  /^\/(?:converter|newyork|abudhabi|world_clock|contact-us|timezone(?:\/.*)?|time-difference(?:\/.*)?|embed\/world-clock|world-clock-widget|404)$/, 
+  /^\/[a-z0-9-]+$/,
+];
+
+function isKnownRoute(pathname) {
+  if (KNOWN_ROUTES.has(pathname)) return true;
+  return SPA_ROUTE_PATTERNS.some(pattern => pattern.test(pathname));
+}
 
 app.get("*", (req, res) => {
   const routePath = req.path.replace(/\/$/, "") || "/";
-  const isKnown   = KNOWN_ROUTES.has(routePath);
+  const isKnown   = isKnownRoute(routePath);
 
   if (!isKnown) {
-    // SEO FIX: return real 404 status (prevents soft-404 in GSC)
+    // SEO FIX: return real 404 status for unknown route patterns that should never be handled by the SPA.
     res.status(404);
   }
 

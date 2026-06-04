@@ -90,14 +90,14 @@ export default function WorkHoursCalculatorPage() {
         <meta name="description" content="Calculate total work hours between two times. Perfect for tracking billable hours and work time." />
         <meta property="og:title" content="Work Hours Calculator — Calculate Working Hours | MyZoneTime" />
         <meta property="og:description" content="Calculate total work hours between two times. Perfect for tracking billable hours and work time." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Work Hours Calculator | MyZoneTime" />
         <meta name="twitter:description" content="Calculate daily and weekly working hours." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
       <CanonicalTag pathname="/work-hours-calculator" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />

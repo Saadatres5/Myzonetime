@@ -63,14 +63,14 @@ export default function TimeDifferenceCalculatorPage() {
         <meta name="description" content="Calculate the exact time difference between any two cities. Free time difference calculator with meeting window suggestions for remote teams." />
         <meta property="og:title" content="Time Difference Calculator | MyZoneTime" />
         <meta property="og:description" content="Find the exact time difference between any two cities. Get meeting window suggestions instantly." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Time Difference Calculator | MyZoneTime" />
         <meta name="twitter:description" content="Calculate the exact time difference between any two cities globally." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
       <CanonicalTag pathname="/time-difference" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />
@@ -178,6 +178,25 @@ export default function TimeDifferenceCalculatorPage() {
         </div>
 
       </div>
+
+      {/* SEO: internal links to common time-difference pairs to avoid orphan pages */}
+      <nav aria-hidden="true" className="sr-only">
+        <a href="/time-difference/new-york-and-london">New York and London</a>
+        <a href="/time-difference/dubai-and-london">Dubai and London</a>
+        <a href="/time-difference/dubai-and-new-york">Dubai and New York</a>
+        <a href="/time-difference/tokyo-and-new-york">Tokyo and New York</a>
+        <a href="/time-difference/london-and-sydney">London and Sydney</a>
+        <a href="/time-difference/singapore-and-london">Singapore and London</a>
+        <a href="/time-difference/riyadh-and-london">Riyadh and London</a>
+        <a href="/time-difference/istanbul-and-dubai">Istanbul and Dubai</a>
+        <a href="/time-difference/paris-and-dubai">Paris and Dubai</a>
+        <a href="/time-difference/sydney-and-dubai">Sydney and Dubai</a>
+        <a href="/time-difference/new-york-and-dubai">New York and Dubai</a>
+        <a href="/time-difference/bangkok-and-london">Bangkok and London</a>
+        <a href="/time-difference/kuala-lumpur-and-london">Kuala Lumpur and London</a>
+        <a href="/time-difference/tokyo-and-london">Tokyo and London</a>
+        <a href="/time-difference/singapore-and-new-york">Singapore and New York</a>
+      </nav>
     </main>
   );
 }

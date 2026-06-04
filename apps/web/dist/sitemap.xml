@@ -336,6 +336,14 @@
     <priority>0.5</priority>
   </url>
 
+  <!-- Timezone Index -->
+  <url>
+    <loc>https://myzonetime.com/timezone</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Legal -->
   <url>
     <loc>https://myzonetime.com/privacy-policy</loc>

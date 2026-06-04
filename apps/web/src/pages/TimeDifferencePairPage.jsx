@@ -319,7 +319,7 @@ export default function TimeDifferencePairPage() {
   const diffAbs = Math.abs(diff);
   const ahead = diff > 0 ? city2.name : city1.name;
   const behind = diff > 0 ? city1.name : city2.name;
-  const canonicalUrl = `https://myzonetime.com/time-difference/${slug1}-${slug2}`;
+  const canonicalUrl = `https://myzonetime.com/time-difference/${canonical1}-and-${canonical2}`;
 
   // ── Meta strings ──
   const pageTitle = `Time Difference: ${city1.name} vs ${city2.name} — ${offset1}/${offset2} | MyZoneTime`;
@@ -387,11 +387,11 @@ export default function TimeDifferencePairPage() {
         <meta name="description" content={pageDesc} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDesc} />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
 
       <CanonicalTag pathname={`/time-difference/${slug1}-${slug2}`} />
