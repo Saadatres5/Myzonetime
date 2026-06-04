@@ -102,7 +102,7 @@ export default function Istanbul() {
         <meta name="description" content="Live clock for Istanbul, Turkey. Turkey Time (TRT), UTC+3. No daylight saving since 2016. Current time, weather, business hours, and best time to call Istanbul." />
         <meta property="og:title" content="Current Time in Istanbul, Turkey — UTC+3 | MyZoneTime" />
         <meta property="og:description" content="Live clock for Istanbul. Turkey Time (TRT), UTC+3 year-round. No DST since 2016." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Current Time in Istanbul, Turkey | MyZoneTime" />
         <meta name="twitter:description" content="Live clock for Istanbul. Turkey Time (TRT), UTC+3. No daylight saving." />
@@ -293,3 +293,4 @@ export default function Istanbul() {
     </main>
   );
 }
+

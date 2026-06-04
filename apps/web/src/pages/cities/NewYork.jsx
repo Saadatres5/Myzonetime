@@ -56,14 +56,14 @@ export default function NewYork() {
         <meta property="og:url" content="https://myzonetime.com/new-york" />
         <meta property="og:title" content="New York Time — Live Clock EST/EDT | MyZoneTime" />
         <meta property="og:description" content="Live time in New York City. EST (UTC−5) in winter, EDT (UTC−4) in summer. NYSE hours, DST schedule and time differences to London, LA and Dubai." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="New York Time — EST/EDT Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in New York. EST in winter, EDT in summer. Time differences to London, LA and Dubai." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/new-york" />
       <StructuredData schema={schema} />
@@ -80,3 +80,4 @@ export default function NewYork() {
     </>
   );
 }
+

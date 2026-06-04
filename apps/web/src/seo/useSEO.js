@@ -65,14 +65,14 @@ export function useSEO(pathname) {
     setMeta('meta[property="og:description"]', config.description);
     setMeta('meta[property="og:url"]', config.canonical);
     setMeta('meta[property="og:type"]', config.ogType || 'website');
-    setMeta('meta[property="og:image"]', config.ogImage || 'https://myzonetime.com/favicon.svg');
+    setMeta('meta[property="og:image"]', config.ogImage || 'https://myzonetime.com/og-image.svg');
     setMeta('meta[property="og:site_name"]', config.siteName || 'MyZoneTime');
 
     // Twitter Card
     setMeta('meta[name="twitter:card"]', config.twitterCard || 'summary_large_image');
     setMeta('meta[name="twitter:title"]', config.title);
     setMeta('meta[name="twitter:description"]', config.description);
-    setMeta('meta[name="twitter:image"]', config.ogImage || 'https://myzonetime.com/favicon.svg');
+    setMeta('meta[name="twitter:image"]', config.ogImage || 'https://myzonetime.com/og-image.svg');
 
     // Structured Data
     if (config.structuredData) {

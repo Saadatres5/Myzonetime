@@ -56,14 +56,14 @@ export default function Dubai() {
         <meta property="og:url" content="https://myzonetime.com/dubai" />
         <meta property="og:title" content="Dubai Time Now — Current Time in Dubai, UAE | MyZoneTime" />
         <meta property="og:description" content="Live Dubai time now. Get current UAE time and time in Dubai with the live Dubai clock, business hours, and time differences." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Dubai Time Now — Live Clock GST UTC+4 | MyZoneTime" />
         <meta name="twitter:description" content="Live Dubai time now. UAE time and current time in Dubai with no daylight saving. Compare Dubai with London, New York, and India." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/dubai" />
       <StructuredData schema={schema} />
@@ -83,3 +83,4 @@ export default function Dubai() {
     </>
   );
 }
+

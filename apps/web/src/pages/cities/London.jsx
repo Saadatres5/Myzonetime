@@ -56,14 +56,14 @@ export default function London() {
         <meta property="og:url" content="https://myzonetime.com/london" />
         <meta property="og:title" content="London Time — Live Clock GMT/BST | MyZoneTime" />
         <meta property="og:description" content="Live time in London, UK. GMT (UTC+0) in winter, BST (UTC+1) in summer. DST schedule, business hours and time differences to New York, Dubai and Sydney." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="London Time — GMT/BST Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in London. GMT in winter, BST in summer. Time differences to NY, Dubai, Sydney." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/london" />
       <StructuredData schema={schema} />
@@ -80,3 +80,4 @@ export default function London() {
     </>
   );
 }
+

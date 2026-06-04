@@ -56,14 +56,14 @@ export default function Riyadh() {
         <meta property="og:url" content="https://myzonetime.com/riyadh" />
         <meta property="og:title" content="Riyadh Time — Live Clock AST UTC+3 | MyZoneTime" />
         <meta property="og:description" content="Live time in Riyadh, Saudi Arabia. AST (UTC+3), no daylight saving. Saudi business hours and time differences to London, Dubai and New York." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Riyadh Time — AST Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in Riyadh. AST (UTC+3), never changes. Time differences to London, Dubai and New York." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/riyadh" />
       <StructuredData schema={schema} />
@@ -80,3 +80,4 @@ export default function Riyadh() {
     </>
   );
 }
+

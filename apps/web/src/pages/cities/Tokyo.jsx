@@ -56,14 +56,14 @@ export default function Tokyo() {
         <meta property="og:url" content="https://myzonetime.com/tokyo" />
         <meta property="og:title" content="Tokyo Time — Live Clock JST UTC+9 | MyZoneTime" />
         <meta property="og:description" content="Live time in Tokyo, Japan. JST (UTC+9), no daylight saving. TSE hours and time differences to London, New York and Sydney." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Tokyo Time — JST Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in Tokyo. JST (UTC+9), never changes. Time differences to London, NY and Sydney." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/tokyo" />
       <StructuredData schema={schema} />
@@ -80,3 +80,4 @@ export default function Tokyo() {
     </>
   );
 }
+

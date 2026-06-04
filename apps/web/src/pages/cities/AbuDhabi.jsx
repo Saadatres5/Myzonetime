@@ -56,14 +56,14 @@ export default function AbuDhabi() {
         <meta property="og:url" content="https://myzonetime.com/abu-dhabi" />
         <meta property="og:title" content="Abu Dhabi Time — Live Clock GST UTC+4 | MyZoneTime" />
         <meta property="og:description" content="Live time in Abu Dhabi, UAE. GST (UTC+4), no daylight saving. ADX hours, time differences to London, India and New York." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Abu Dhabi Time — GST Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in Abu Dhabi. GST (UTC+4), fixed year-round. Time differences to London, India and New York." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/abu-dhabi" />
       <StructuredData schema={schema} />
@@ -80,3 +80,4 @@ export default function AbuDhabi() {
     </>
   );
 }
+

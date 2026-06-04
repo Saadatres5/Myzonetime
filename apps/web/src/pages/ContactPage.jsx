@@ -87,7 +87,7 @@ export default function ContactPage() {
         <meta name="description" content="Have a question, suggestion or found a bug? Contact the MyZoneTime team. We read every message and reply within 48 hours." />
         <meta property="og:title"       content="Contact Us | MyZoneTime" />
         <meta property="og:description" content="Get in touch with the MyZoneTime team. Send queries, suggestions, bug reports or feedback." />
-        <meta property="og:image"       content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image"       content="https://myzonetime.com/og-image.svg" />
         <meta name="twitter:card"       content="summary_large_image" />
         <meta name="robots"             content="index, follow" />
       </Helmet>
@@ -326,3 +326,4 @@ export default function ContactPage() {
     </main>
   );
 }
+

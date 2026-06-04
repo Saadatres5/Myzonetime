@@ -92,7 +92,7 @@ export default function Oslo() {
         <meta name="description" content="Live clock for Oslo, Norway. Central European Time (CET/CEST), UTC+1 or UTC+2. Current time, weather, business hours, and best time to call Oslo from anywhere." />
         <meta property="og:title" content="Current Time in Oslo, Norway — CET/CEST | MyZoneTime" />
         <meta property="og:description" content="Live clock for Oslo. CET (UTC+1) in winter, CEST (UTC+2) in summer." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="geo.region" content="NO-03" />
         <meta name="geo.placename" content="Oslo, Norway" />
@@ -224,3 +224,4 @@ export default function Oslo() {
     </main>
   );
 }
+

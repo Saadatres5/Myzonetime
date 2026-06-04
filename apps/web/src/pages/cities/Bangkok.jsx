@@ -90,7 +90,7 @@ export default function Bangkok() {
         <meta name="description" content="Live clock for Bangkok, Thailand. Indochina Time (ICT), UTC+7. No daylight saving. Current time, weather, business hours, and best time to call Bangkok." />
         <meta property="og:title" content="Current Time in Bangkok, Thailand — UTC+7 | MyZoneTime" />
         <meta property="og:description" content="Live clock for Bangkok. Indochina Time (ICT), UTC+7. No DST." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="geo.region" content="TH-10" />
         <meta name="geo.placename" content="Bangkok, Thailand" />
@@ -219,3 +219,4 @@ export default function Bangkok() {
     </main>
   );
 }
+

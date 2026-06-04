@@ -56,14 +56,14 @@ export default function Singapore() {
         <meta property="og:url" content="https://myzonetime.com/singapore" />
         <meta property="og:title" content="Singapore Time — Live Clock SGT UTC+8 | MyZoneTime" />
         <meta property="og:description" content="Live time in Singapore. SGT (UTC+8), no daylight saving ever. SGX hours, time differences to London, Dubai and Sydney." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Singapore Time — SGT Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in Singapore. SGT (UTC+8), fixed year-round. Time differences to London, Dubai, Sydney." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/singapore" />
       <StructuredData schema={schema} />
@@ -80,3 +80,4 @@ export default function Singapore() {
     </>
   );
 }
+

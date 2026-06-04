@@ -176,7 +176,7 @@ export default function HomePage() {
         <meta property="og:url" content="https://myzonetime.com/" />
         <meta property="og:title" content="World Clock &amp; Time Zone Converter — Live Time in 500+ Cities | MyZoneTime" />
         <meta property="og:description" content="Free world clock showing live time in 500+ cities. Time zone converter, meeting planner, Hijri calendar, and live weather. Trusted by global teams." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/jpeg" />
@@ -365,3 +365,4 @@ export default function HomePage() {
     </main>
   );
 }
+
