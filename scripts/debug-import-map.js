@@ -1,0 +1,20 @@
+const fs = require('fs');
+const path = require('path');
+const xlsx = require('xlsx');
+const sourcePath = path.join(__dirname, '..', 'data', 'world-cities.xlsm');
+const workbook = xlsx.readFile(sourcePath, { cellDates: true });
+const sheet = workbook.Sheets[workbook.SheetNames[0]];
+const rows = xlsx.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+const headers = rows[0].map(header => header.toString().trim().toLowerCase().replace(/\s+/g, '_'));
+console.log('headers', headers);
+const dataRows = rows.slice(1);
+const row = dataRows[0];
+console.log('firstRow', row);
+const record = {};
+headers.forEach((header, index) => {
+  record[header] = row[index] != null ? row[index].toString().trim() : '';
+});
+console.log('mapped', record);
+console.log('name', ['city', 'city_name', 'name', 'cities'].map(k => [k, record[k]]));
+console.log('country', ['country', 'country_name', 'countryname'].map(k => [k, record[k]]));
+console.log('lat', record['lat'], 'lng', record['lng']);

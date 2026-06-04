@@ -1,0 +1,6 @@
+﻿headers [ 'cities', 'country', 'lat', 'lng' ]
+dataRows 49992
+valid 0 Tokyo Japan 35.685 139.7514 undefined
+valid 1 Jakarta Indonesia -6.1753 106.8269 undefined
+valid 2 Delhi India 28.66 77.23 undefined
+cities length 49990

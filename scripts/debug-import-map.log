@@ -1,0 +1,15 @@
+﻿headers [ 'cities', 'country', 'lat', 'lng' ]
+firstRow [ 'Tokyo', 'Japan', 35.685, 139.7514 ]
+mapped { cities: 'Tokyo', country: 'Japan', lat: '35.685', lng: '139.7514' }
+name [
+  [ 'city', undefined ],
+  [ 'city_name', undefined ],
+  [ 'name', undefined ],
+  [ 'cities', 'Tokyo' ]
+]
+country [
+  [ 'country', 'Japan' ],
+  [ 'country_name', undefined ],
+  [ 'countryname', undefined ]
+]
+lat 35.685 lng 139.7514

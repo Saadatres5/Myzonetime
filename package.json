@@ -17,7 +17,8 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "tz-lookup": "^6.1.25"
   },
   "dependencies": {
     "compression": "^1.7.4",

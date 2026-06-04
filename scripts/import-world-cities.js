@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const xlsx = require('xlsx');
+const tzlookup = require('tz-lookup');
 
 const sourcePath = path.join(__dirname, '..', 'data', 'world-cities.xlsm');
 const outPath = path.join(__dirname, '..', 'apps', 'web', 'src', 'data', 'worldCitiesData.js');
@@ -23,10 +24,11 @@ function normalizeHeader(header) {
 }
 
 function getField(row, keys) {
-  for (const key of keys) {
-    if (row[key] != null && row[key] !== '') return row[key].toString().trim();
-  }
-  return '';
+  return keys
+    .map(key => row[key])
+    .find(value => value != null && value !== '')
+    ?.toString()
+    .trim() || '';
 }
 
 if (!fs.existsSync(sourcePath)) {
@@ -51,29 +53,50 @@ if (!rows.length) {
 const headers = rows[0].map(normalizeHeader);
 const dataRows = rows.slice(1);
 
-const cities = dataRows.reduce((list, row) => {
-  const record = {};
-  headers.forEach((header, index) => {
-    record[header] = row[index] != null ? row[index].toString().trim() : '';
-  });
+const cities = dataRows
+  .map((row) => {
+    const record = {};
+    headers.forEach((header, index) => {
+      record[header] = row[index] != null ? row[index].toString().trim() : '';
+    });
 
-  const name = getField(record, ['city', 'city_name', 'name']);
-  const country = getField(record, ['country', 'country_name', 'countryname']);
-  const timezone = getField(record, ['timezone', 'tz', 'time_zone']);
-  const region = getField(record, ['region', 'continent', 'area']);
+    const name = getField(record, ['city', 'city_name', 'name', 'cities']);
+    const country = getField(record, ['country', 'country_name', 'countryname']);
+    const timezone = getField(record, ['timezone', 'tz', 'time_zone']);
+    const latitude = getField(record, ['lat', 'latitude']);
+    const longitude = getField(record, ['lng', 'long', 'longitude', 'lon']);
+    const region = getField(record, ['region', 'continent', 'area']);
 
-  if (!name || !country) return list;
+    if (!name || !country) return null;
 
-  const id = slugify(`${name}-${country}`);
-  list.push({
-    id,
-    name,
-    country,
-    timezone: timezone || null,
-    region: region || null,
-  });
-  return list;
-}, []);
+    let tz = timezone || null;
+    if (!tz && latitude && longitude) {
+      const latNum = parseFloat(latitude);
+      const lonNum = parseFloat(longitude);
+      if (!Number.isNaN(latNum) && !Number.isNaN(lonNum)) {
+        try {
+          tz = tzlookup(latNum, lonNum);
+        } catch (_) {
+          tz = null;
+        }
+      }
+    }
+
+    return { name, country, timezone: tz, region: region || null };
+  })
+  .filter(Boolean)
+  .map((city) => ({
+    ...city,
+    id: slugify(`${city.name}-${city.country}`),
+  }))
+  .reduce((list, city) => {
+    let id = city.id;
+    let suffix = 1;
+    while (list.some((c) => c.id === id)) {
+      id = `${city.id}-${suffix++}`;
+    }
+    return [...list, { ...city, id }];
+  }, []);
 
 if (!cities.length) {
   console.error('No valid city records were extracted');
