@@ -44,8 +44,8 @@ export default function Dubai() {
   return (
     <>
       <Helmet>
-        <title>Dubai Time — Live Clock, GST UTC+4 | MyZoneTime</title>
-        <meta name="description" content="Current local time in Dubai, UAE. Gulf Standard Time (GST, UTC+4). No daylight saving. Business hours, time differences to London, New York and India." />
+        <title>Dubai Time Now — Current Time in Dubai, UAE | MyZoneTime</title>
+        <meta name="description" content="Dubai time now: live current time in Dubai, UAE. Get UAE time, Dubai time, time dubai, and time in Dubai instantly with our live Dubai clock. Gulf Standard Time (GST, UTC+4)." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="geo.region" content="AE-DU" />
         <meta name="geo.placename" content="Dubai, United Arab Emirates" />
@@ -54,15 +54,15 @@ export default function Dubai() {
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyZoneTime" />
         <meta property="og:url" content="https://myzonetime.com/dubai" />
-        <meta property="og:title" content="Dubai Time — Live Clock, GST UTC+4 | MyZoneTime" />
-        <meta property="og:description" content="Live clock for Dubai, UAE. Gulf Standard Time (GST, UTC+4). No daylight saving ever. Business hours, call windows, and time differences." />
+        <meta property="og:title" content="Dubai Time Now — Current Time in Dubai, UAE | MyZoneTime" />
+        <meta property="og:description" content="Live Dubai time now. Get current UAE time and time in Dubai with the live Dubai clock, business hours, and time differences." />
         <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
-        <meta name="twitter:title" content="Dubai Time — Live Clock GST UTC+4 | MyZoneTime" />
-        <meta name="twitter:description" content="Live time in Dubai, UAE. GST (UTC+4), no daylight saving. Compare with London, New York, India." />
+        <meta name="twitter:title" content="Dubai Time Now — Live Clock GST UTC+4 | MyZoneTime" />
+        <meta name="twitter:description" content="Live Dubai time now. UAE time and current time in Dubai with no daylight saving. Compare Dubai with London, New York, and India." />
         <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
       </Helmet>
       <CanonicalTag pathname="/dubai" />
@@ -74,6 +74,9 @@ export default function Dubai() {
         pathname="/dubai"
         description="Dubai runs on Gulf Standard Time (GST, UTC+4) year-round with no daylight saving adjustments. As the commercial heart of the UAE and a global aviation hub, it bridges Asian mornings with European afternoons — making it one of the world's most strategically timed cities for international business."
       >
+        <p className="mb-6 text-base leading-7 text-muted-foreground">
+          Need Dubai time now? This page gives you live Dubai time, UAE time, time dubai, and the current time in Dubai instantly — plus business hours, call windows, and easy time zone conversion.
+        </p>
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Dubai" relatedCity="London" />
       </CityPage>
