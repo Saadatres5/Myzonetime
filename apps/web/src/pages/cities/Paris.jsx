@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
+import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import AdSenseAd, { AD_SLOTS } from '@/components/AdSenseAd.jsx';
 import { useLocalTime } from '@/hooks/useLocalTime.js';
 import { Globe2, ArrowRightLeft, MapPin } from 'lucide-react';
@@ -198,6 +199,7 @@ export default function Paris() {
         <AdSenseAd slot={AD_SLOTS.TOOL_INLINE} format="auto" minHeight={90} />
       </div>
 
+      <TimezoneAuthoritySection cityName="Paris" timezoneKey="cet" />
       <FAQSection faqs={faqs} />
 
       <section className="py-12 border-t border-border/40">

@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
+import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -77,6 +78,7 @@ export default function Dubai() {
         <p className="mb-6 text-base leading-7 text-muted-foreground">
           Need Dubai time now? This page gives you live Dubai time, UAE time, time dubai, and the current time in Dubai instantly — plus business hours, call windows, and easy time zone conversion.
         </p>
+        <TimezoneAuthoritySection cityName="Dubai" timezoneKey="gst" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Dubai" relatedCity="London" />
       </CityPage>

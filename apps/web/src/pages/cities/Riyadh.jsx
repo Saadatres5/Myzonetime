@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
+import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -74,6 +75,7 @@ export default function Riyadh() {
         pathname="/riyadh"
         description="Riyadh, the capital of Saudi Arabia, operates on Arabia Standard Time (AST, UTC+3) all year with no daylight saving adjustments. As the political and economic capital of the Arab world's largest economy and home to Saudi Aramco headquarters, Riyadh's fixed clock is a key reference point for energy markets, Islamic finance and Gulf region business scheduling."
       >
+        <TimezoneAuthoritySection cityName="Riyadh" timezoneKey="ast" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Riyadh" relatedCity="Dubai" />
       </CityPage>

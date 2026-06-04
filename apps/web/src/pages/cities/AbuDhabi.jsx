@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
+import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -74,6 +75,7 @@ export default function AbuDhabi() {
         pathname="/abu-dhabi"
         description="Abu Dhabi, the capital of the UAE and seat of the federal government, operates on Gulf Standard Time (GST, UTC+4) year-round without daylight saving. Home to sovereign wealth fund ADIA, the Abu Dhabi Securities Exchange (ADX) and the headquarters of leading energy companies, Abu Dhabi's stable clock is a cornerstone of Gulf region financial scheduling."
       >
+        <TimezoneAuthoritySection cityName="Abu Dhabi" timezoneKey="gst" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Abu Dhabi" relatedCity="Dubai" />
       </CityPage>

@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
+import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import AdSenseAd, { AD_SLOTS } from '@/components/AdSenseAd.jsx';
 import { useLocalTime } from '@/hooks/useLocalTime.js';
 import { Clock, MapPin, Globe2, ArrowRightLeft } from 'lucide-react';
@@ -267,6 +268,7 @@ export default function Istanbul() {
         <AdSenseAd slot={AD_SLOTS.TOOL_INLINE} format="auto" minHeight={90} />
       </div>
 
+      <TimezoneAuthoritySection cityName="Istanbul" timezoneKey="trt" />
       {/* ── FAQ ── */}
       <FAQSection faqs={faqs} />
 

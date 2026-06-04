@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
+import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -74,6 +75,7 @@ export default function Singapore() {
         pathname="/singapore"
         description="Singapore operates on Singapore Standard Time (SGT, UTC+8) year-round with no daylight saving. As Southeast Asia's premier financial hub and one of the world's busiest ports, Singapore's fixed clock makes it a reliable anchor for cross-timezone scheduling between European, Middle Eastern and Asia-Pacific business partners."
       >
+        <TimezoneAuthoritySection cityName="Singapore" timezoneKey="sgt" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Singapore" relatedCity="Dubai" />
       </CityPage>

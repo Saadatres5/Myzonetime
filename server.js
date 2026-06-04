@@ -305,12 +305,117 @@ function getTimezoneRoutePaths() {
   return ['@timezone-index@', ...keys.sort().map(key => `/timezone/${key}`)];
 }
 
+function parseJsonExport(filePath, exportName) {
+  if (!fs.existsSync(filePath)) return null;
+  const text = fs.readFileSync(filePath, 'utf8');
+  const marker = `export const ${exportName} =`;
+  const start = text.indexOf(marker);
+  if (start === -1) return null;
+  let payload = text.slice(start + marker.length).trim();
+  if (payload.endsWith(';')) payload = payload.slice(0, -1);
+  try {
+    return JSON.parse(payload);
+  } catch (_err) {
+    return null;
+  }
+}
+
+const WORLD_CITY_DATA = parseJsonExport(path.join(__dirname, 'apps/web/src/data/worldCitiesData.js'), 'citiesData') || [];
+const WORLD_CITY_MAP = new Map(WORLD_CITY_DATA.map(city => [city.id, city]));
+
+function getWorldCityRoutePaths() {
+  return WORLD_CITY_DATA.map(city => `/${city.id}`).sort();
+}
+
+function getWorldCityData(slug) {
+  return WORLD_CITY_MAP.get(slug) || null;
+}
+
 function getTimeDifferenceSlugs() {
   const slugFile = path.join(__dirname, 'apps/web/src/pages/TimeDifferencePairPage.jsx');
   return parseTopLevelObjectKeys(slugFile, 'SLUG_TO_ID').sort();
 }
 
+function parseArrayStringValues(filePath, arrayName) {
+  if (!fs.existsSync(filePath)) return [];
+  const text = fs.readFileSync(filePath, 'utf8');
+  const marker = `const ${arrayName}`;
+  const start = text.indexOf(marker);
+  if (start === -1) return [];
+
+  const bracketStart = text.indexOf('[', start);
+  if (bracketStart === -1) return [];
+
+  let depth = 0;
+  let inString = false;
+  let quote = '';
+  let escaped = false;
+  const values = [];
+  let current = '';
+
+  for (let i = bracketStart + 1; i < text.length; i++) {
+    const ch = text[i];
+
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+        current += ch;
+      } else if (ch === '\\') {
+        escaped = true;
+      } else if (ch === quote) {
+        inString = false;
+        values.push(current);
+        current = '';
+      } else {
+        current += ch;
+      }
+      continue;
+    }
+
+    if (ch === '"' || ch === "'") {
+      inString = true;
+      quote = ch;
+      continue;
+    }
+
+    if (ch === '[') {
+      depth++;
+    } else if (ch === ']') {
+      if (depth === 0) break;
+      depth--;
+    }
+  }
+
+  return values;
+}
+
+function getCanonicalTimeDifferenceOrder() {
+  const pairFile = path.join(__dirname, 'apps/web/src/pages/TimeDifferencePairPage.jsx');
+  return parseArrayStringValues(pairFile, 'CANONICAL_ORDER');
+}
+
 const TIME_DIFFERENCE_SLUGS = new Set(getTimeDifferenceSlugs());
+
+function getTimeDifferenceRoutePaths() {
+  const slugs = getTimeDifferenceSlugs();
+  const canonicalOrder = getCanonicalTimeDifferenceOrder();
+  const orderIndex = slug => {
+    const index = canonicalOrder.indexOf(slug);
+    return index !== -1 ? index : canonicalOrder.length + slugs.indexOf(slug);
+  };
+
+  const routes = [];
+  for (let i = 0; i < slugs.length; i++) {
+    for (let j = i + 1; j < slugs.length; j++) {
+      const slugA = slugs[i];
+      const slugB = slugs[j];
+      const [left, right] = orderIndex(slugA) <= orderIndex(slugB) ? [slugA, slugB] : [slugB, slugA];
+      routes.push(`/time-difference/${left}-and-${right}`);
+    }
+  }
+
+  return [...new Set(routes)].sort();
+}
 
 function tryParseTimeDifferencePair(pair) {
   if (!pair) return null;
@@ -357,32 +462,16 @@ const CORE_ROUTES = [
   { path: "/timezone",                   priority: "0.8", changefreq: "weekly"  },
 ];
 
-const TIME_DIFFERENCE_ROUTES = [
-  { path: '/time-difference/new-york-and-london',     priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/dubai-and-london',        priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/dubai-and-new-york',      priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/tokyo-and-new-york',      priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/london-and-sydney',       priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/singapore-and-london',    priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/riyadh-and-london',       priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/istanbul-and-dubai',      priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/paris-and-dubai',         priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/sydney-and-dubai',        priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/bangkok-and-london',      priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/kuala-lumpur-and-london', priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/tokyo-and-london',        priority: '0.7', changefreq: 'weekly' },
-  { path: '/time-difference/singapore-and-new-york',  priority: '0.7', changefreq: 'weekly' },
-];
-
 const ROUTES = uniqueRoutes([
   ...CORE_ROUTES,
   ...getCityRoutePaths().map(path => ({ path, priority: '0.7', changefreq: 'weekly' })),
+  ...getWorldCityRoutePaths().map(path => ({ path, priority: '0.65', changefreq: 'weekly' })),
   ...getTimezoneRoutePaths().map(path => ({
     path: path === '@timezone-index@' ? '/timezone' : path,
     priority: path === '@timezone-index@' ? '0.8' : '0.7',
     changefreq: 'weekly',
   })),
-  ...TIME_DIFFERENCE_ROUTES,
+  ...getTimeDifferenceRoutePaths().map(path => ({ path, priority: '0.7', changefreq: 'weekly' })),
   { path: "/privacy-policy",    priority: "0.3", changefreq: "yearly"  },
   { path: "/terms-of-service",  priority: "0.3", changefreq: "yearly"  },
 ]);
@@ -666,19 +755,40 @@ function renderHtml(routePath, { noindex = false } = {}) {
         url: meta.canonical,
       });
     } else if (/^\/[a-z0-9\-]+$/.test(routePath)) {
-      // single city slug, e.g. /istanbul
       const slug = routePath.replace(/^\//, '');
-      const cityName = formatSlug(slug);
-      meta.title = `Current Time in ${cityName} — ${SITE_NAME}`;
-      meta.description = `What time is it in ${cityName} right now? Live local time and timezone information for ${cityName}.`;
-      meta.canonical = `${BASE}${routePath}`;
-      meta.schema = JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'WebPage',
-        name: meta.title,
-        description: meta.description,
-        url: meta.canonical,
-      });
+      const worldCity = getWorldCityData(slug);
+      if (worldCity) {
+        const location = worldCity.country ? `${worldCity.name}, ${worldCity.country}` : worldCity.name;
+        const utcLabel = worldCity.utcLabel ? `, ${worldCity.utcLabel}` : '';
+        const timezone = worldCity.timezone || '';
+        meta.title = `Current Time in ${worldCity.name} — ${SITE_NAME}`;
+        meta.description = `What time is it in ${location} right now? Live local time for ${worldCity.name} (${timezone}${utcLabel}).`;
+        meta.canonical = `${BASE}${routePath}`;
+        meta.schema = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: meta.title,
+          description: meta.description,
+          url: meta.canonical,
+          about: {
+            '@type': 'City',
+            name: worldCity.name,
+            containedInPlace: worldCity.country ? { '@type': 'Country', name: worldCity.country } : undefined,
+          },
+        });
+      } else {
+        const cityName = formatSlug(slug);
+        meta.title = `Current Time in ${cityName} — ${SITE_NAME}`;
+        meta.description = `What time is it in ${cityName} right now? Live local time and timezone information for ${cityName}.`;
+        meta.canonical = `${BASE}${routePath}`;
+        meta.schema = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: meta.title,
+          description: meta.description,
+          url: meta.canonical,
+        });
+      }
     }
   }
 

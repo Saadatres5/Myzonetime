@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
+import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -74,6 +75,7 @@ export default function NewYork() {
         pathname="/new-york"
         description="New York City operates on Eastern Time (ET), shifting between EST (UTC−5) in winter and EDT (UTC−4) in summer. Home to the New York Stock Exchange and the world's largest financial market, New York's clock sets the pace for the US trading day and is the critical overlap point between European and American business hours."
       >
+        <TimezoneAuthoritySection cityName="New York" timezoneKey="est" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="New York" relatedCity="London" />
       </CityPage>

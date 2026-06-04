@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
+import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -74,6 +75,7 @@ export default function London() {
         pathname="/london"
         description="London operates on Greenwich Mean Time (GMT, UTC+0) in winter and British Summer Time (BST, UTC+1) from late March to late October. As the financial capital of Europe and home to the London Stock Exchange, it sets the rhythm for global markets between New York and Tokyo trading sessions."
       >
+        <TimezoneAuthoritySection cityName="London" timezoneKey="gmt" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="London" relatedCity="New York" />
       </CityPage>

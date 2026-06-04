@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
+import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -74,6 +75,7 @@ export default function Tokyo() {
         pathname="/tokyo"
         description="Tokyo operates on Japan Standard Time (JST, UTC+9) every day of the year with absolutely no daylight saving adjustments. As Asia's largest financial centre and home to the Tokyo Stock Exchange — the world's third-largest by market capitalisation — Tokyo anchors the Asian trading session and sets the day in motion before London and New York open."
       >
+        <TimezoneAuthoritySection cityName="Tokyo" timezoneKey="jst" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Tokyo" relatedCity="Singapore" />
       </CityPage>
