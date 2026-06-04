@@ -109,7 +109,7 @@ export default function HomePage() {
     '@type': 'Organization',
     name: 'MyZoneTime',
     url: 'https://myzonetime.com',
-    logo: { '@type': 'ImageObject', url: 'https://myzonetime.com/favicon.svg', width: 1200, height: 630 },
+    logo: { '@type': 'ImageObject', url: 'https://myzonetime.com/og-image.svg', width: 1200, height: 630 },
     sameAs: [],
     contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', availableLanguage: 'English' },
   };
@@ -121,7 +121,7 @@ export default function HomePage() {
     description: 'AI-powered world clock & time zone converter for 500+ cities, smart search, meeting planning, and modern audience growth.',
     applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'All',
-    image: 'https://myzonetime.com/favicon.svg',
+    image: 'https://myzonetime.com/og-image.svg',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     featureList: ['AI-powered search', 'Time zone conversion', 'World clock', 'Meeting planner', 'Hijri calendar', 'Live weather'],
   };
@@ -179,14 +179,14 @@ export default function HomePage() {
         <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:type" content="image/svg+xml" />
         <meta property="og:image:alt" content="MyZoneTime — World Clock and Time Zone Tools" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:creator" content="@myzonetime" />
         <meta name="twitter:title" content="World Clock &amp; Time Zone Converter | MyZoneTime" />
         <meta name="twitter:description" content="Free world clock, time zone converter, meeting planner, and live weather for 500+ cities." />
-         <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
+         <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
         <meta name="twitter:image:alt" content="MyZoneTime — World Clock" />
       </Helmet>
       <CanonicalTag pathname="/" />
@@ -365,4 +365,5 @@ export default function HomePage() {
     </main>
   );
 }
+
 

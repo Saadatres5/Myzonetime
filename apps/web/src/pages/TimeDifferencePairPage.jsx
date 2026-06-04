@@ -387,11 +387,11 @@ export default function TimeDifferencePairPage() {
         <meta name="description" content={pageDesc} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
-        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDesc} />
-        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
 
       <CanonicalTag pathname={`/time-difference/${slug1}-${slug2}`} />
@@ -576,3 +576,4 @@ export default function TimeDifferencePairPage() {
     </>
   );
 }
+

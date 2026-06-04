@@ -163,8 +163,14 @@ export default function App() {
         <meta name="application-name" content="MyZoneTime" />
         <meta property="og:site_name" content="MyZoneTime" />
         <meta property="og:locale" content="en_US" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image:alt" content="Share preview for MyZoneTime" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:creator" content="@myzonetime" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image:alt" content="Share preview for MyZoneTime" />
         <meta name="theme-color" content="#0EA5E9" />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         {/* Mobile / PWA */}

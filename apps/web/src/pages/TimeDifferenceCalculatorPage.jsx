@@ -63,14 +63,14 @@ export default function TimeDifferenceCalculatorPage() {
         <meta name="description" content="Calculate the exact time difference between any two cities. Free time difference calculator with meeting window suggestions for remote teams." />
         <meta property="og:title" content="Time Difference Calculator | MyZoneTime" />
         <meta property="og:description" content="Find the exact time difference between any two cities. Get meeting window suggestions instantly." />
-        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Time Difference Calculator | MyZoneTime" />
         <meta name="twitter:description" content="Calculate the exact time difference between any two cities globally." />
-        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/time-difference" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />

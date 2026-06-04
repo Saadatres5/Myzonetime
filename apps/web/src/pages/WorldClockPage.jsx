@@ -231,12 +231,12 @@ export default function WorldClockPage() {
         <meta name="description" content="Live world clock showing current time in 500+ cities worldwide. Search any city and track multiple time zones at once. Free, no sign-up." />
         <meta property="og:title"       content="World Clock — Live Time in 500+ Cities | MyZoneTime" />
         <meta property="og:description" content="Live world clock showing current time in 500+ cities. Track time zones for Dubai, London, New York, Tokyo, Singapore, Sydney, and more." />
-        <meta property="og:image"       content="https://myzonetime.com/favicon.svg" />
+        <meta property="og:image"       content="https://myzonetime.com/og-image.svg" />
         <meta name="twitter:card"       content="summary_large_image" />
         <meta name="twitter:site"       content="@myzonetime" />
         <meta name="twitter:title"      content="World Clock | MyZoneTime" />
         <meta name="twitter:description" content="Check the current time in any city worldwide. Search 500+ cities instantly." />
-        <meta name="twitter:image"      content="https://myzonetime.com/favicon.svg" />
+        <meta name="twitter:image"      content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/world-clock" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />
@@ -357,3 +357,4 @@ export default function WorldClockPage() {
     </main>
   );
 }
+

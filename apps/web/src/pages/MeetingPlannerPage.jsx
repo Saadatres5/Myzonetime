@@ -264,11 +264,11 @@ export default function MeetingPlannerPage() {
         <meta name="description" content="Find the best meeting time across multiple time zones. Colour-coded business hours for up to 7 cities. DST-aware, shareable links. Free international meeting scheduler." />
         <meta property="og:title" content="Meeting Planner — Best Time Across Time Zones | MyZoneTime" />
         <meta property="og:description" content="Free meeting planner for global teams. Find overlapping business hours across up to 7 time zones with automatic DST support." />
-        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Meeting Planner — Best Time Across Time Zones | MyZoneTime" />
         <meta name="twitter:description" content="Find overlapping business hours for your global team. Free, DST-aware, shareable." />
-        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
 
       <CanonicalTag pathname="/meeting-planner" />
@@ -648,3 +648,4 @@ export default function MeetingPlannerPage() {
     </>
   );
 }
+

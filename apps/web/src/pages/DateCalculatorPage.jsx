@@ -82,14 +82,14 @@ export default function DateCalculatorPage() {
         <meta name="description" content="Free date calculator. Find the number of days, weeks, and months between any two dates." />
         <meta property="og:title" content="Date Calculator — Calculate Days Between Dates | MyZoneTime" />
         <meta property="og:description" content="Free date calculator. Find the number of days, weeks, and months between any two dates." />
-        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Date Calculator | MyZoneTime" />
         <meta name="twitter:description" content="Free date calculator. Find the number of days, weeks, and months between any two dates." />
-        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/date-calculator" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />

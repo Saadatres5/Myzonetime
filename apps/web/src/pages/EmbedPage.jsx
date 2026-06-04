@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import CanonicalTag from '@/components/CanonicalTag.jsx';
 import { Globe2 } from 'lucide-react';
 
 const defaultCities = [
@@ -50,8 +51,11 @@ export default function EmbedPage() {
   return (
     <div className="w-full min-h-screen bg-background text-foreground p-4 sm:p-6 flex flex-col">
       <Helmet>
+        <title>Embed World Clock — MyZoneTime</title>
+        <meta name="description" content="Embed a free live world clock widget on your website. Copy-paste HTML iframe code and show current time for multiple cities instantly." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
+      <CanonicalTag pathname="/embed/world-clock" />
 
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border/50">
         <Globe2 className="w-6 h-6 text-primary" />

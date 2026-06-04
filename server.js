@@ -122,8 +122,15 @@ app.get('/sitemap-index.xml', (req, res) => {
     return res.sendFile(staticIndex);
   }
 
-  // Fallback: build a simple sitemap-index pointing to /sitemap.xml
-  const indexXml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap>\n    <loc>${BASE}/sitemap.xml</loc>\n  </sitemap>\n</sitemapindex>`;
+  const sitemapFiles = fs.existsSync(DIST)
+    ? fs.readdirSync(DIST).filter(file => file !== 'sitemap-index.xml' && file.endsWith('.xml') && file.startsWith('sitemap')).sort()
+    : [];
+
+  const sitemapEntries = sitemapFiles.length > 0
+    ? sitemapFiles.map(file => `  <sitemap>\n    <loc>${BASE}/${file}</loc>\n  </sitemap>`).join('\n')
+    : `  <sitemap>\n    <loc>${BASE}/sitemap.xml</loc>\n  </sitemap>`;
+
+  const indexXml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries}\n</sitemapindex>`;
   res.set('Content-Type', 'application/xml; charset=utf-8');
   res.send(indexXml);
 });
@@ -153,10 +160,12 @@ Allow: /
 // ─── 9. Dynamic sitemap.xml ────────────────────────────────────────────────
 // SEO FIX: Build sitemap routes from source data rather than a fixed list.
 // This ensures city and timezone routes stay up to date with the data layer.
-function parseTopLevelObjectKeys(filePath, exportName) {
+function parseTopLevelObjectKeys(filePath, objectName) {
   if (!fs.existsSync(filePath)) return [];
   const text = fs.readFileSync(filePath, 'utf8');
-  const marker = `export const ${exportName}`;
+  const marker = text.indexOf(`const ${objectName}`) !== -1
+    ? `const ${objectName}`
+    : `export const ${objectName}`;
   const start = text.indexOf(marker);
   if (start === -1) return [];
   const braceStart = text.indexOf('{', start);
@@ -296,6 +305,31 @@ function getTimezoneRoutePaths() {
   return ['@timezone-index@', ...keys.sort().map(key => `/timezone/${key}`)];
 }
 
+function getTimeDifferenceSlugs() {
+  const slugFile = path.join(__dirname, 'apps/web/src/pages/TimeDifferencePairPage.jsx');
+  return parseTopLevelObjectKeys(slugFile, 'SLUG_TO_ID').sort();
+}
+
+const TIME_DIFFERENCE_SLUGS = new Set(getTimeDifferenceSlugs());
+
+function tryParseTimeDifferencePair(pair) {
+  if (!pair) return null;
+
+  if (pair.includes('-and-')) {
+    const [left, right] = pair.split('-and-');
+    if (TIME_DIFFERENCE_SLUGS.has(left) && TIME_DIFFERENCE_SLUGS.has(right)) return [left, right];
+    return null;
+  }
+
+  const parts = pair.split('-');
+  for (let i = 1; i < parts.length; i++) {
+    const left = parts.slice(0, i).join('-');
+    const right = parts.slice(i).join('-');
+    if (TIME_DIFFERENCE_SLUGS.has(left) && TIME_DIFFERENCE_SLUGS.has(right)) return [left, right];
+  }
+  return null;
+}
+
 function uniqueRoutes(routes) {
   const seen = new Set();
   return routes.filter(route => {
@@ -317,6 +351,9 @@ const CORE_ROUTES = [
   { path: "/countdown",                  priority: "0.7", changefreq: "monthly" },
   { path: "/date-calculator",            priority: "0.7", changefreq: "monthly" },
   { path: "/work-hours-calculator",      priority: "0.7", changefreq: "monthly" },
+  { path: "/world-clock-widget",         priority: "0.6", changefreq: "monthly" },
+  { path: "/embed/world-clock",          priority: "0.4", changefreq: "monthly" },
+  { path: "/contact-us",                 priority: "0.3", changefreq: "yearly" },
   { path: "/timezone",                   priority: "0.8", changefreq: "weekly"  },
 ];
 
@@ -457,6 +494,28 @@ const META = {
     canonical: `${BASE}/work-hours-calculator`,
     h1: "Work Hours Calculator",
   },
+  "/world-clock-widget": {
+    title: "Free World Clock Widget — Embed on Any Website | MyZoneTime",
+    description: "Add a free embeddable world clock widget to your website. Display live local time for multiple cities with a simple copy-paste iframe.",
+    canonical: `${BASE}/world-clock-widget`,
+    h1: "World Clock Widget",
+    schema: JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'World Clock Widget — Free Embeddable Clock',
+      url: `${BASE}/world-clock-widget`,
+      description: 'Free embeddable world clock widget for any website. Copy-paste HTML iframe. Shows live time for multiple cities.',
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'All',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    }),
+  },
+  "/contact-us": {
+    title: "Contact Us — Queries & Suggestions | MyZoneTime",
+    description: "Have a question, suggestion or found a bug? Contact the MyZoneTime team. We reply within 48 hours.",
+    canonical: `${BASE}/contact-us`,
+    h1: "Contact Us",
+  },
   // City pages — unique titles/descriptions per city (SEO FIX: prevents duplicate content)
   "/dubai": {
     title: "Current Time in Dubai — Dubai Clock, UTC+4 | MyZoneTime",
@@ -526,6 +585,21 @@ const META = {
     canonical: `${BASE}/terms-of-service`,
     noindex: false,
   },
+  "/404": {
+    title: "Page Not Found | MyZoneTime",
+    description: "The page you requested does not exist. Explore MyZoneTime tools like world clock, timezone converter, and meeting planner.",
+    canonical: `${BASE}/404`,
+    noindex: true,
+    h1: "Page Not Found",
+  },
+  "/embed/world-clock": {
+    title: "Embed World Clock — MyZoneTime",
+    description: "Embed a free live world clock widget on your website. Copy-paste HTML iframe code and show current time for multiple cities instantly.",
+    canonical: `${BASE}/embed/world-clock`,
+    noindex: true,
+    nofollow: true,
+    h1: "Embed World Clock",
+  },
 };
 
 function citySchema(city, location, timezone, country) {
@@ -549,7 +623,7 @@ function citySchema(city, location, timezone, country) {
 
 const INDEX_HTML_PATH = path.join(DIST, "index.html");
 
-function renderHtml(routePath) {
+function renderHtml(routePath, { noindex = false } = {}) {
   if (!fs.existsSync(INDEX_HTML_PATH)) {
     return "<html><body><h1>Build not found. Run npm run build.</h1></body></html>";
   }
@@ -559,6 +633,11 @@ function renderHtml(routePath) {
     description: "Free online world clock, time zone converter, and time tools.",
     canonical:   `${BASE}${routePath}`,
   };
+
+  if (noindex) {
+    meta.noindex = true;
+  }
+
   // Dynamic meta generation for routes not present in the static META map
   if (!META[routePath]) {
     // Helper: turn 'new-york' -> 'New York'
@@ -566,8 +645,9 @@ function renderHtml(routePath) {
 
     if (routePath.startsWith('/time-difference/')) {
       const tail = routePath.replace('/time-difference/', '');
-      const parts = tail.split('-and-').map(p => formatSlug(p.replace(/\//g, '')));
-      if (parts.length === 2) {
+      const pair = tryParseTimeDifferencePair(tail);
+      if (pair) {
+        const parts = pair.map(p => formatSlug(p.replace(/\//g, '')));
         meta.title = `Time difference between ${parts[0]} and ${parts[1]} — ${SITE_NAME}`;
         meta.description = `Calculate the time difference between ${parts[0]} and ${parts[1]}. Convert times, plan meetings, and see local offsets instantly.`;
         meta.canonical = `${BASE}${routePath}`;
@@ -602,11 +682,25 @@ function renderHtml(routePath) {
     }
   }
 
-  const ogImage = `${BASE}/favicon.svg`;
+  if (noindex && !META[routePath]) {
+    meta.title = `Page Not Found — ${SITE_NAME}`;
+    meta.description =
+      'The page you requested does not exist. Explore MyZoneTime tools like world clock, timezone converter, and meeting planner.';
+    meta.schema = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: meta.title,
+      description: meta.description,
+      url: meta.canonical,
+    });
+  }
+
+  const ogImage = `${BASE}/og-image.svg`;
   const h1Tag   = meta.h1 ? `<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">${meta.h1}</h1>` : "";
-  const robotsMeta = meta.noindex
-    ? `<meta name="robots" content="noindex, follow" />`
-    : `<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />`;
+  const robotsValue = meta.noindex
+    ? `noindex${meta.nofollow ? ', nofollow' : ', follow'}`
+    : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
+  const robotsMeta = `<meta name="robots" content="${robotsValue}" />`;
 
   const schemaTag = meta.schema
     ? `<script type="application/ld+json">${meta.schema}</script>`
@@ -621,12 +715,20 @@ function renderHtml(routePath) {
     <meta property="og:description" content="${meta.description}" />
     <meta property="og:url" content="${meta.canonical}" />
     <meta property="og:image" content="${ogImage}" />
+    <meta property="og:image:alt" content="Share preview for ${SITE_NAME}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="${SITE_NAME}" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@myzonetime" />
+    <meta name="twitter:creator" content="@myzonetime" />
     <meta name="twitter:title" content="${meta.title}" />
     <meta name="twitter:description" content="${meta.description}" />
     <meta name="twitter:image" content="${ogImage}" />
+    <meta name="twitter:image:alt" content="Share preview for ${SITE_NAME}" />
+    <meta name="theme-color" content="#0EA5E9" />
     ${schemaTag}`;
 
   let html = fs.readFileSync(INDEX_HTML_PATH, "utf8");
@@ -652,14 +754,42 @@ app.use(express.static(DIST, {
 
 // ─── 14. SPA catch-all (SSR meta injection per route) ──────────────────────
 const KNOWN_ROUTES = new Set(ROUTES.map(r => r.path));
-const SPA_ROUTE_PATTERNS = [
-  /^\/(?:converter|newyork|abudhabi|world_clock|contact-us|timezone(?:\/.*)?|time-difference(?:\/.*)?|embed\/world-clock|world-clock-widget|404)$/, 
-  /^\/[a-z0-9-]+$/,
-];
+const LEGACY_ROUTE_REDIRECTS = new Map([
+  ['/converter', '/timezone-converter'],
+  ['/newyork', '/new-york'],
+  ['/abudhabi', '/abu-dhabi'],
+  ['/world_clock', '/world-clock'],
+]);
+const LEGACY_ROUTE_PATHS = new Set([
+  '/converter',
+  '/newyork',
+  '/abudhabi',
+  '/world_clock',
+]);
+const TIME_DIFFERENCE_ROUTE_REGEX = /^\/time-difference\/[a-z0-9-]+$/;
+
+app.use((req, res, next) => {
+  const routePath = req.path.replace(/\/$/, "") || "/";
+  const redirectTo = LEGACY_ROUTE_REDIRECTS.get(routePath);
+  if (redirectTo && redirectTo !== routePath) {
+    return res.redirect(301, redirectTo);
+  }
+
+  if (TIME_DIFFERENCE_ROUTE_REGEX.test(routePath) && !routePath.includes('-and-')) {
+    const pair = routePath.replace('/time-difference/', '');
+    const parsed = tryParseTimeDifferencePair(pair);
+    if (parsed) {
+      return res.redirect(301, `/time-difference/${parsed[0]}-and-${parsed[1]}`);
+    }
+  }
+
+  next();
+});
 
 function isKnownRoute(pathname) {
-  if (KNOWN_ROUTES.has(pathname)) return true;
-  return SPA_ROUTE_PATTERNS.some(pattern => pattern.test(pathname));
+  return KNOWN_ROUTES.has(pathname)
+    || LEGACY_ROUTE_PATHS.has(pathname)
+    || (TIME_DIFFERENCE_ROUTE_REGEX.test(pathname) && Boolean(tryParseTimeDifferencePair(pathname.replace('/time-difference/', ''))));
 }
 
 app.get("*", (req, res) => {
@@ -676,7 +806,7 @@ app.get("*", (req, res) => {
   res.set("Link", `<${canonical}>; rel="canonical"`);
   res.set("Content-Type", "text/html; charset=utf-8");
   res.set("Cache-Control", isKnown ? "public, s-maxage=300, stale-while-revalidate=86400" : "no-store");
-  res.send(renderHtml(routePath));
+  res.send(renderHtml(routePath, { noindex: !isKnown }));
 });
 
 // ─── 15. Start server ──────────────────────────────────────────────────────

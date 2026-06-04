@@ -101,14 +101,14 @@ export default function CountdownPage() {
         <meta name="description" content="Create custom countdown timers for events, holidays, and important dates. Track days, hours, and minutes remaining." />
         <meta property="og:title" content="Countdown Timer — Days Until Event | MyZoneTime" />
         <meta property="og:description" content="Create custom countdown timers for events, holidays, and important dates. Track days, hours, and minutes remaining." />
-        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Countdown Timer | MyZoneTime" />
         <meta name="twitter:description" content="Create custom countdown timers for events, holidays, and important dates. Track days, hours, and minutes remaining." />
-        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/countdown" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />
