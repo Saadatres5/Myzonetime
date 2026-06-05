@@ -4,27 +4,15 @@ import { Clock, ArrowRightLeft, Lightbulb } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
-import { useWorldCitiesData } from '@/hooks/useWorldCitiesData.js';
+import { citiesData } from '@/data/citiesData.js';
 import { useLocalTime } from '@/hooks/useLocalTime.js';
 
 export default function TimeDifferenceCalculatorPage() {
-  const { citiesData, loading } = useWorldCitiesData();
   const [city1Id, setCity1Id] = useState('lon');
   const [city2Id, setCity2Id] = useState('dxb');
 
-  if (loading) {
-    return (
-      <main className="flex-1 w-full bg-background text-foreground">
-        <div className="container mx-auto px-4 py-20 text-center">
-          <p className="text-lg font-medium">Loading city data…</p>
-          <p className="text-sm text-muted-foreground mt-2">Preparing the time difference calculator for 500+ cities.</p>
-        </div>
-      </main>
-    );
-  }
-
-  const city1 = (citiesData || []).find(c => c.id === city1Id) || (citiesData?.[0] || { id: 'lon', name: 'London', country: 'United Kingdom', timezone: 'Europe/London' });
-  const city2 = (citiesData || []).find(c => c.id === city2Id) || (citiesData?.[1] || { id: 'dxb', name: 'Dubai', country: 'United Arab Emirates', timezone: 'Asia/Dubai' });
+  const city1 = citiesData.find(c => c.id === city1Id) || citiesData[0];
+  const city2 = citiesData.find(c => c.id === city2Id) || citiesData[1];
 
   const { time: time1, formatTime: formatTime1 } = useLocalTime(city1.timezone);
   const { time: time2, formatTime: formatTime2 } = useLocalTime(city2.timezone);
@@ -75,14 +63,14 @@ export default function TimeDifferenceCalculatorPage() {
         <meta name="description" content="Calculate the exact time difference between any two cities. Free time difference calculator with meeting window suggestions for remote teams." />
         <meta property="og:title" content="Time Difference Calculator | MyZoneTime" />
         <meta property="og:description" content="Find the exact time difference between any two cities. Get meeting window suggestions instantly." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Time Difference Calculator | MyZoneTime" />
         <meta name="twitter:description" content="Calculate the exact time difference between any two cities globally." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
       <CanonicalTag pathname="/time-difference" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />

@@ -1,14 +1,59 @@
-# MyZoneTime Robots.txt
+# MyZoneTime — robots.txt
 # https://myzonetime.com
 
 User-agent: *
 Allow: /
-
-# Crawl budget protection
-Disallow: /*?*
-Disallow: /health
 Disallow: /api/
 
-# Sitemaps
-Sitemap: https://myzonetime.com/sitemap.xml
+# Allow all major AI crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Googlebot-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# Block SEO scrapers (saves crawl budget)
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# Sitemap index (references all sub-sitemaps)
 Sitemap: https://myzonetime.com/sitemap-index.xml

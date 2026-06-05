@@ -1,14 +1,11 @@
-# MyZoneTime Robots.txt
+# MyZoneTime — robots.txt
 # https://myzonetime.com
 
 User-agent: *
 Allow: /
-
-# Block non-public paths
 Disallow: /api/
-Disallow: /world-clock?search=
 
-# AI Crawlers (Allowed)
+# Allow all major AI crawlers
 User-agent: GPTBot
 Allow: /
 
@@ -24,7 +21,7 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: cohere-ai
+User-agent: Googlebot-Extended
 Allow: /
 
 User-agent: Applebot
@@ -33,26 +30,10 @@ Allow: /
 User-agent: Amazonbot
 Allow: /
 
-# Social Crawlers (Allowed)
-User-agent: FacebookExternalHit
+User-agent: cohere-ai
 Allow: /
 
-User-agent: Twitterbot
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /
-
-User-agent: WhatsApp
-Allow: /
-
-User-agent: Slackbot
-Allow: /
-
-User-agent: Discordbot
-Allow: /
-
-# Block SEO Scrapers
+# Block SEO scrapers (saves crawl budget)
 User-agent: AhrefsBot
 Disallow: /
 
@@ -71,5 +52,8 @@ Disallow: /
 User-agent: DataForSeoBot
 Disallow: /
 
-# Sitemaps — use the sitemap index to avoid duplicate URLs
+User-agent: BLEXBot
+Disallow: /
+
+# Sitemap index (references all sub-sitemaps)
 Sitemap: https://myzonetime.com/sitemap-index.xml

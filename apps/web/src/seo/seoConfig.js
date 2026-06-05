@@ -230,9 +230,9 @@ export const SEO = {
 
   // ─── CITY PAGES ────────────────────────────────────────────────────────────
   '/dubai': {
-    title: 'Dubai Time Now — Current UAE Time in Dubai (UTC+4) | MyZoneTime',
+    title: 'Current Time in Dubai — UAE (UTC+4) | MyZoneTime',
     description:
-      'Dubai time now — live UAE time, time dubai, and current time in Dubai. Dubai uses Gulf Standard Time (UTC+4) with no daylight saving. Convert Dubai time to any world city.',
+      'Live current time in Dubai, United Arab Emirates (UTC+4, Gulf Standard Time). Dubai does not observe daylight saving time. Convert Dubai time to any world city.',
     canonical: 'https://myzonetime.com/dubai',
     ogType: 'website',
     cityData: {
@@ -247,9 +247,9 @@ export const SEO = {
     structuredData: {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      name: 'Dubai Time Now — Current UAE Time',
+      name: 'Current Time in Dubai, UAE',
       url: 'https://myzonetime.com/dubai',
-      description: 'Live Dubai time now and UAE time in Dubai. Accurate current time in Dubai with Gulf Standard Time (UTC+4).',
+      description: 'Live clock and time zone information for Dubai, United Arab Emirates (UTC+4).',
       about: {
         '@type': 'City',
         name: 'Dubai',

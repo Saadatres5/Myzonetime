@@ -16,7 +16,6 @@ import { Link } from 'react-router-dom';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import AdSenseAd, { AD_SLOTS } from '@/components/AdSenseAd.jsx';
 import { useLocalTime } from '@/hooks/useLocalTime.js';
 import { Clock, MapPin, Globe2, ArrowRightLeft } from 'lucide-react';
@@ -103,7 +102,7 @@ export default function Istanbul() {
         <meta name="description" content="Live clock for Istanbul, Turkey. Turkey Time (TRT), UTC+3. No daylight saving since 2016. Current time, weather, business hours, and best time to call Istanbul." />
         <meta property="og:title" content="Current Time in Istanbul, Turkey — UTC+3 | MyZoneTime" />
         <meta property="og:description" content="Live clock for Istanbul. Turkey Time (TRT), UTC+3 year-round. No DST since 2016." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Current Time in Istanbul, Turkey | MyZoneTime" />
         <meta name="twitter:description" content="Live clock for Istanbul. Turkey Time (TRT), UTC+3. No daylight saving." />
@@ -268,7 +267,6 @@ export default function Istanbul() {
         <AdSenseAd slot={AD_SLOTS.TOOL_INLINE} format="auto" minHeight={90} />
       </div>
 
-      <TimezoneAuthoritySection cityName="Istanbul" timezoneKey="trt" />
       {/* ── FAQ ── */}
       <FAQSection faqs={faqs} />
 
@@ -295,4 +293,3 @@ export default function Istanbul() {
     </main>
   );
 }
-

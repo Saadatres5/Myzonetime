@@ -63,14 +63,14 @@ export default function StopwatchPage() {
         <meta name="description" content="Free online stopwatch with millisecond precision. Perfect for timing workouts, races, and productivity sessions." />
         <meta property="og:title" content="Online Stopwatch — Free Accurate Timer | MyZoneTime" />
         <meta property="og:description" content="Free online stopwatch with millisecond precision. Perfect for timing workouts, races, and productivity sessions." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Stopwatch | MyZoneTime" />
         <meta name="twitter:description" content="Precision online stopwatch with lap tracking." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
       <CanonicalTag pathname="/stopwatch" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />

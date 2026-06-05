@@ -4,37 +4,63 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SSR meta tags injected by server/index.js go here -->
+  <!-- Default SEO (overridden per-page by react-helmet-async) -->
+  <title>World Clock &amp; Time Zone Converter — Free | MyZoneTime</title>
+  <meta name="description" content="Free world clock showing live time in 500+ cities. Time zone converter, meeting planner, Hijri calendar, and work hours calculator. No signup needed." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
-  <!-- Theme color & PWA -->
-  <meta name="theme-color" content="#0EA5E9" />
-  <meta name="application-name" content="MyZoneTime" />
-  <meta name="author" content="MyZoneTime" />
-  <meta http-equiv="content-language" content="en" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="format-detection" content="telephone=no" />
+  <!-- Canonical (overridden per-page) -->
+  <link rel="canonical" href="https://myzonetime.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:site_name"   content="MyZoneTime" />
+  <meta property="og:locale"      content="en_US" />
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://myzonetime.com/" />
+  <meta property="og:title"       content="World Clock &amp; Time Zone Converter — Free | MyZoneTime" />
+  <meta property="og:description" content="Free world clock for 500+ cities. Time zone converter, meeting planner, Hijri calendar. No signup." />
+  <meta property="og:image"       content="https://myzonetime.com/og-image.svg" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt"    content="MyZoneTime — World Clock and Time Zone Tools" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@myzonetime" />
+  <meta name="twitter:creator"     content="@myzonetime" />
+  <meta name="twitter:title"       content="World Clock &amp; Time Zone Converter | MyZoneTime" />
+  <meta name="twitter:description" content="Free world clock for 500+ cities. Time zone converter, meeting planner, Hijri calendar." />
+  <meta name="twitter:image"       content="https://myzonetime.com/og-image.svg" />
+
+  <!-- Theme / PWA -->
+  <meta name="theme-color"                        content="#0EA5E9" />
+  <meta name="application-name"                   content="MyZoneTime" />
+  <meta name="author"                             content="MyZoneTime" />
+  <meta http-equiv="content-language"             content="en" />
+  <meta name="apple-mobile-web-app-capable"       content="yes" />
+  <meta name="mobile-web-app-capable"             content="yes" />
+  <meta name="format-detection"                   content="telephone=no" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="MyZoneTime" />
+  <meta name="apple-mobile-web-app-title"         content="MyZoneTime" />
+  <meta name="google-adsense-account"             content="ca-pub-1017873487030471" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
+  <!-- Favicon + manifest -->
+  <link rel="icon"             type="image/svg+xml"  href="/favicon.svg" />
+  <link rel="manifest"         href="/manifest.json" />
+  <link rel="apple-touch-icon" sizes="180x180"      href="/favicon.svg" />
+  <link rel="mask-icon"        href="/favicon.svg"   color="#0EA5E9" />
 
-  <!-- DNS prefetch / preconnect for third-party origins -->
+  <!-- Preconnect critical origins -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://api.open-meteo.com" />
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-  <link rel="dns-prefetch" href="//images.unsplash.com" />
+  <link rel="dns-prefetch" href="//api.open-meteo.com" />
   <link rel="dns-prefetch" href="//googleads.g.doubleclick.net" />
   <link rel="dns-prefetch" href="//adservice.google.com" />
 
-  <!-- Non-blocking font load -->
+  <!-- Non-blocking font load (avoids render-blocking) -->
   <link
-    rel="preload"
-    as="style"
+    rel="preload" as="style"
     href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
   />
   <link
@@ -44,61 +70,58 @@
     onload="this.media='all'"
   />
   <noscript>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
   </noscript>
 
-  <!-- Google AdSense account verification -->
-  <meta name="google-adsense-account" content="ca-pub-1017873487030471" />
-
   <!-- Google AdSense — async, non-blocking -->
-  <script
-    async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1017873487030471"
-    crossorigin="anonymous"
-  ></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1017873487030471" crossorigin="anonymous"></script>
 
-</head>
-<body>
-  <!-- Skip to content — WCAG 2.1 AA compliance -->
-  <a
-    href="#main-content"
-    style="
-      position: absolute;
-      left: -9999px;
-      top: 4px;
-      z-index: 9999;
-      background: #0EA5E9;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-    "
-    onfocus="this.style.left='16px'"
-    onblur="this.style.left='-9999px'"
-  >
-    Skip to main content
-  </a>
-
-  <!-- SSR_H1_INJECT -->
-
-  <div id="root"></div>
-
+  <!-- Organization schema (static, always present) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "MyZoneTime",
     "url": "https://myzonetime.com",
-    "logo": "https://myzonetime.com/favicon.svg",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://myzonetime.com/favicon.svg",
+      "width": 512,
+      "height": 512
+    },
+    "description": "Free world clock and time zone tools for global teams — converter, meeting planner, Hijri calendar, and more.",
     "sameAs": []
   }
   </script>
 
+  <!-- WebSite schema with SearchAction -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "MyZoneTime",
+    "url": "https://myzonetime.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://myzonetime.com/world-clock?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- Skip to content — WCAG 2.1 AA -->
+  <a
+    href="#main-content"
+    style="position:absolute;left:-9999px;top:4px;z-index:9999;background:#0EA5E9;color:white;padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;"
+    onfocus="this.style.left='16px'"
+    onblur="this.style.left='-9999px'"
+  >Skip to main content</a>
+
+  <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

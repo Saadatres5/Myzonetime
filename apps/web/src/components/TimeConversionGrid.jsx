@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocalTime } from '@/hooks/useLocalTime.js';
 import { isWorkingHours, isSleepHours } from '@/utils/getTimeOfDay.js';
 import { getUTCOffset } from '@/utils/getUTCOffset.js';
-import { citiesData } from '@/data/worldCitiesData.js';
+import { citiesData } from '@/data/citiesData.js';
 import { useGeolocation } from '@/hooks/useGeolocation.js';
 import { isIslamicCountry } from '@/utils/islamicCountries.js';
 import IslamicDateDisplay from '@/components/IslamicDateDisplay.jsx';

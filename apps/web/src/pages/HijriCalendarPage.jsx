@@ -75,14 +75,14 @@ export default function HijriCalendarPage() {
         <meta name="description" content="Check today's Islamic (Hijri) date. Free Hijri calendar converter with Gregorian comparison. Perfect for Muslims and GCC region users." />
         <meta property="og:title" content="Islamic / Hijri Date Today | MyZoneTime" />
         <meta property="og:description" content="Today's Hijri date with Islamic calendar explanation and Gregorian comparison table." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Hijri Calendar | MyZoneTime" />
         <meta name="twitter:description" content="View today's Hijri date, understand the Islamic calendar system, and compare Gregorian and Hijri months." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
       <CanonicalTag />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />

@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import AdSenseAd, { AD_SLOTS } from '@/components/AdSenseAd.jsx';
 import { useLocalTime } from '@/hooks/useLocalTime.js';
 import { Globe2, ArrowRightLeft, MapPin } from 'lucide-react';
@@ -91,7 +90,7 @@ export default function Bangkok() {
         <meta name="description" content="Live clock for Bangkok, Thailand. Indochina Time (ICT), UTC+7. No daylight saving. Current time, weather, business hours, and best time to call Bangkok." />
         <meta property="og:title" content="Current Time in Bangkok, Thailand — UTC+7 | MyZoneTime" />
         <meta property="og:description" content="Live clock for Bangkok. Indochina Time (ICT), UTC+7. No DST." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="geo.region" content="TH-10" />
         <meta name="geo.placename" content="Bangkok, Thailand" />
@@ -198,7 +197,6 @@ export default function Bangkok() {
         <AdSenseAd slot={AD_SLOTS.TOOL_INLINE} format="auto" minHeight={90} />
       </div>
 
-      <TimezoneAuthoritySection cityName="Bangkok" timezoneKey="ict" />
       <FAQSection faqs={faqs} />
 
       <section className="py-12 border-t border-border/40">
@@ -221,4 +219,3 @@ export default function Bangkok() {
     </main>
   );
 }
-

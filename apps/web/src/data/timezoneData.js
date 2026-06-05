@@ -130,38 +130,6 @@ export const TIMEZONE_DATA = {
     relatedCities: ['dubai', 'abu-dhabi', 'muscat'],
   },
 
-  ast: {
-    abbr: 'AST', fullName: 'Arabia Standard Time', offset: '+3:00', utcLabel: 'UTC+3',
-    ianaTz: 'Asia/Riyadh', dst: false,
-    countries: ['Saudi Arabia', 'Qatar', 'Bahrain', 'Kuwait', 'Yemen'],
-    cities: ['Riyadh', 'Doha', 'Manama', 'Kuwait City', 'Sana\'a'],
-    description: 'Arabia Standard Time (AST) is UTC+3 and is used year-round across Saudi Arabia, Qatar, Bahrain, Kuwait, and Yemen. Riyadh keeps the same offset all year without daylight saving time, making it a stable reference point for Middle East scheduling and international call planning.',
-    faqs: [
-      { q: 'What is Arabia Standard Time (AST)?', a: 'AST is UTC+3, observed year-round in Saudi Arabia, Qatar, Bahrain, Kuwait, and Yemen. It does not observe daylight saving time.' },
-      { q: 'Does Riyadh observe daylight saving time?', a: 'No. Riyadh stays on UTC+3 year-round under Arabia Standard Time (AST), so the clock does not change seasonally.' },
-      { q: 'What is the time difference between AST and GMT?', a: 'AST (UTC+3) is 3 hours ahead of GMT (UTC+0). When it is 12:00 PM in London during winter, it is 3:00 PM in Riyadh.' },
-      { q: 'What is the time difference between AST and GST?', a: 'AST (UTC+3) is 1 hour behind Gulf Standard Time (GST, UTC+4) observed in Dubai and Abu Dhabi.' },
-    ],
-    relatedTimezones: ['msk', 'gst', 'cet', 'utc'],
-    relatedCities: ['riyadh', 'doha', 'bahrain', 'kuwait-city'],
-  },
-
-  ict: {
-    abbr: 'ICT', fullName: 'Indochina Time', offset: '+7:00', utcLabel: 'UTC+7',
-    ianaTz: 'Asia/Bangkok', dst: false,
-    countries: ['Thailand', 'Vietnam', 'Cambodia', 'Laos'],
-    cities: ['Bangkok', 'Hanoi', 'Phnom Penh', 'Vientiane'],
-    description: 'Indochina Time (ICT) is UTC+7 and is used year-round by Thailand, Vietnam, Cambodia, and Laos. There is no daylight saving time in these countries, making Bangkok a reliable reference for scheduling across Southeast Asia.',
-    faqs: [
-      { q: 'What is Indochina Time (ICT)?', a: 'ICT is UTC+7, used year-round by Thailand, Vietnam, Cambodia, and Laos. These countries do not observe daylight saving time.' },
-      { q: 'Does Bangkok observe daylight saving time?', a: 'No. Bangkok uses ICT year-round at UTC+7 without any seasonal clock changes.' },
-      { q: 'What is the time difference between ICT and GST?', a: 'ICT (UTC+7) is 3 hours ahead of GST (UTC+4) used in Dubai and Abu Dhabi.' },
-      { q: 'What is the time difference between ICT and SGT?', a: 'ICT (UTC+7) is 1 hour behind SGT (UTC+8), which is used in Singapore and Kuala Lumpur.' },
-    ],
-    relatedTimezones: ['sgt', 'jst', 'gst', 'cet'],
-    relatedCities: ['bangkok', 'hanoi', 'phnom-penh', 'vientiane'],
-  },
-
   cet: {
     abbr: 'CET', fullName: 'Central European Time', offset: '+1:00', utcLabel: 'UTC+1',
     ianaTz: 'Europe/Paris', dst: false,
@@ -254,22 +222,6 @@ export const TIMEZONE_DATA = {
     ],
     relatedTimezones: ['ast', 'eet', 'gst', 'gmt'],
     relatedCities: ['moscow', 'istanbul', 'saint-petersburg'],
-  },
-
-  trt: {
-    abbr: 'TRT', fullName: 'Turkey Time', offset: '+3:00', utcLabel: 'UTC+3',
-    ianaTz: 'Europe/Istanbul', dst: false,
-    countries: ['Turkey'],
-    cities: ['Istanbul', 'Ankara', 'Izmir', 'Antalya'],
-    description: 'Turkey Time (TRT) is UTC+3 year-round. Turkey stopped observing daylight saving time in 2016, and Istanbul now uses the same offset every day of the year. TRT aligns Turkey with much of the Middle East and western Russia while staying one hour ahead of Central European Time in summer.',
-    faqs: [
-      { q: 'What is Turkey Time (TRT)?', a: 'TRT is UTC+3 year-round and is used across Turkey. Turkey abandoned daylight saving time in 2016, so local clocks remain fixed at UTC+3 throughout the year.' },
-      { q: 'Does Istanbul observe daylight saving time?', a: 'No. Istanbul uses Turkey Time (TRT) year-round at UTC+3. The country stopped changing clocks in 2016.' },
-      { q: 'What is the time difference between TRT and CET?', a: 'TRT (UTC+3) is 1 hour ahead of CET (UTC+1) in winter and 2 hours ahead of CET during Central European Summer Time (CEST, UTC+2).' },
-      { q: 'What is the time difference between TRT and GST?', a: 'TRT (UTC+3) is 1 hour behind GST (UTC+4), which is used in Dubai and Abu Dhabi.' },
-    ],
-    relatedTimezones: ['msk', 'ast', 'gst', 'cet'],
-    relatedCities: ['istanbul', 'ankara', 'izmir', 'antalya'],
   },
 };
 

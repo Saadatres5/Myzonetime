@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -57,14 +56,14 @@ export default function NewYork() {
         <meta property="og:url" content="https://myzonetime.com/new-york" />
         <meta property="og:title" content="New York Time — Live Clock EST/EDT | MyZoneTime" />
         <meta property="og:description" content="Live time in New York City. EST (UTC−5) in winter, EDT (UTC−4) in summer. NYSE hours, DST schedule and time differences to London, LA and Dubai." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="New York Time — EST/EDT Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in New York. EST in winter, EDT in summer. Time differences to London, LA and Dubai." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
       </Helmet>
       <CanonicalTag pathname="/new-york" />
       <StructuredData schema={schema} />
@@ -75,11 +74,9 @@ export default function NewYork() {
         pathname="/new-york"
         description="New York City operates on Eastern Time (ET), shifting between EST (UTC−5) in winter and EDT (UTC−4) in summer. Home to the New York Stock Exchange and the world's largest financial market, New York's clock sets the pace for the US trading day and is the critical overlap point between European and American business hours."
       >
-        <TimezoneAuthoritySection cityName="New York" timezoneKey="est" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="New York" relatedCity="London" />
       </CityPage>
     </>
   );
 }
-
