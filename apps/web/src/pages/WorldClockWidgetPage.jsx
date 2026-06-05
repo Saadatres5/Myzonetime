@@ -71,13 +71,13 @@ export default function WorldClockWidgetPage() {
         <meta name="description" content="Add a free embeddable world clock widget to your website. Display live local time for multiple cities with a simple copy-paste HTML snippet. No coding required." />
         <meta property="og:title" content="Free World Clock Widget — Embed on Any Website | MyZoneTime" />
         <meta property="og:description" content="Free embeddable world clock widget. Add live time display for multiple cities to your website with easy copy-paste HTML code." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Free World Clock Widget — Embed on Any Website | MyZoneTime" />
         <meta name="twitter:description" content="Free embeddable world clock widget for your website or blog. Copy-paste HTML code, no signup required." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
       <CanonicalTag pathname="/world-clock-widget" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />
@@ -240,4 +240,3 @@ export default function WorldClockWidgetPage() {
     </main>
   );
 }
-

@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -57,14 +56,14 @@ export default function Riyadh() {
         <meta property="og:url" content="https://myzonetime.com/riyadh" />
         <meta property="og:title" content="Riyadh Time — Live Clock AST UTC+3 | MyZoneTime" />
         <meta property="og:description" content="Live time in Riyadh, Saudi Arabia. AST (UTC+3), no daylight saving. Saudi business hours and time differences to London, Dubai and New York." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Riyadh Time — AST Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in Riyadh. AST (UTC+3), never changes. Time differences to London, Dubai and New York." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
       </Helmet>
       <CanonicalTag pathname="/riyadh" />
       <StructuredData schema={schema} />
@@ -75,11 +74,9 @@ export default function Riyadh() {
         pathname="/riyadh"
         description="Riyadh, the capital of Saudi Arabia, operates on Arabia Standard Time (AST, UTC+3) all year with no daylight saving adjustments. As the political and economic capital of the Arab world's largest economy and home to Saudi Aramco headquarters, Riyadh's fixed clock is a key reference point for energy markets, Islamic finance and Gulf region business scheduling."
       >
-        <TimezoneAuthoritySection cityName="Riyadh" timezoneKey="ast" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Riyadh" relatedCity="Dubai" />
       </CityPage>
     </>
   );
 }
-

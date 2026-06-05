@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -57,14 +56,14 @@ export default function London() {
         <meta property="og:url" content="https://myzonetime.com/london" />
         <meta property="og:title" content="London Time — Live Clock GMT/BST | MyZoneTime" />
         <meta property="og:description" content="Live time in London, UK. GMT (UTC+0) in winter, BST (UTC+1) in summer. DST schedule, business hours and time differences to New York, Dubai and Sydney." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="London Time — GMT/BST Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in London. GMT in winter, BST in summer. Time differences to NY, Dubai, Sydney." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
       </Helmet>
       <CanonicalTag pathname="/london" />
       <StructuredData schema={schema} />
@@ -75,11 +74,9 @@ export default function London() {
         pathname="/london"
         description="London operates on Greenwich Mean Time (GMT, UTC+0) in winter and British Summer Time (BST, UTC+1) from late March to late October. As the financial capital of Europe and home to the London Stock Exchange, it sets the rhythm for global markets between New York and Tokyo trading sessions."
       >
-        <TimezoneAuthoritySection cityName="London" timezoneKey="gmt" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="London" relatedCity="New York" />
       </CityPage>
     </>
   );
 }
-

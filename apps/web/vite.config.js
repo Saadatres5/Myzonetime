@@ -23,33 +23,45 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info'],
       },
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': [
-            '@radix-ui/react-dialog',
-            '@radix-ui/react-select',
-            '@radix-ui/react-tabs',
-            '@radix-ui/react-toast',
-            '@radix-ui/react-tooltip',
-            'class-variance-authority',
-            'clsx',
-            'tailwind-merge',
-          ],
-          'vendor-icons': ['lucide-react'],
-          'vendor-helmet': ['react-helmet-async'],
-          'vendor-charts': ['recharts'],
-          'seo-city-data': ['./src/data/cityPageData.js'],
-          'seo-timezone-data': ['./src/data/timezoneData.js'],
+        manualChunks(id) {
+          // Vendor splitting
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('node_modules/react-router-dom/')) {
+            return 'vendor-react';
+          }
+          if (id.includes('node_modules/lucide-react')) {
+            return 'vendor-icons';
+          }
+          if (id.includes('node_modules/react-helmet-async')) {
+            return 'vendor-helmet';
+          }
+          if (id.includes('node_modules/recharts')) {
+            return 'vendor-charts';
+          }
+          if (
+            id.includes('@radix-ui') ||
+            id.includes('class-variance-authority') ||
+            id.includes('clsx') ||
+            id.includes('tailwind-merge')
+          ) {
+            return 'vendor-ui';
+          }
+          // SEO data chunks (loaded lazily by their pages)
+          if (id.includes('src/data/cityPageData')) return 'data-cities-seo';
+          if (id.includes('src/data/timezoneData')) return 'data-timezones';
+          // worldCitiesData is large — keep as separate lazy chunk
+          if (id.includes('src/data/worldCitiesData')) return 'data-world-cities';
+          if (id.includes('src/data/citiesData')) return 'data-cities';
         },
         chunkFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash][extname]',
         entryFileNames: 'assets/[name]-[hash].js',
       },
     },
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 800,
   },
 });

@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -57,14 +56,14 @@ export default function AbuDhabi() {
         <meta property="og:url" content="https://myzonetime.com/abu-dhabi" />
         <meta property="og:title" content="Abu Dhabi Time — Live Clock GST UTC+4 | MyZoneTime" />
         <meta property="og:description" content="Live time in Abu Dhabi, UAE. GST (UTC+4), no daylight saving. ADX hours, time differences to London, India and New York." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Abu Dhabi Time — GST Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in Abu Dhabi. GST (UTC+4), fixed year-round. Time differences to London, India and New York." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
       </Helmet>
       <CanonicalTag pathname="/abu-dhabi" />
       <StructuredData schema={schema} />
@@ -75,11 +74,9 @@ export default function AbuDhabi() {
         pathname="/abu-dhabi"
         description="Abu Dhabi, the capital of the UAE and seat of the federal government, operates on Gulf Standard Time (GST, UTC+4) year-round without daylight saving. Home to sovereign wealth fund ADIA, the Abu Dhabi Securities Exchange (ADX) and the headquarters of leading energy companies, Abu Dhabi's stable clock is a cornerstone of Gulf region financial scheduling."
       >
-        <TimezoneAuthoritySection cityName="Abu Dhabi" timezoneKey="gst" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Abu Dhabi" relatedCity="Dubai" />
       </CityPage>
     </>
   );
 }
-

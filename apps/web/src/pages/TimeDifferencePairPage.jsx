@@ -24,7 +24,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowRightLeft, Clock, Globe, CalendarDays, Users } from 'lucide-react';
-import { useWorldCitiesData } from '@/hooks/useWorldCitiesData.js';
+import { citiesData } from '@/data/citiesData.js';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
@@ -236,18 +236,6 @@ function formatUTCHour(utcH, tz) {
 
 export default function TimeDifferencePairPage() {
   const { pair } = useParams(); // e.g. "new-york-and-london" or legacy "new-york-london"
-  const { citiesData, loading } = useWorldCitiesData();
-
-  if (loading) {
-    return (
-      <main className="flex-1 w-full bg-background text-foreground">
-        <div className="container mx-auto px-4 py-20 text-center">
-          <p className="text-lg font-medium">Loading time difference data…</p>
-          <p className="text-sm text-muted-foreground mt-2">Preparing city lookup data for pair comparisons.</p>
-        </div>
-      </main>
-    );
-  }
 
   // Parse pair into two slugs
   // New canonical format: "city1-and-city2"
@@ -290,8 +278,8 @@ export default function TimeDifferencePairPage() {
     return <Navigate to={`/time-difference/${canonical1}-and-${canonical2}`} replace />;
   }
 
-  const city1 = slug1 ? (citiesData || []).find(c => c.id === SLUG_TO_ID[slug1]) : null;
-  const city2 = slug2 ? (citiesData || []).find(c => c.id === SLUG_TO_ID[slug2]) : null;
+  const city1 = slug1 ? citiesData.find(c => c.id === SLUG_TO_ID[slug1]) : null;
+  const city2 = slug2 ? citiesData.find(c => c.id === SLUG_TO_ID[slug2]) : null;
 
   // 404 if pair is not recognised
   if (!city1 || !city2) {
@@ -399,11 +387,11 @@ export default function TimeDifferencePairPage() {
         <meta name="description" content={pageDesc} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDesc} />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
 
       <CanonicalTag pathname={`/time-difference/${slug1}-${slug2}`} />
@@ -555,8 +543,8 @@ export default function TimeDifferencePairPage() {
                 .filter(p => !(p.a === slug1 && p.b === slug2) && !(p.a === slug2 && p.b === slug1))
                 .slice(0, 6)
                 .map(p => {
-                  const c1 = (citiesData || []).find(c => c.id === SLUG_TO_ID[p.a]);
-                  const c2 = (citiesData || []).find(c => c.id === SLUG_TO_ID[p.b]);
+                  const c1 = citiesData.find(c => c.id === SLUG_TO_ID[p.a]);
+                  const c2 = citiesData.find(c => c.id === SLUG_TO_ID[p.b]);
                   if (!c1 || !c2) return null;
                   return (
                     <Link
@@ -588,4 +576,3 @@ export default function TimeDifferencePairPage() {
     </>
   );
 }
-

@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -57,14 +56,14 @@ export default function Sydney() {
         <meta property="og:url" content="https://myzonetime.com/sydney" />
         <meta property="og:title" content="Sydney Time — Live Clock AEST/AEDT | MyZoneTime" />
         <meta property="og:description" content="Live time in Sydney, Australia. AEST (UTC+10) in winter, AEDT (UTC+11) in summer. ASX hours and time differences to London and New York." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Sydney Time — AEST/AEDT Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in Sydney. AEST in winter, AEDT in summer. Time differences to London and New York." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
       </Helmet>
       <CanonicalTag pathname="/sydney" />
       <StructuredData schema={schema} />
@@ -75,11 +74,9 @@ export default function Sydney() {
         pathname="/sydney"
         description="Sydney runs on Australian Eastern Time — AEST (UTC+10) in autumn and winter, and AEDT (UTC+11) in spring and summer. As Australia's largest city and financial capital, home to the ASX, Sydney is the first major financial centre to open each trading day, setting the tone for Asian and then global markets."
       >
-        <TimezoneAuthoritySection cityName="Sydney" timezoneKey="aest" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Sydney" relatedCity="London" />
       </CityPage>
     </>
   );
 }
-

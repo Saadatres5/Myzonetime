@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -57,14 +56,14 @@ export default function Singapore() {
         <meta property="og:url" content="https://myzonetime.com/singapore" />
         <meta property="og:title" content="Singapore Time — Live Clock SGT UTC+8 | MyZoneTime" />
         <meta property="og:description" content="Live time in Singapore. SGT (UTC+8), no daylight saving ever. SGX hours, time differences to London, Dubai and Sydney." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Singapore Time — SGT Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in Singapore. SGT (UTC+8), fixed year-round. Time differences to London, Dubai, Sydney." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
       </Helmet>
       <CanonicalTag pathname="/singapore" />
       <StructuredData schema={schema} />
@@ -75,11 +74,9 @@ export default function Singapore() {
         pathname="/singapore"
         description="Singapore operates on Singapore Standard Time (SGT, UTC+8) year-round with no daylight saving. As Southeast Asia's premier financial hub and one of the world's busiest ports, Singapore's fixed clock makes it a reliable anchor for cross-timezone scheduling between European, Middle Eastern and Asia-Pacific business partners."
       >
-        <TimezoneAuthoritySection cityName="Singapore" timezoneKey="sgt" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Singapore" relatedCity="Dubai" />
       </CityPage>
     </>
   );
 }
-

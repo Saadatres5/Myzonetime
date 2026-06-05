@@ -4,16 +4,25 @@ import { Search, X, Plus, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
-import { useWorldCitiesData } from '@/hooks/useWorldCitiesData.js';
+import { citiesData } from '@/data/citiesData.js';
 
 // ─── Default 8 cities (matching screenshot order) ─────────────────────────
 const DEFAULT_CITY_IDS = ['dxb', 'auh', 'shj', 'ruh', 'jed', 'dmm', 'mcc', 'med'];
 
 const STORAGE_KEY = 'mzt_displayed_cities';
 
-function decodeCities(param) {
-  if (!param) return [];
-  return param.split(',').filter(Boolean);
+function loadDisplayedCities() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const ids = JSON.parse(saved);
+      if (Array.isArray(ids) && ids.length === 8) {
+        const cities = ids.map(id => citiesData.find(c => c.id === id)).filter(Boolean);
+        if (cities.length === 8) return cities;
+      }
+    }
+  } catch (_) {}
+  return DEFAULT_CITY_IDS.map(id => citiesData.find(c => c.id === id)).filter(Boolean);
 }
 
 function saveDisplayedCities(cities) {
@@ -103,25 +112,13 @@ function CityCard({ city, time, onRemove, index }) {
 
 // ─── Main page ─────────────────────────────────────────────────────────────
 export default function WorldClockPage() {
-  const { citiesData, loading } = useWorldCitiesData();
-  const [displayedCities, setDisplayedCities] = useState([]);
+  const [displayedCities, setDisplayedCities] = useState(loadDisplayedCities);
   const [time, setTime]                       = useState(new Date());
   const [search, setSearch]                   = useState('');
   const [dropdownOpen, setDropdownOpen]       = useState(false);
   const [activeIdx, setActiveIdx]             = useState(-1);
   const searchRef  = useRef(null);
   const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    if (!loading && citiesData?.length) {
-      const params = new URLSearchParams(window.location.search);
-      const cityIds = decodeCities(params.get('cities'));
-      const initial = cityIds.length
-        ? cityIds.map(id => citiesData.find(c => c.id === id)).filter(Boolean)
-        : DEFAULT_CITY_IDS.map(id => citiesData.find(c => c.id === id)).filter(Boolean);
-      setDisplayedCities(initial);
-    }
-  }, [loading, citiesData]);
 
   // Tick every second
   useEffect(() => {
@@ -152,8 +149,8 @@ export default function WorldClockPage() {
 
   // Filter cities for dropdown — exclude already displayed
   const displayedIds = new Set(displayedCities.map(c => c.id));
-  const searchResults = !loading && search.trim().length > 0
-    ? (citiesData || [])
+  const searchResults = search.trim().length > 0
+    ? citiesData
         .filter(c =>
           !displayedIds.has(c.id) &&
           (c.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -227,17 +224,6 @@ export default function WorldClockPage() {
     ],
   };
 
-  if (loading) {
-    return (
-      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-6xl">
-        <div className="rounded-3xl border border-border/60 bg-card p-12 text-center">
-          <p className="text-lg font-medium text-foreground">Loading world clock data…</p>
-          <p className="text-sm text-muted-foreground mt-2">Preparing city lookup data for 500+ time zones.</p>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-6xl">
       <Helmet>
@@ -245,12 +231,12 @@ export default function WorldClockPage() {
         <meta name="description" content="Live world clock showing current time in 500+ cities worldwide. Search any city and track multiple time zones at once. Free, no sign-up." />
         <meta property="og:title"       content="World Clock — Live Time in 500+ Cities | MyZoneTime" />
         <meta property="og:description" content="Live world clock showing current time in 500+ cities. Track time zones for Dubai, London, New York, Tokyo, Singapore, Sydney, and more." />
-        <meta property="og:image"       content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image"       content="https://myzonetime.com/favicon.svg" />
         <meta name="twitter:card"       content="summary_large_image" />
         <meta name="twitter:site"       content="@myzonetime" />
         <meta name="twitter:title"      content="World Clock | MyZoneTime" />
         <meta name="twitter:description" content="Check the current time in any city worldwide. Search 500+ cities instantly." />
-        <meta name="twitter:image"      content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image"      content="https://myzonetime.com/favicon.svg" />
       </Helmet>
       <CanonicalTag pathname="/world-clock" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />
@@ -371,4 +357,3 @@ export default function WorldClockPage() {
     </main>
   );
 }
-

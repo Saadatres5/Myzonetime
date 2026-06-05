@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import AdSenseAd, { AD_SLOTS } from '@/components/AdSenseAd.jsx';
 import { useLocalTime } from '@/hooks/useLocalTime.js';
 import { Globe2, ArrowRightLeft, MapPin } from 'lucide-react';
@@ -92,7 +91,7 @@ export default function Paris() {
         <meta name="description" content="Live clock for Paris, France. Central European Time (CET/CEST), UTC+1 or UTC+2 in summer. Current time, weather, business hours, and best time to call Paris." />
         <meta property="og:title" content="Current Time in Paris, France — CET/CEST | MyZoneTime" />
         <meta property="og:description" content="Live clock for Paris. CET (UTC+1) in winter, CEST (UTC+2) in summer." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="geo.region" content="FR-75" />
         <meta name="geo.placename" content="Paris, France" />
@@ -199,7 +198,6 @@ export default function Paris() {
         <AdSenseAd slot={AD_SLOTS.TOOL_INLINE} format="auto" minHeight={90} />
       </div>
 
-      <TimezoneAuthoritySection cityName="Paris" timezoneKey="cet" />
       <FAQSection faqs={faqs} />
 
       <section className="py-12 border-t border-border/40">
@@ -222,4 +220,3 @@ export default function Paris() {
     </main>
   );
 }
-

@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import CityPage from '../CityPage.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import RelatedTools from '@/components/RelatedTools.jsx';
 
@@ -57,14 +56,14 @@ export default function Tokyo() {
         <meta property="og:url" content="https://myzonetime.com/tokyo" />
         <meta property="og:title" content="Tokyo Time — Live Clock JST UTC+9 | MyZoneTime" />
         <meta property="og:description" content="Live time in Tokyo, Japan. JST (UTC+9), no daylight saving. TSE hours and time differences to London, New York and Sydney." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:title" content="Tokyo Time — JST Live Clock | MyZoneTime" />
         <meta name="twitter:description" content="Live time in Tokyo. JST (UTC+9), never changes. Time differences to London, NY and Sydney." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
       </Helmet>
       <CanonicalTag pathname="/tokyo" />
       <StructuredData schema={schema} />
@@ -75,11 +74,9 @@ export default function Tokyo() {
         pathname="/tokyo"
         description="Tokyo operates on Japan Standard Time (JST, UTC+9) every day of the year with absolutely no daylight saving adjustments. As Asia's largest financial centre and home to the Tokyo Stock Exchange — the world's third-largest by market capitalisation — Tokyo anchors the Asian trading session and sets the day in motion before London and New York open."
       >
-        <TimezoneAuthoritySection cityName="Tokyo" timezoneKey="jst" />
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Tokyo" relatedCity="Singapore" />
       </CityPage>
     </>
   );
 }
-

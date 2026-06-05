@@ -131,14 +131,14 @@ export default function TimerPage() {
         <meta name="description" content="Free online countdown timer. Set custom time intervals for workouts, cooking, studying, and more." />
         <meta property="og:title" content="Online Timer — Set Countdown Timer | MyZoneTime" />
         <meta property="og:description" content="Free online countdown timer. Set custom time intervals for workouts, cooking, studying, and more." />
-        <meta property="og:image" content="https://myzonetime.com/og-image.svg" />
+        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:site" content="@myzonetime" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Timer | MyZoneTime" />
         <meta name="twitter:description" content="Customizable countdown timer with alerts." />
-        <meta name="twitter:image" content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
       <CanonicalTag pathname="/timer" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />

@@ -1,6 +1,6 @@
 /**
  * DynamicCityPage.jsx
- * Universal programmatic city page — renders any city from cityPageData.js or worldCitiesData.js.
+ * Universal programmatic city page — renders any city from cityPageData.js.
  * Route: /:citySlug  (matched by App.jsx after known static routes)
  */
 import React, { useState, useEffect, useMemo } from 'react';
@@ -8,37 +8,10 @@ import { Helmet } from 'react-helmet-async';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { Clock, Globe, ArrowRight, Sun, Info } from 'lucide-react';
 import { getCityData } from '@/data/cityPageData.js';
-import { citiesData as worldCitiesData } from '@/data/worldCitiesData.js';
-import { TIMEZONE_DATA } from '@/data/timezoneData.js';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import FAQSection from '@/components/FAQSection.jsx';
-import TimezoneAuthoritySection from '@/components/TimezoneAuthoritySection.jsx';
 import CityPage from './CityPage.jsx';
-
-function getWorldCityData(slug) {
-  return worldCitiesData.find(city => city.id === slug) || null;
-}
-
-const TIMEZONE_IANA_TO_KEY = Object.entries(TIMEZONE_DATA).reduce((map, [key, value]) => {
-  if (value?.ianaTz) map[value.ianaTz] = key;
-  return map;
-}, {});
-
-function findTimezoneKeyByIana(ianaTz) {
-  return TIMEZONE_IANA_TO_KEY[ianaTz] || null;
-}
-
-function getCityLabelFromSlug(slug) {
-  return slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-}
-
-function getRelatedWorldCities(city, limit = 6) {
-  return worldCitiesData
-    .filter(c => c.timezone === city.timezone && c.id !== city.id)
-    .slice(0, limit)
-    .map(c => c.id);
-}
 
 function buildSchema(city, slug, faqs) {
   return {
@@ -71,36 +44,16 @@ function buildSchema(city, slug, faqs) {
 
 export default function DynamicCityPage() {
   const { citySlug } = useParams();
-  const primaryCity = getCityData(citySlug);
-  const city = primaryCity || getWorldCityData(citySlug);
+  const city = getCityData(citySlug);
 
   // Redirect unknown slugs to 404
   if (!city) return <Navigate to="/404" replace />;
 
-  const fallbackFaqs = [
-    { q: `What time zone is ${city.name} in?`, a: `${city.name} currently uses the ${city.timezone} time zone.` },
-    { q: `What is the current local time in ${city.name}?`, a: `This page shows the live local time for ${city.name} based on its current time zone.` },
-    { q: `Does ${city.name} observe daylight saving time?`, a: city.dst === true ? `Yes, ${city.name} uses daylight saving time seasonally.` : city.dst === false ? `No, ${city.name} does not observe daylight saving time.` : `Daylight saving rules vary by location; check the local time zone for ${city.name}.` },
-  ];
-
-  const tzKey = findTimezoneKeyByIana(city.timezone);
-  const timezoneInfo = tzKey ? TIMEZONE_DATA[tzKey] : null;
-  const relatedCities = city.relatedCities?.slice(0, 6) || getRelatedWorldCities(city, 6);
-  const relatedTimezones = city.relatedTimezones || (timezoneInfo ? [tzKey] : []);
-  const timezoneLinkKeys = Array.from(new Set(relatedTimezones.filter(Boolean)));
-  const extraTimezoneLinks = timezoneLinkKeys.filter(key => key !== tzKey);
-  const heroDescription = city.heroDescription || `Live local time in ${city.name}${city.country ? `, ${city.country}` : ''}. Current time is based on ${timezoneInfo?.fullName || city.timezone}.`;
-  const overview = city.overview || `Find the current time in ${city.name}${city.country ? `, ${city.country}` : ''}. This page shows local clock details and timezone information for ${timezoneInfo?.fullName || city.timezone}.`;
-
-  const faqs = (city.faqs || fallbackFaqs).map(f => ({ question: f.q, answer: f.a }));
+  const faqs = city.faqs.map(f => ({ question: f.q, answer: f.a }));
   const schema = buildSchema(city, citySlug, faqs);
 
-  const tzName = city.tzName || (timezoneInfo ? timezoneInfo.fullName : city.timezone);
-  const tzAbbr = city.tzAbbr || (timezoneInfo ? timezoneInfo.abbr : city.timezone.split('/').slice(-1)[0].replace(/_/g, ' '));
-  const utcLabel = city.utcLabel || timezoneInfo?.utcLabel || '';
-  const dstPhrase = city.dst === true ? 'daylight saving time info,' : city.dst === false ? 'no daylight saving,' : '';
-  const title = `Current Time in ${city.name}${city.country ? `, ${city.country}` : ''} — ${city.timezone} | MyZoneTime`;
-  const description = `Check the current local time in ${city.name}${city.country ? `, ${city.country}` : ''}. View live clock, ${tzName} (${tzAbbr})${utcLabel ? `, ${utcLabel}` : ''}${dstPhrase ? `, ${dstPhrase}` : ''} and time zone details.`;
+  const title = `Current Time in ${city.name} — ${city.country} (${city.utcLabel}) | MyZoneTime`;
+  const description = `Check the current local time in ${city.name}, ${city.country}. View live clock, ${city.tzName} (${city.tzAbbr}), UTC offset ${city.utcLabel}, ${city.dst ? 'daylight saving time info,' : 'no daylight saving,'} and time zone details.`;
   const canonicalUrl = `https://myzonetime.com/${citySlug}`;
 
   return (
@@ -109,14 +62,10 @@ export default function DynamicCityPage() {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-        {city.geoRegion && <meta name="geo.region" content={city.geoRegion} />}
+        <meta name="geo.region" content={city.geoRegion} />
         <meta name="geo.placename" content={`${city.name}, ${city.country}`} />
-        {city.lat != null && city.lon != null && (
-          <>
-            <meta name="geo.position" content={`${city.lat};${city.lon}`} />
-            <meta name="ICBM" content={`${city.lat}, ${city.lon}`} />
-          </>
-        )}
+        <meta name="geo.position" content={`${city.lat};${city.lon}`} />
+        <meta name="ICBM" content={`${city.lat}, ${city.lon}`} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyZoneTime" />
         <meta property="og:url" content={canonicalUrl} />
@@ -170,14 +119,14 @@ export default function DynamicCityPage() {
         </section>
 
         {/* Related cities internal links */}
-        {relatedCities.length > 0 && (
+        {city.relatedCities?.length > 0 && (
           <section className="py-10 border-t border-border/40">
             <div className="container max-w-3xl mx-auto">
               <h2 className="text-2xl font-bold tracking-tight mb-6">Time in Related Cities</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {relatedCities.map(slug => {
+                {city.relatedCities.map(slug => {
                   const rel = getCityData(slug);
-                  const label = rel ? rel.name : getCityLabelFromSlug(slug);
+                  const label = rel ? rel.name : slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
                   return (
                     <Link
                       key={slug}
@@ -199,9 +148,9 @@ export default function DynamicCityPage() {
           <div className="container max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold tracking-tight mb-6">Time Difference from {city.name}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {relatedCities.map(slug => {
+              {(city.relatedCities || []).slice(0, 6).map(slug => {
                 const rel = getCityData(slug);
-                const label = rel ? rel.name : getCityLabelFromSlug(slug);
+                const label = rel ? rel.name : slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
                 return (
                   <Link
                     key={slug}
@@ -216,12 +165,6 @@ export default function DynamicCityPage() {
             </div>
           </div>
         </section>
-
-        <TimezoneAuthoritySection
-          cityName={city.name}
-          timezoneKey={tzKey}
-          extraTimezoneKeys={extraTimezoneLinks}
-        />
 
         {/* Tools links */}
         <section className="py-10 border-t border-border/40">
@@ -252,4 +195,3 @@ export default function DynamicCityPage() {
     </>
   );
 }
-

@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { ArrowRightLeft, Share2 } from 'lucide-react';
+import { ArrowRightLeft, Share2, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { useWorldCitiesData } from '@/hooks/useWorldCitiesData.js';
+import { citiesData } from '@/data/citiesData.js';
 import StructuredData from '@/components/StructuredData.jsx';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
+import AdSenseAd, { AD_SLOTS } from '@/components/AdSenseAd.jsx';
 
-/* ─── helpers ─────────────────────────────────────────────────────────────── */
-function getCity(id) {
+/* ─── helpers ───────────────────────────────────────────────────────────────── */
+function getCityById(id) {
   return citiesData.find(c => c.id === id) || citiesData[0];
 }
 
@@ -21,7 +22,24 @@ function formatTime(tz, date) {
   } catch { return '--:--'; }
 }
 
-function offsetDiff(tz1, tz2) {
+function formatDate(tz, date) {
+  try {
+    return date.toLocaleDateString('en-US', {
+      timeZone: tz, weekday: 'short', month: 'short', day: 'numeric',
+    });
+  } catch { return ''; }
+}
+
+function getUTCOffsetLabel(tz) {
+  try {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: tz, timeZoneName: 'shortOffset',
+    }).formatToParts(new Date());
+    return parts.find(p => p.type === 'timeZoneName')?.value || '';
+  } catch { return ''; }
+}
+
+function getHoursDiff(tz1, tz2) {
   try {
     const now = new Date();
     const t1 = new Date(now.toLocaleString('en-US', { timeZone: tz1 }));
@@ -30,21 +48,21 @@ function offsetDiff(tz1, tz2) {
   } catch { return 0; }
 }
 
-/* ─── City Select ──────────────────────────────────────────────────────────── */
-function CitySelect({ value, onChange, exclude }) {
+/* ─── CitySelect ─────────────────────────────────────────────────────────────── */
+function CitySelect({ value, onChange, excludeId, label }) {
   const options = useMemo(
-    () => citiesData.filter(c => c.id !== exclude),
-    [exclude]
+    () => citiesData.filter(c => c.id !== excludeId),
+    [excludeId]
   );
-  const city = getCity(value);
 
   return (
     <div className="relative w-full">
+      <label className="sr-only">{label}</label>
       <select
         value={value}
         onChange={e => onChange(e.target.value)}
         className="w-full h-12 px-4 pr-8 rounded-xl border border-border/60 bg-background text-foreground text-sm font-medium appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 truncate"
-        aria-label="Select a city"
+        aria-label={label}
       >
         {options.map(c => (
           <option key={c.id} value={c.id}>
@@ -52,8 +70,7 @@ function CitySelect({ value, onChange, exclude }) {
           </option>
         ))}
       </select>
-      {/* chevron */}
-      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" aria-hidden="true">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <polyline points="6 9 12 15 18 9"/>
         </svg>
@@ -62,103 +79,146 @@ function CitySelect({ value, onChange, exclude }) {
   );
 }
 
-/* ─── Page ─────────────────────────────────────────────────────────────────── */
+/* ─── ConversionTable ─────────────────────────────────────────────────────────── */
+function ConversionTable({ tz1, tz2, city1Name, city2Name }) {
+  const rows = useMemo(() => {
+    const result = [];
+    for (let h = 0; h < 24; h += 3) {
+      const d = new Date();
+      d.setUTCHours(h, 0, 0, 0);
+      const fmt = (tz) => new Intl.DateTimeFormat('en-US', {
+        timeZone: tz, hour: 'numeric', minute: '2-digit', hour12: true,
+      }).format(d);
+      result.push({ utc: `${String(h).padStart(2,'0')}:00`, t1: fmt(tz1), t2: fmt(tz2) });
+    }
+    return result;
+  }, [tz1, tz2]);
+
+  return (
+    <div className="overflow-x-auto rounded-xl border border-border/40">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="bg-muted/40 text-left">
+            <th className="px-4 py-3 font-semibold text-muted-foreground">UTC</th>
+            <th className="px-4 py-3 font-semibold text-primary truncate max-w-[120px]">{city1Name}</th>
+            <th className="px-4 py-3 font-semibold text-secondary truncate max-w-[120px]">{city2Name}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={row.utc} className={i % 2 === 0 ? 'bg-background' : 'bg-muted/10'}>
+              <td className="px-4 py-2.5 text-muted-foreground font-mono">{row.utc}</td>
+              <td className="px-4 py-2.5 font-mono text-primary">{row.t1}</td>
+              <td className="px-4 py-2.5 font-mono text-secondary">{row.t2}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/* ─── Page ───────────────────────────────────────────────────────────────────── */
 export default function TimeZoneConverterPage() {
-  const { citiesData, loading } = useWorldCitiesData();
-  const [id1, setId1] = useState('nyc');
-  const [id2, setId2] = useState('lon');
-  const [time, setTime]  = useState(new Date());
+  const [fromId, setFromId] = useState('nyc');
+  const [toId, setToId]     = useState('lon');
+  const [now, setNow]       = useState(new Date());
 
-  if (loading) {
-    return (
-      <main className="flex-1 w-full bg-background text-foreground">
-        <div className="container mx-auto px-4 py-20 text-center">
-          <p className="text-lg font-medium">Loading time zone converter data…</p>
-          <p className="text-sm text-muted-foreground mt-2">Preparing city list for instant conversion.</p>
-        </div>
-      </main>
-    );
-  }
-
-  const getCity = (id) => (citiesData || []).find(c => c.id === id) || (citiesData?.[0] || { id: 'nyc', name: 'New York', country: 'United States', timezone: 'America/New_York' });
-  const city1 = getCity(id1);
-  const city2 = getCity(id2);
-
-  /* live clock */
   useEffect(() => {
-    const t = setInterval(() => setTime(new Date()), 1000);
+    const t = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
 
-  const city1 = getCity(id1);
-  const city2 = getCity(id2);
-  const diff  = offsetDiff(city1.timezone, city2.timezone);
-  const diffLabel =
-    diff === 0  ? 'Same time'
-    : diff > 0  ? `${Math.abs(diff)}h ahead`
-    :             `${Math.abs(diff)}h behind`;
+  const fromCity = getCityById(fromId);
+  const toCity   = getCityById(toId);
+  const diff     = getHoursDiff(fromCity.timezone, toCity.timezone);
+  const absD     = Math.abs(diff);
+  const h        = Math.floor(absD);
+  const m        = Math.round((absD - h) * 60);
+  const diffStr  = diff === 0 ? 'Same time'
+    : `${h}${m > 0 ? `h ${m}m` : 'h'} ${diff > 0 ? 'ahead' : 'behind'}`;
+
+  const fromOffset = getUTCOffsetLabel(fromCity.timezone);
+  const toOffset   = getUTCOffsetLabel(toCity.timezone);
 
   const handleShare = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      toast.success('Conversion link copied!');
+      toast.success('Link copied!');
     } catch { toast.error('Could not copy link.'); }
   };
 
-  const swap = () => { setId1(id2); setId2(id1); };
+  const swap = () => { setFromId(toId); setToId(fromId); };
 
   const schema = {
     '@type': 'WebApplication',
-    name: 'Time Zone Converter',
+    name: 'Time Zone Converter — MyZoneTime',
     url: 'https://myzonetime.com/timezone-converter',
-    description: 'Convert time between any two cities instantly. See the exact hour difference, DST-aware.',
+    description: 'Convert time between any two cities instantly. DST-aware. 500+ cities.',
     applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'All',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   };
   const breadcrumb = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home',               item: 'https://myzonetime.com' },
+      { '@type': 'ListItem', position: 1, name: 'Home',                item: 'https://myzonetime.com' },
       { '@type': 'ListItem', position: 2, name: 'Time Zone Converter', item: 'https://myzonetime.com/timezone-converter' },
     ],
   };
 
+  const pageTitle = `Time Zone Converter — Convert ${fromCity.name} to ${toCity.name} Time | MyZoneTime`;
+  const pageDesc  = `Free time zone converter. Currently: ${fromCity.name} (${fromOffset}) is ${diffStr} ${toCity.name} (${toOffset}). DST-aware, 500+ cities. No signup needed.`;
+
   return (
     <main className="flex-1 w-full" id="main-content">
       <Helmet>
-        <title>Time Zone Converter — Compare Times Between Any Two Cities | MyZoneTime</title>
-        <meta name="description" content="Free time zone converter. Compare the exact time between any two cities instantly. Perfect for scheduling meetings, calls, and coordinating across time zones." />
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDesc} />
+        <meta property="og:title"       content={pageTitle} />
+        <meta property="og:description" content={pageDesc} />
+        <meta property="og:url"         content="https://myzonetime.com/timezone-converter" />
+        <meta property="og:type"        content="website" />
+        <meta property="og:image"       content="https://myzonetime.com/og-image.svg" />
+        <meta name="twitter:card"        content="summary_large_image" />
+        <meta name="twitter:title"       content={pageTitle} />
+        <meta name="twitter:description" content={pageDesc} />
+        <meta name="twitter:image"       content="https://myzonetime.com/og-image.svg" />
       </Helmet>
       <CanonicalTag pathname="/timezone-converter" />
       <StructuredData schema={schema} breadcrumbSchema={breadcrumb} />
 
       <div className="container max-w-4xl mx-auto px-4 py-10">
-
-        {/* ── Header ── */}
+        {/* Header */}
         <div className="text-center space-y-2 mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-2">
+            <Clock className="w-3.5 h-3.5" /> Live · DST-Aware · 500+ Cities
+          </div>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Time Zone Converter</h1>
-          <p className="text-muted-foreground text-sm md:text-base">
-            Compare times instantly across 500+ global cities.
+          <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto">
+            Compare live times between any two cities. Updates every second.
           </p>
         </div>
 
-        {/* ── Converter Card ── */}
+        {/* Converter Card */}
         <div className="rounded-2xl border border-border/60 bg-card shadow-lg p-6 md:p-8">
           <div className="flex flex-col md:flex-row items-stretch gap-6">
 
-            {/* Left city */}
+            {/* From city */}
             <div className="flex-1 space-y-4 min-w-0">
-              <CitySelect value={id1} onChange={setId1} exclude={id2} />
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">From</p>
+              <CitySelect value={fromId} onChange={setFromId} excludeId={toId} label="Select source city" />
               <div className="text-center rounded-xl bg-background border border-border/40 p-6">
-                <div className="text-3xl md:text-4xl font-bold tabular-nums tracking-tight text-primary">
-                  {formatTime(city1.timezone, time)}
+                <div className="text-3xl md:text-4xl font-bold tabular-nums tracking-tight text-primary font-mono-time">
+                  {formatTime(fromCity.timezone, now)}
                 </div>
-                <div className="text-xs text-muted-foreground mt-2 truncate">{city1.timezone}</div>
+                <div className="text-sm text-muted-foreground mt-1">{formatDate(fromCity.timezone, now)}</div>
+                <div className="text-xs text-muted-foreground mt-1 font-mono">{fromOffset}</div>
               </div>
             </div>
 
-            {/* Middle swap button + diff */}
+            {/* Swap + diff */}
             <div className="flex md:flex-col items-center justify-center gap-3 py-2">
               <button
                 onClick={swap}
@@ -168,78 +228,91 @@ export default function TimeZoneConverterPage() {
                 <ArrowRightLeft className="w-5 h-5" />
               </button>
               <span className="text-xs font-semibold bg-background border border-border/40 px-3 py-1.5 rounded-full whitespace-nowrap text-foreground shadow-sm">
-                {diffLabel}
+                {diffStr}
               </span>
             </div>
 
-            {/* Right city */}
+            {/* To city */}
             <div className="flex-1 space-y-4 min-w-0">
-              <CitySelect value={id2} onChange={setId2} exclude={id1} />
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">To</p>
+              <CitySelect value={toId} onChange={setToId} excludeId={fromId} label="Select target city" />
               <div className="text-center rounded-xl bg-background border border-border/40 p-6">
-                <div className="text-3xl md:text-4xl font-bold tabular-nums tracking-tight text-secondary">
-                  {formatTime(city2.timezone, time)}
+                <div className="text-3xl md:text-4xl font-bold tabular-nums tracking-tight text-secondary font-mono-time">
+                  {formatTime(toCity.timezone, now)}
                 </div>
-                <div className="text-xs text-muted-foreground mt-2 truncate">{city2.timezone}</div>
+                <div className="text-sm text-muted-foreground mt-1">{formatDate(toCity.timezone, now)}</div>
+                <div className="text-xs text-muted-foreground mt-1 font-mono">{toOffset}</div>
               </div>
             </div>
           </div>
 
-          {/* Share */}
           <div className="flex justify-center mt-6">
-            <Button
-              onClick={handleShare}
-              variant="outline"
-              size="sm"
-              className="gap-2 rounded-full px-6"
-            >
+            <Button onClick={handleShare} variant="outline" size="sm" className="gap-2 rounded-full px-6">
               <Share2 className="w-4 h-4" />
               Share this conversion
             </Button>
           </div>
         </div>
 
-        {/* ── Info grid ── */}
+        {/* Ad */}
+        <div className="mt-6">
+          <AdSenseAd slot={AD_SLOTS?.CONVERTER_BANNER || 'converter'} format="banner" minHeight={90} />
+        </div>
+
+        {/* Conversion table */}
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold mb-3">
+            {fromCity.name} ↔ {toCity.name} — 24-Hour Conversion Table
+          </h2>
+          <ConversionTable tz1={fromCity.timezone} tz2={toCity.timezone} city1Name={fromCity.name} city2Name={toCity.name} />
+        </div>
+
+        {/* Info cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
           {[
-            { label: 'From', value: `${city1.name}, ${city1.country}`, sub: city1.timezone },
-            { label: 'To',   value: `${city2.name}, ${city2.country}`, sub: city2.timezone },
-          ].map(({ label, value, sub }) => (
+            { label: 'From', city: fromCity, offset: fromOffset },
+            { label: 'To',   city: toCity,   offset: toOffset },
+          ].map(({ label, city, offset }) => (
             <div key={label} className="rounded-xl border border-border/40 bg-card p-4">
               <p className="text-xs text-muted-foreground mb-1">{label}</p>
-              <p className="font-semibold text-sm truncate">{value}</p>
-              <p className="text-xs text-muted-foreground truncate">{sub}</p>
+              <p className="font-semibold text-sm truncate">{city.name}, {city.country}</p>
+              <p className="text-xs text-muted-foreground font-mono">{city.timezone} · {offset}</p>
             </div>
           ))}
         </div>
 
-        {/* ── FAQ block for SEO/AEO ── */}
+        {/* FAQ */}
         <div className="mt-10 space-y-3">
           <h2 className="text-lg font-semibold">About Time Zone Conversion</h2>
           <div className="space-y-3 text-sm text-muted-foreground">
-            <details className="rounded-xl border border-border/40 p-4 group">
-              <summary className="font-medium text-foreground cursor-pointer list-none flex justify-between items-center">
-                What is a time zone converter?
-                <span className="ml-2 transition-transform group-open:rotate-180">▾</span>
-              </summary>
-              <p className="mt-2">A time zone converter shows you the equivalent local time in any other city or timezone. It automatically accounts for UTC offsets and Daylight Saving Time (DST) transitions.</p>
-            </details>
-            <details className="rounded-xl border border-border/40 p-4 group">
-              <summary className="font-medium text-foreground cursor-pointer list-none flex justify-between items-center">
-                Does this converter account for daylight saving time?
-                <span className="ml-2 transition-transform group-open:rotate-180">▾</span>
-              </summary>
-              <p className="mt-2">Yes. MyZoneTime uses the IANA timezone database (the same one used by your operating system) which updates automatically for all DST changes worldwide.</p>
-            </details>
-            <details className="rounded-xl border border-border/40 p-4 group">
-              <summary className="font-medium text-foreground cursor-pointer list-none flex justify-between items-center">
-                How many cities are available?
-                <span className="ml-2 transition-transform group-open:rotate-180">▾</span>
-              </summary>
-              <p className="mt-2">Over 500 cities across all continents. Use the dropdown to search by city or country name.</p>
-            </details>
+            {[
+              {
+                q: 'What is a time zone converter?',
+                a: 'A time zone converter shows you the equivalent local time in any other city. It automatically accounts for UTC offsets and Daylight Saving Time (DST) transitions.',
+              },
+              {
+                q: 'Does this converter account for daylight saving time?',
+                a: 'Yes. MyZoneTime uses the IANA timezone database which updates automatically for all DST changes worldwide — the same database used by your operating system.',
+              },
+              {
+                q: 'How many cities are available?',
+                a: 'Over 500 major cities across all continents. Use the dropdown to find any city or country.',
+              },
+              {
+                q: `What is the time difference between ${fromCity.name} and ${toCity.name}?`,
+                a: `Currently, ${toCity.name} is ${diffStr} ${fromCity.name}. This reflects the live DST-adjusted difference right now.`,
+              },
+            ].map((item, i) => (
+              <details key={i} className="rounded-xl border border-border/40 p-4 group">
+                <summary className="font-medium text-foreground cursor-pointer list-none flex justify-between items-center">
+                  {item.q}
+                  <span className="ml-2 transition-transform group-open:rotate-180" aria-hidden="true">▾</span>
+                </summary>
+                <p className="mt-2">{item.a}</p>
+              </details>
+            ))}
           </div>
         </div>
-
       </div>
     </main>
   );
