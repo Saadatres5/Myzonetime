@@ -79,11 +79,11 @@ export default function DynamicTimezonePage() {
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
       </Helmet>
       <CanonicalTag pathname={`/timezone/${tzKey}`} />
       <StructuredData schema={schema} />

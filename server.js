@@ -30,6 +30,14 @@ const DIST = path.join(__dirname, "apps/web/dist");
 // ─── 1. Compression ────────────────────────────────────────────────────────
 app.use(compression({ level: 6 }));
 
+// ─── 2b. Additional security headers ──────────────────────────────────────
+app.use((req, res, next) => {
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(self), payment=()');
+  res.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
+  next();
+});
+
 // ─── 2. Security headers (helmet) ──────────────────────────────────────────
 app.use(
   helmet({
@@ -42,7 +50,7 @@ app.use(
         styleSrc:    ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc:     ["'self'", "https://fonts.gstatic.com"],
         imgSrc:      ["'self'", "data:", "https:", "https://images.unsplash.com"],
-        connectSrc:  ["'self'", "https://api.open-meteo.com", "https://www.google-analytics.com"],
+        connectSrc:  ["'self'", "https://api.open-meteo.com", "https://www.google-analytics.com", "https://pagead2.googlesyndication.com", "https://adservice.google.com"],
         frameSrc:    ["https://googleads.g.doubleclick.net", "https://tpc.googlesyndication.com"],
         objectSrc:   ["'none'"],
         upgradeInsecureRequests: [],

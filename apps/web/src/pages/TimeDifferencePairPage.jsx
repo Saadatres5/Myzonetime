@@ -387,14 +387,18 @@ export default function TimeDifferencePairPage() {
         <meta name="description" content={pageDesc} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
-        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/jpeg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDesc} />
-        <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
+        <meta name="twitter:image" content="https://myzonetime.com/og-image.jpg" />
+        <meta name="twitter:image:alt" content="MyZoneTime — Time Difference Tool" />
       </Helmet>
 
-      <CanonicalTag pathname={`/time-difference/${slug1}-${slug2}`} />
+      <CanonicalTag pathname={`/time-difference/${canonical1}-and-${canonical2}`} />
       <StructuredData schemas={[faqSchema]} breadcrumbSchema={breadcrumbSchema} />
 
       <main className="flex-1 container mx-auto px-4 py-10 max-w-4xl">

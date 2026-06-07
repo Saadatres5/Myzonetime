@@ -2,13 +2,13 @@
   "id": "https://myzonetime.com/",
   "name": "MyZoneTime — World Clock & Time Zone Converter",
   "short_name": "MyZoneTime",
-  "description": "World Clock & Time Zone Converter. Live time in 500+ cities. Free meeting planner, Hijri calendar, and time zone tools.",
-  "start_url": "/",
+  "description": "Free world clock for 500+ cities. Time zone converter, meeting planner, Hijri calendar, work hours calculator, stopwatch, and timer. No signup needed.",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "theme_color": "#0EA5E9",
-  "background_color": "#0f1923",
+  "background_color": "#050916",
   "lang": "en",
   "dir": "ltr",
   "categories": ["utilities", "productivity", "education"],
@@ -26,10 +26,24 @@
       "purpose": "any"
     },
     {
-      "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
+      "src": "/icon-192.png",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "label": "MyZoneTime World Clock"
     }
   ],
   "shortcuts": [
@@ -37,29 +51,31 @@
       "name": "World Clock",
       "short_name": "Clock",
       "description": "View live time in 500+ cities",
-      "url": "/world-clock",
+      "url": "/world-clock?source=shortcut",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     },
     {
       "name": "Time Zone Converter",
       "short_name": "Converter",
       "description": "Convert time between cities",
-      "url": "/timezone-converter",
+      "url": "/timezone-converter?source=shortcut",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     },
     {
       "name": "Meeting Planner",
       "short_name": "Meetings",
-      "description": "Find the best meeting time",
-      "url": "/meeting-planner",
+      "description": "Find the best meeting time for global teams",
+      "url": "/meeting-planner?source=shortcut",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     },
     {
       "name": "Hijri Calendar",
       "short_name": "Hijri",
-      "description": "Today's Islamic date",
-      "url": "/hijri-calendar",
+      "description": "Today's Islamic date and monthly calendar",
+      "url": "/hijri-calendar?source=shortcut",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     }
-  ]
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }

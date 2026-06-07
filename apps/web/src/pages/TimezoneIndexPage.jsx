@@ -41,7 +41,7 @@ export default function TimezoneIndexPage() {
         <meta property="og:title" content="All Time Zones — UTC Offsets & DST Rules | MyZoneTime" />
         <meta property="og:description" content="Explore every major time zone with current times, UTC offsets, countries, and DST schedules." />
         <meta property="og:url" content="https://myzonetime.com/timezone" />
-        <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
+        <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
       </Helmet>
       <CanonicalTag pathname="/timezone" />
       <StructuredData schema={schema} />

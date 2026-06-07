@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- MyZoneTime Sitemap Index — https://myzonetime.com — 2026-06-05 -->
+  <!-- MyZoneTime Sitemap Index — https://myzonetime.com — Updated: 2026-06-07 -->
+
+  <!-- Core tools + Tier-1 cities -->
   <sitemap>
     <loc>https://myzonetime.com/sitemap.xml</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-07</lastmod>
   </sitemap>
+
+  <!-- Tier-2 programmatic city pages -->
   <sitemap>
     <loc>https://myzonetime.com/city-sitemap.xml</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-07</lastmod>
   </sitemap>
+
+  <!-- City-pair time-difference pages (528 pages) -->
   <sitemap>
     <loc>https://myzonetime.com/time-difference-sitemap.xml</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-07</lastmod>
   </sitemap>
+
+  <!-- Timezone abbreviation pages -->
   <sitemap>
     <loc>https://myzonetime.com/timezone-sitemap.xml</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-07</lastmod>
   </sitemap>
 </sitemapindex>
