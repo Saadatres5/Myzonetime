@@ -111,6 +111,23 @@
     }
   }
   </script>
+
+  <!-- PERF FIX 1: Inline critical CSS — paints dark background immediately,
+       eliminates the blank white flash while index-DQTiIC6G.css (16.5 KB) downloads -->
+  <style>
+    *,::before,::after{box-sizing:border-box;margin:0;padding:0}
+    html{background:#050916}
+    body{background:#050916;color:#e9f0fb;font-family:'Geist','Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+    #root{width:100%;min-height:100vh}
+  </style>
+
+  <!-- PERF FIX 2: CSS link moved before scripts (browser preload scanner picks it up sooner).
+       vendor-ui removed from modulepreload — Radix UI 39 KB was loading eagerly on every page. -->
+  <link rel="stylesheet" crossorigin href="/assets/index-DQTiIC6G.css">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-react-D8MTp_Q-.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-helmet-BA2mdPZ9.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-icons-D9O2d22O.js">
+  <script type="module" crossorigin src="/assets/index-BmcaW3Wv.js"></script>
 </head>
 <body>
   <!-- Skip to content — WCAG 2.1 AA -->
@@ -122,6 +139,5 @@
   >Skip to main content</a>
 
   <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
