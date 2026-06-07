@@ -10,12 +10,12 @@ import AdSenseAd, { AD_SLOTS } from '@/components/AdSenseAd.jsx';
 import { useGeolocation } from '@/hooks/useGeolocation.js';
 import { useWeather } from '@/hooks/useWeather.js';
 
-function unsplashUrl(url, width = 400) {
+function unsplashUrl(url, width = 400, quality = 40) {
   try {
     const u = new URL(url);
     u.searchParams.set('w', width);
     u.searchParams.set('auto', 'format');
-    u.searchParams.set('q', '50');
+    u.searchParams.set('q', quality);
     u.searchParams.set('fit', 'crop');
     u.searchParams.set('fm', 'webp');
     return u.toString();
@@ -286,7 +286,7 @@ export default function HomePage() {
       </div>
 
       {/* ── Popular Cities Grid ── */}
-      <section className="py-24 bg-card/30 border-t border-border/50" aria-labelledby="cities-heading">
+      <section className="py-24 bg-card/30 border-t border-border/50" style={{contentVisibility:'auto',containIntrinsicSize:'0 600px'}} aria-labelledby="cities-heading">
         <div className="container max-w-7xl mx-auto space-y-12">
           <div className="text-center space-y-4">
             <h2 id="cities-heading" className="text-3xl md:text-4xl font-bold tracking-tight">Explore Popular Cities</h2>
@@ -298,14 +298,14 @@ export default function HomePage() {
                 className="block group relative h-48 rounded-2xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 transition-all duration-300"
                 aria-label={`Current time in ${city.name}`}>
                 <img
-                  src={unsplashUrl(city.img, 400)}
-                  srcSet={`${unsplashUrl(city.img, 300)} 300w, ${unsplashUrl(city.img, 600)} 600w`}
+                  src={unsplashUrl(city.img, 400, index === 0 ? 50 : 30)}
+                  srcSet={`${unsplashUrl(city.img, 200, 30)} 200w, ${unsplashUrl(city.img, 400, index === 0 ? 50 : 30)} 400w`}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   alt=""
                   aria-hidden="true"
                   loading={index === 0 ? 'eager' : 'lazy'}
                   fetchPriority={index === 0 ? 'high' : 'low'}
-                  decoding={index === 0 ? 'sync' : 'async'}
+                  decoding="async"
                   width="400"
                   height="200"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100"
