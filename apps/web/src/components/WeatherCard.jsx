@@ -46,7 +46,7 @@ export default function WeatherCard({ lat, lon }) {
     };
 
     fetchWeather();
-    const interval = setInterval(fetchWeather, 10 * 60 * 1000); // 10 minutes
+    const interval = setInterval(fetchWeather, 30 * 60 * 1000); // 30 minutes
     return () => clearInterval(interval);
   }, [lat, lon]);
 

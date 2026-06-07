@@ -194,7 +194,7 @@ export default function HomePage() {
 
       {/* ── Hero ── */}
       <section className="relative w-full min-h-[80vh] flex flex-col items-center justify-center py-20 overflow-hidden">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] max-w-4xl bg-primary/20 rounded-full blur-[120px] pointer-events-none opacity-50 mix-blend-screen will-change-transform" aria-hidden="true" style={{contain:'strict',width:'min(80vw,56rem)',height:'min(80vw,56rem)'}} />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] max-w-4xl bg-primary/20 rounded-full blur-[80px] pointer-events-none opacity-50 mix-blend-screen" aria-hidden="true" style={{contain:'strict',width:'min(80vw,56rem)',height:'min(80vw,56rem)'}} />
         <div className="container relative z-10 flex flex-col items-center text-center space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/20 border border-secondary/30 text-sm font-medium mb-4">
             <Globe2 className="w-4 h-4 text-primary" aria-hidden="true" />

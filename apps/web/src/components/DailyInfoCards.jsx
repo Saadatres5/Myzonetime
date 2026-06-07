@@ -2,24 +2,23 @@ import React, { useMemo } from 'react';
 import { getHolidayForDate } from '@/data/holidaysData.js';
 import { Quote, Calendar } from 'lucide-react';
 
+const QUOTES = [
+  { text: "Time is what we want most, but what we use worst.", author: "William Penn" },
+  { text: "Lost time is never found again.", author: "Benjamin Franklin" },
+  { text: "Time flies over us, but leaves its shadow behind.", author: "Nathaniel Hawthorne" },
+  { text: "The two most powerful warriors are patience and time.", author: "Leo Tolstoy" },
+  { text: "Time is the wisest counselor of all.", author: "Pericles" },
+  { text: "Time is the most valuable thing a person can spend.", author: "Theophrastus" },
+  { text: "Time is a created thing. To say 'I don't have time' is like saying 'I don't want to.'", author: "Lao Tzu" },
+  { text: "The future is something which everyone reaches at the rate of sixty minutes an hour.", author: "C.S. Lewis" },
+];
+
+const TODAY_HOLIDAY = getHolidayForDate(new Date());
+
 const DailyInfoCards = () => {
-  const quotes = [
-    { text: "Time is what we want most, but what we use worst.", author: "William Penn" },
-    { text: "Lost time is never found again.", author: "Benjamin Franklin" },
-    { text: "Time flies over us, but leaves its shadow behind.", author: "Nathaniel Hawthorne" },
-    { text: "The two most powerful warriors are patience and time.", author: "Leo Tolstoy" },
-    { text: "Time is the wisest counselor of all.", author: "Pericles" },
-    { text: "Time is the most valuable thing a person can spend.", author: "Theophrastus" },
-    { text: "Time is a created thing. To say 'I don't have time' is like saying 'I don't want to.'", author: "Lao Tzu" },
-    { text: "The future is something which everyone reaches at the rate of sixty minutes an hour.", author: "C.S. Lewis" },
-  ];
-  
-  const randomQuote = useMemo(() => {
-    return quotes[Math.floor(Math.random() * quotes.length)];
-  }, []);
+  const randomQuote = useMemo(() => QUOTES[Math.floor(Math.random() * QUOTES.length)], []);
   
   const today = new Date();
-  const holiday = getHolidayForDate(today);
   
   return (
     <section className="py-12 bg-background">
@@ -43,7 +42,7 @@ const DailyInfoCards = () => {
               <div>
                 <h3 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Today's Observance</h3>
                 <p className="text-lg text-foreground font-medium">
-                  {holiday || 'No major observance today.'}
+                  {TODAY_HOLIDAY || 'No major observance today.'}
                 </p>
               </div>
             </div>
