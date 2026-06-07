@@ -87,40 +87,56 @@ const DEFAULT_CITIES = ['lon', 'nyc', 'tyo'];
 
 const MEETING_FAQS = [
   {
-    question: 'What is a meeting time zone planner?',
-    answer: 'A meeting time zone planner is a tool that displays the local time in multiple cities simultaneously on a 24-hour grid. It colour-codes business hours (typically 9 AM–5 PM) so you can immediately see when all participants would be available during working hours — without doing manual time zone arithmetic.'
+    question: 'What is a global meeting planner?',
+    answer: 'A global meeting planner is a free online tool that helps international and worldwide teams find the best time to schedule a meeting across multiple time zones simultaneously. It displays each city\'s 24-hour day on a colour-coded grid — green for business hours, yellow for early/late, red for night — so you can instantly spot when everyone is available without manual time zone arithmetic.'
   },
   {
-    question: 'What is the best time to schedule a meeting between New York and London?',
-    answer: 'The best overlap for a New York–London meeting is 1 PM–5 PM London time (8 AM–12 PM New York EST) in winter, or 2 PM–5 PM London BST (9 AM–12 PM New York EDT) in summer. Use the planner above and add London and New York to see the green overlap cells highlighted automatically.'
+    question: 'What is an international meeting planner?',
+    answer: 'An international meeting planner (also called a world meeting planner or global time zone scheduler) helps you coordinate meeting times for participants in different countries. Unlike simple time zone converters, it handles up to 7 cities at once, automatically applies daylight saving time rules for every location, and highlights overlapping business hours in real time.'
   },
   {
-    question: 'What is the best time to meet between Dubai and London?',
-    answer: 'Dubai (GST, UTC+4) and London have a 3–4 hour difference. The ideal meeting window is 9 AM–1 PM London time, which equals 12 PM–4 PM in Dubai. Both cities are fully within business hours during this window. The exact overlap shifts slightly depending on whether London is on GMT or BST.'
+    question: 'What is a meeting time planner?',
+    answer: 'A meeting time planner shows you what time a chosen UTC hour corresponds to in each participant\'s city, colour-coded by whether it falls within business hours. You pick a date, add your cities, and the grid calculates every local time simultaneously — making it easy to find a slot that works for your entire international team.'
   },
   {
-    question: 'What is the best meeting time for US and Europe teams?',
-    answer: 'For US East Coast (EST/EDT) and Europe (CET/CEST) teams, the best overlap is 9 AM–12 PM Eastern Time, which is 3 PM–6 PM in Central Europe. For US West Coast (PST/PDT), the overlap shrinks further: 9 AM–9 AM Pacific is 6 PM–6 PM in Europe, leaving almost no business-hour overlap. Use the meeting planner to see the exact window for your specific cities.'
+    question: 'What is the time difference between Abu Dhabi and other major cities?',
+    answer: 'Abu Dhabi runs on Gulf Standard Time (GST, UTC+4) year-round with no daylight saving time. Key time differences: Abu Dhabi is 4 hours ahead of London (GMT) or 3 hours ahead when London is on BST. It is 9 hours ahead of New York (EST) or 8 hours ahead during EDT. It is 1 hour behind Singapore (SGT). Add Abu Dhabi and any city to the planner above to see the exact overlap for your chosen date.'
   },
   {
-    question: 'How many cities can I add to the meeting planner?',
-    answer: 'The MyZoneTime meeting planner supports up to 7 cities at once. You can search from 500+ cities worldwide, reorder them using the arrow buttons, and remove any you no longer need. Adding more cities narrows the overlap window, since all cities must simultaneously be in business hours.'
+    question: 'What is the best meeting time for Abu Dhabi and London?',
+    answer: 'Abu Dhabi (GST, UTC+4) and London (GMT/BST) have a 3-4 hour gap. In winter (London on GMT), the best overlap is 9 AM-1 PM London / 1 PM-5 PM Abu Dhabi. In summer (London on BST), it shifts to 9 AM-2 PM London / 12 PM-5 PM Abu Dhabi. Both windows keep everyone within core business hours.'
   },
   {
-    question: 'Does the meeting planner account for daylight saving time?',
-    answer: 'Yes. The planner automatically adjusts for daylight saving time (DST) based on the date you select. This means it correctly shows BST vs GMT for London, EDT vs EST for New York, and CEST vs CET for European cities. Simply pick your target date and the grid recalculates instantly.'
+    question: 'What is the best time to schedule a global meeting with New York, London, and Dubai?',
+    answer: 'For New York (EST), London (GMT), and Dubai (GST) in winter: the sweet spot is 9-11 AM New York / 2-4 PM London / 5-7 PM Dubai. In summer (EDT/BST) it shifts one hour earlier. Add all three cities to the meeting planner above to see the exact grid for your chosen date.'
   },
   {
-    question: 'Can I share a meeting plan with my team?',
-    answer: 'Yes. Click the Share button and the meeting planner copies a URL to your clipboard. The URL encodes your full city selection so anyone who opens it sees the same view with all the same cities pre-loaded. No account or signup is needed.'
+    question: 'How do I use the meeting planner time and date feature?',
+    answer: 'Select your meeting date using the date picker at the top of the planner. The grid recalculates instantly for that exact date, applying correct daylight saving time rules for every city. This is especially useful around DST transitions in March and November, when the US, UK, and Europe change clocks on different weekends — shifting the overlap window.'
   },
   {
-    question: 'What do the colours in the time grid mean?',
-    answer: 'Green indicates standard business hours (9 AM–5 PM local time). Yellow indicates early or late business hours (7–9 AM and 5–8 PM). Red means night or off-hours. When multiple cities are selected, the grid highlights in bright green any hour when all cities are simultaneously within business hours — that is your ideal meeting window.'
+    question: 'What is the best time for an international meeting schedule across US and Europe?',
+    answer: 'For US East Coast (EST/EDT) and Europe (CET/CEST), the best international meeting schedule window is 9 AM-12 PM Eastern / 3-6 PM Central European. For US West Coast (PST/PDT), the window is very limited — 9 AM Pacific is already 6 PM in Europe. Use the planner to find the least inconvenient slot for your specific cities.'
   },
   {
-    question: 'Is the meeting planner free to use?',
-    answer: 'Yes. The MyZoneTime meeting planner is completely free with no account, registration, or payment required. It works in any modern browser on desktop, tablet, or mobile. There are no limits on how many meetings you plan or how many city combinations you try.'
+    question: 'What is world meeting planning and why does it matter?',
+    answer: 'World meeting planning is the process of coordinating meeting times for distributed or remote global teams across different time zones. It matters because errors cost productivity — a 9 AM call in New York is 2 AM in Singapore. A world meeting planner eliminates those mistakes by showing every participant\'s local time on one grid and highlighting the hours that work for everyone.'
+  },
+  {
+    question: 'How many cities can I add to the international meeting planner?',
+    answer: 'The MyZoneTime global meeting planner supports up to 7 cities at once, searchable from 500+ cities worldwide. Adding more cities narrows the overlap window since all locations must simultaneously be within business hours. For large worldwide teams with no perfect overlap, the planner shows early/late windows (yellow) as a fallback option.'
+  },
+  {
+    question: 'Does the international meeting planner handle daylight saving time?',
+    answer: 'Yes. The planner automatically applies DST for every city based on the exact date you select — BST vs GMT for London, EDT vs EST for New York, CEST vs CET for Europe. Abu Dhabi, Dubai, and most Middle East cities do not observe DST, so their offset stays fixed at UTC+4 year-round.'
+  },
+  {
+    question: 'Can I share an international meeting schedule with my team?',
+    answer: 'Yes. Click the Share button to copy a URL to your clipboard. The link encodes your full city selection and date so anyone who opens it sees the identical worldwide meeting grid. No account or signup required.'
+  },
+  {
+    question: 'Is the global meeting planner free?',
+    answer: 'Yes, completely free. No account, registration, or payment required. The MyZoneTime global meeting planner works in any modern browser on desktop, tablet, or mobile with no limits on cities, dates, or shares.'
   },
 ];
 
@@ -228,9 +244,9 @@ export default function MeetingPlannerPage() {
   // ── Structured data (client-side supplement to server-side SSR) ──
   const webAppSchema = {
     '@type': 'WebApplication',
-    name: 'Meeting Planner — Find Best Time Across Time Zones',
+    name: 'Global Meeting Planner — International & Worldwide Time Zone Scheduler',
     url: 'https://myzonetime.com/meeting-planner',
-    description: 'Free online meeting planner. Find overlapping business hours for global teams across multiple time zones with DST support.',
+    description: 'Free global meeting planner for international teams. Find overlapping business hours across worldwide time zones including Abu Dhabi, Dubai, London, New York, Singapore. DST-aware.',
     applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'All',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -260,14 +276,14 @@ export default function MeetingPlannerPage() {
   return (
     <>
       <Helmet>
-        <title>Meeting Planner — Best Time Across Time Zones Free | MyZoneTime</title>
-        <meta name="description" content="Find the best meeting time across multiple time zones. Colour-coded business hours for up to 7 cities. DST-aware, shareable links. Free international meeting scheduler." />
-        <meta property="og:title" content="Meeting Planner — Best Time Across Time Zones | MyZoneTime" />
-        <meta property="og:description" content="Free meeting planner for global teams. Find overlapping business hours across up to 7 time zones with automatic DST support." />
+        <title>Meeting Planner — Global, International & Worldwide Time Zones | MyZoneTime</title>
+        <meta name="description" content="Free global meeting planner for international teams. Find the best meeting time across worldwide time zones — including Abu Dhabi, Dubai, London, New York. DST-aware, shareable, no signup." />
+        <meta property="og:title" content="Meeting Planner Worldwide — Best Time Across Time Zones | MyZoneTime" />
+        <meta property="og:description" content="Free worldwide meeting planner for global teams. Find overlapping business hours across up to 7 time zones with automatic DST support." />
         <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Meeting Planner — Best Time Across Time Zones | MyZoneTime" />
-        <meta name="twitter:description" content="Find overlapping business hours for your global team. Free, DST-aware, shareable." />
+        <meta name="twitter:title" content="Meeting Planner Worldwide — Best Time Across Time Zones | MyZoneTime" />
+        <meta name="twitter:description" content="Find overlapping business hours for your global team worldwide. Free, DST-aware, shareable." />
         <meta name="twitter:image" content="https://myzonetime.com/favicon.svg" />
       </Helmet>
 
@@ -280,10 +296,10 @@ export default function MeetingPlannerPage() {
           {/* ── Header ── */}
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Meeting Planner
+              Global Meeting Planner
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Find the best time to meet across cities and countries. Add up to 7 cities — the grid shows overlapping business hours instantly with automatic daylight saving time support.
+              The free international meeting planner for worldwide teams. Find the best meeting time across time zones — add up to 7 cities, get colour-coded business hours, automatic DST, and shareable links.
             </p>
             {/* Feature pills */}
             <div className="flex flex-wrap justify-center gap-2 pt-1">
@@ -617,21 +633,65 @@ export default function MeetingPlannerPage() {
             </ol>
           </section>
 
-          {/* ── About / Supporting content ── */}
           <section aria-labelledby="about-heading" className="prose prose-sm max-w-none text-muted-foreground space-y-4">
-            <h2 id="about-heading" className="text-xl font-semibold text-foreground">About the international meeting planner</h2>
+            <h2 id="about-heading" className="text-xl font-semibold text-foreground">About this global meeting planner</h2>
             <p>
-              Scheduling a meeting across time zones is one of the biggest friction points for distributed and remote teams. The MyZoneTime meeting planner solves this by visualising the 24-hour day as a colour-coded grid for every city in your team, so you can see at a glance which hours are within standard business hours for everyone.
+              Scheduling an international meeting is one of the biggest friction points for remote and distributed teams. The MyZoneTime global meeting planner solves this by displaying the 24-hour day as a colour-coded grid for every city in your team — so you can see at a glance which hours fall within business hours for everyone worldwide, without doing manual time zone arithmetic.
             </p>
             <p>
-              Unlike simple time zone converters that compare just two cities, the meeting planner handles up to 7 simultaneous locations. It is particularly useful for teams spanning multiple continents — for example, a company with offices in San Francisco, London, Dubai, and Singapore. While no single hour may fall within 9–5 for all four cities, the planner helps you find the least inconvenient slot and shows exactly what time that means locally for each person.
+              Unlike simple time zone converters, this international meeting planner handles up to 7 simultaneous cities. It is built for teams that span multiple continents: a company with offices in New York, London, Dubai, Abu Dhabi, and Singapore, for example. The planner identifies the hours where all cities are in green (9 AM–5 PM local), and clearly shows early/late yellow windows when no perfect overlap exists.
             </p>
             <p>
-              The tool automatically accounts for <strong className="text-foreground">daylight saving time (DST)</strong>. Select a date in March or November and you will notice the overlap windows shift as the US, UK, and Europe transition their clocks on different weekends. This is a common source of scheduling errors that the planner eliminates.
+              The tool automatically accounts for <strong className="text-foreground">daylight saving time (DST)</strong> based on the exact date you select. US cities switch between EST and EDT, UK cities between GMT and BST, and European cities between CET and CEST — often on different weekends. Abu Dhabi and Dubai stay on GST (UTC+4) year-round with no DST, making them a stable anchor for international meeting schedules.
             </p>
             <p>
-              All results can be shared instantly using the Share button, which generates a unique URL encoding your full city selection. No account is needed and the tool is completely free.
+              Share any meeting plan instantly — the Share button copies a URL encoding your full city selection and chosen date. Your global team members open the same worldwide meeting grid without needing an account.
             </p>
+          </section>
+
+          {/* ── Abu Dhabi time section ── */}
+          <section aria-labelledby="abudhabi-heading" className="premium-card p-6">
+            <h2 id="abudhabi-heading" className="text-lg font-semibold mb-3">Abu Dhabi time and international meeting schedule</h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              Abu Dhabi (Gulf Standard Time, GST, UTC+4) does not observe daylight saving time. This makes it a predictable reference point for worldwide meeting planning. Below are the key time differences and best meeting windows with Abu Dhabi:
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+              {[
+                { city: 'Abu Dhabi → London', diff: '−4 hrs (GMT) / −3 hrs (BST)', window: '1–5 PM Abu Dhabi / 9 AM–1 PM London' },
+                { city: 'Abu Dhabi → New York', diff: '−9 hrs (EST) / −8 hrs (EDT)', window: '5–9 PM Abu Dhabi / 8 AM–12 PM NY' },
+                { city: 'Abu Dhabi → Dubai', diff: 'Same time zone (GST, UTC+4)', window: 'Any business hour works' },
+                { city: 'Abu Dhabi → Singapore', diff: '+4 hrs (SGT)', window: '9 AM–1 PM Abu Dhabi / 1–5 PM Singapore' },
+                { city: 'Abu Dhabi → Paris', diff: '−3 hrs (CET) / −2 hrs (CEST)', window: '12–5 PM Abu Dhabi / 9 AM–2 PM Paris' },
+                { city: 'Abu Dhabi → Sydney', diff: '+6/+7 hrs (AEST/AEDT)', window: 'Very limited — async recommended' },
+              ].map(r => (
+                <div key={r.city} className="rounded-xl border border-border/40 bg-muted/30 p-4 space-y-1">
+                  <div className="font-semibold text-foreground text-xs">{r.city}</div>
+                  <div className="text-xs text-muted-foreground">Time difference: {r.diff}</div>
+                  <div className="text-xs text-primary font-medium">Best window: {r.window}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ── Popular worldwide combinations ── */}
+          <section aria-labelledby="popular-heading" className="premium-card p-6">
+            <h2 id="popular-heading" className="text-lg font-semibold mb-4">Popular worldwide meeting combinations</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+              {[
+                { label: 'US + Europe', cities: 'New York · London · Paris', window: '9 AM–12 PM ET / 2–5 PM GMT' },
+                { label: 'US + Middle East', cities: 'New York · Dubai · Riyadh', window: '9–11 AM ET / 5–7 PM GST' },
+                { label: 'Europe + Asia', cities: 'London · Dubai · Singapore', window: '9 AM–1 PM GMT / 12–4 PM GST' },
+                { label: 'MENA + Europe', cities: 'Abu Dhabi · Dubai · London · Paris', window: '9 AM–1 PM GMT / 1–5 PM GST' },
+                { label: 'Global all-hands', cities: 'New York · London · Abu Dhabi · Singapore', window: '8–9 AM ET / 1–2 PM GMT / 4–5 PM GST' },
+                { label: 'US + Asia Pacific', cities: 'Los Angeles · Tokyo · Sydney', window: 'Very limited — async recommended' },
+              ].map(c => (
+                <div key={c.label} className="rounded-xl border border-border/40 bg-muted/30 p-4 space-y-1">
+                  <div className="font-semibold text-foreground">{c.label}</div>
+                  <div className="text-xs text-muted-foreground">{c.cities}</div>
+                  <div className="text-xs text-primary font-medium">Best window: {c.window}</div>
+                </div>
+              ))}
+            </div>
           </section>
 
           {/* ── Related tools ── */}
@@ -643,7 +703,7 @@ export default function MeetingPlannerPage() {
       {/* ── FAQ section ── */}
       <FAQSection
         faqs={MEETING_FAQS}
-        title="Meeting Planner — Frequently Asked Questions"
+        title="Global Meeting Planner — Frequently Asked Questions"
       />
     </>
   );
