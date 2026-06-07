@@ -84,12 +84,22 @@
 
     <!-- SSR meta tags injected by server.js replace the static tags above at request time -->
 
-    <script type="module" crossorigin src="/assets/index-Co-Wfggy.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-BBR5m66-.js" />
-    <link rel="modulepreload" crossorigin href="/assets/vendor-ui-Bs0n-ePb.js" />
+    <!-- Inline critical CSS: paints above-fold background immediately, eliminating blank-screen
+         time while the full /assets/index-*.css (16.5 KB) is still downloading. -->
+    <style>
+      *,::before,::after{box-sizing:border-box;margin:0;padding:0}
+      html{background:#050916}
+      body{background:#050916;color:#e9f0fb;font-family:'Geist','Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+      #root{width:100%;min-height:100vh}
+    </style>
+
+    <!-- CSS first so it's in the critical path immediately -->
+    <link rel="stylesheet" crossorigin href="/assets/index-B8wEjVTy.css" />
+    <!-- React core high-priority; vendor-ui NOT modulepreloaded (loaded lazily on demand) -->
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-BBR5m66-.js" fetchpriority="high" />
     <link rel="modulepreload" crossorigin href="/assets/vendor-helmet-UrcSeOuv.js" />
     <link rel="modulepreload" crossorigin href="/assets/vendor-icons-D17535Nk.js" />
-    <link rel="stylesheet" crossorigin href="/assets/index-B8wEjVTy.css" />
+    <script type="module" crossorigin src="/assets/index-Co-Wfggy.js"></script>
   </head>
   <body>
     <!-- Skip to content — WCAG 2.1 AA compliance -->
@@ -117,6 +127,53 @@
     <!-- SSR_H1_INJECT — server.js replaces this comment with a real <h1> tag per route -->
     <!-- SSR_H1_INJECT -->
 
+    <!--
+      Static LCP hero — visible immediately on first paint, hidden once React mounts.
+      Eliminates the 1,280ms "element render delay" caused by React.lazy + Suspense.
+      server.js could personalise SSR_HERO_TITLE per route; for now it shows the home headline.
+    -->
+    <div id="static-hero" aria-hidden="true" style="
+      position:relative;
+      width:100%;
+      min-height:60vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:5rem 1.25rem 3rem;
+      text-align:center;
+      background:#050916;
+      color:#e9f0fb;
+      font-family:'Geist','Segoe UI',system-ui,sans-serif;
+    ">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 1rem;border-radius:9999px;background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.25);font-size:0.875rem;font-weight:500;margin-bottom:1.5rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        AI-powered global time intelligence — 500+ Cities
+      </div>
+      <p style="font-size:clamp(2rem,6vw,4.5rem);font-weight:700;letter-spacing:-0.03em;max-width:54rem;line-height:1.1;margin:0 0 1.25rem;">
+        World Clock &amp; Time Zone Converter
+      </p>
+      <p style="font-size:1.125rem;color:#8fa3c0;max-width:38rem;line-height:1.7;margin:0;">
+        AI-first city search and time tools for modern global teams.
+      </p>
+    </div>
+
     <div id="root"></div>
+    <script>
+      // Hide static hero on non-home routes immediately (before React mounts)
+      (function() {
+        var hero = document.getElementById('static-hero');
+        if (!hero) return;
+        var path = location.pathname.replace(/\/$/, '') || '/';
+        if (path !== '/') { hero.style.display = 'none'; return; }
+        // On home route: hide once React root mounts
+        var root = document.getElementById('root');
+        if (!root) return;
+        var obs = new MutationObserver(function() {
+          if (root.firstChild) { hero.style.display = 'none'; obs.disconnect(); }
+        });
+        obs.observe(root, { childList: true });
+      })();
+    </script>
   </body>
 </html>

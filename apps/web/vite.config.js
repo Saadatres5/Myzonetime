@@ -42,6 +42,9 @@ export default defineConfig({
           if (id.includes('node_modules/recharts')) {
             return 'vendor-charts';
           }
+          if (id.includes('@radix-ui/react-dialog') || id.includes('@radix-ui/react-sheet') || id.includes('@radix-ui/react-popover') || id.includes('@radix-ui/react-select') || id.includes('@radix-ui/react-dropdown-menu')) {
+            return 'vendor-ui-overlay'; // heavy overlay components — lazy loaded
+          }
           if (
             id.includes('@radix-ui') ||
             id.includes('class-variance-authority') ||
