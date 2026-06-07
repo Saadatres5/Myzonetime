@@ -13,12 +13,10 @@ const QUOTES = [
   { text: "The future is something which everyone reaches at the rate of sixty minutes an hour.", author: "C.S. Lewis" },
 ];
 
-const TODAY_HOLIDAY = getHolidayForDate(new Date());
-
 const DailyInfoCards = () => {
   const randomQuote = useMemo(() => QUOTES[Math.floor(Math.random() * QUOTES.length)], []);
+  const holiday = useMemo(() => getHolidayForDate(new Date()), []);
   
-  const today = new Date();
   
   return (
     <section className="py-12 bg-background">
@@ -42,7 +40,7 @@ const DailyInfoCards = () => {
               <div>
                 <h3 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Today's Observance</h3>
                 <p className="text-lg text-foreground font-medium">
-                  {TODAY_HOLIDAY || 'No major observance today.'}
+                  {holiday || 'No major observance today.'}
                 </p>
               </div>
             </div>

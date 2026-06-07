@@ -6,7 +6,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative w-full border-t border-border bg-background px-4 py-14 sm:px-6 lg:px-8" style={{ contain: 'layout', minHeight: '420px' }}>
+    <footer className="relative w-full border-t border-border bg-background px-4 py-14 sm:px-6 lg:px-8">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="container mx-auto grid gap-10 md:grid-cols-[1.2fr_0.8fr] lg:grid-cols-[1.4fr_1fr]">
         <div className="glass-panel p-8 md:p-10">
