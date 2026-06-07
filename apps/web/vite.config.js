@@ -29,7 +29,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // Vendor splitting
           if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('node_modules/react-router-dom/')) {
             return 'vendor-react';
           }
@@ -42,9 +41,6 @@ export default defineConfig({
           if (id.includes('node_modules/recharts')) {
             return 'vendor-charts';
           }
-          if (id.includes('@radix-ui/react-dialog') || id.includes('@radix-ui/react-sheet') || id.includes('@radix-ui/react-popover') || id.includes('@radix-ui/react-select') || id.includes('@radix-ui/react-dropdown-menu')) {
-            return 'vendor-ui-overlay'; // heavy overlay components — lazy loaded
-          }
           if (
             id.includes('@radix-ui') ||
             id.includes('class-variance-authority') ||
@@ -53,10 +49,8 @@ export default defineConfig({
           ) {
             return 'vendor-ui';
           }
-          // SEO data chunks (loaded lazily by their pages)
           if (id.includes('src/data/cityPageData')) return 'data-cities-seo';
           if (id.includes('src/data/timezoneData')) return 'data-timezones';
-          // worldCitiesData is large — keep as separate lazy chunk
           if (id.includes('src/data/worldCitiesData')) return 'data-world-cities';
           if (id.includes('src/data/citiesData')) return 'data-cities';
         },
