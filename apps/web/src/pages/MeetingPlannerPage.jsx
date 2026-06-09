@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { Users, Globe, X, Search, Share2, Check, Calendar, ChevronLeft, ChevronRight, Clock, Zap, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { citiesData } from '@/data/citiesData.js';
@@ -693,6 +694,25 @@ export default function MeetingPlannerPage() {
               ))}
             </div>
           </section>
+
+          {/* ── AI Meeting Planner promo ── */}
+          <div className="premium-card p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            <div className="w-12 h-12 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center flex-shrink-0">
+              <span className="text-2xl">🤖</span>
+            </div>
+            <div className="flex-1">
+              <h2 className="font-bold text-foreground mb-1">Try the AI Meeting Planner</h2>
+              <p className="text-sm text-muted-foreground">
+                Prefer plain English? Describe your meeting — cities, date, preferences — and our AI returns the best worldwide time slot with DST notes, alternatives, and tips.
+              </p>
+            </div>
+            <Link
+              to="/ai-meeting-planner"
+              className="flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors flex-shrink-0"
+            >
+              Try AI Planner →
+            </Link>
+          </div>
 
           {/* ── Related tools ── */}
           <RelatedTools current="/meeting-planner" />

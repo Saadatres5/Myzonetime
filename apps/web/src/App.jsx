@@ -17,6 +17,7 @@ const CountdownPage                = React.lazy(() => import('./pages/CountdownP
 const DateCalculatorPage           = React.lazy(() => import('./pages/DateCalculatorPage.jsx'));
 const WorkHoursCalculatorPage      = React.lazy(() => import('./pages/WorkHoursCalculatorPage.jsx'));
 const MeetingPlannerPage           = React.lazy(() => import('./pages/MeetingPlannerPage.jsx'));
+const AIMeetingPlannerPage         = React.lazy(() => import('./pages/AIMeetingPlannerPage.jsx'));
 const HijriCalendarPage            = React.lazy(() => import('./pages/HijriCalendarPage.jsx'));
 const TimeDifferenceCalculatorPage = React.lazy(() => import('./pages/TimeDifferenceCalculatorPage.jsx'));
 const WorldClockWidgetPage         = React.lazy(() => import('./pages/WorldClockWidgetPage.jsx'));
@@ -93,6 +94,7 @@ function AppContent({ settings, updateSetting }) {
             <Route path="/date-calculator"              element={<DateCalculatorPage />} />
             <Route path="/work-hours-calculator"        element={<WorkHoursCalculatorPage />} />
             <Route path="/meeting-planner"              element={<MeetingPlannerPage />} />
+            <Route path="/ai-meeting-planner"           element={<AIMeetingPlannerPage />} />
             <Route path="/hijri-calendar"               element={<HijriCalendarPage />} />
             <Route path="/time-difference-calculator"   element={<TimeDifferenceCalculatorPage />} />
             <Route path="/world-clock-widget"           element={<WorldClockWidgetPage />} />

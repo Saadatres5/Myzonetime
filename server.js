@@ -30,14 +30,6 @@ const DIST = path.join(__dirname, "apps/web/dist");
 // ─── 1. Compression ────────────────────────────────────────────────────────
 app.use(compression({ level: 6 }));
 
-// ─── 2b. Additional security headers ──────────────────────────────────────
-app.use((req, res, next) => {
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(self), payment=()');
-  res.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
-  next();
-});
-
 // ─── 2. Security headers (helmet) ──────────────────────────────────────────
 app.use(
   helmet({
@@ -50,7 +42,7 @@ app.use(
         styleSrc:    ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc:     ["'self'", "https://fonts.gstatic.com"],
         imgSrc:      ["'self'", "data:", "https:", "https://images.unsplash.com"],
-        connectSrc:  ["'self'", "https://api.open-meteo.com", "https://www.google-analytics.com", "https://pagead2.googlesyndication.com", "https://adservice.google.com"],
+        connectSrc:  ["'self'", "https://api.open-meteo.com", "https://www.google-analytics.com"],
         frameSrc:    ["https://googleads.g.doubleclick.net", "https://tpc.googlesyndication.com"],
         objectSrc:   ["'none'"],
         upgradeInsecureRequests: [],
@@ -313,6 +305,7 @@ const CORE_ROUTES = [
   { path: "/world-clock",                priority: "0.9", changefreq: "daily"   },
   { path: "/timezone-converter",         priority: "0.9", changefreq: "daily"   },
   { path: "/meeting-planner",            priority: "0.8", changefreq: "weekly"  },
+  { path: "/ai-meeting-planner",         priority: "0.9", changefreq: "weekly"  },
   { path: "/time-difference-calculator", priority: "0.8", changefreq: "weekly"  },
   { path: "/hijri-calendar",             priority: "0.8", changefreq: "daily"   },
   { path: "/stopwatch",                  priority: "0.7", changefreq: "monthly" },
@@ -414,6 +407,12 @@ const META = {
     description: "Schedule meetings with participants in different time zones. Find overlapping business hours across multiple cities, free.",
     canonical: `${BASE}/meeting-planner`,
     h1: "Meeting Planner",
+  },
+  "/ai-meeting-planner": {
+    title: "AI Meeting Planner Worldwide — Smart Global Time Zone Scheduler | MyZoneTime",
+    description: "AI-powered worldwide meeting planner. Describe your meeting in plain English and get instant best time slots, local times for every city, DST warnings, and global scheduling scenarios. Free.",
+    canonical: `${BASE}/ai-meeting-planner`,
+    h1: "AI Meeting Planner Worldwide",
   },
   "/time-difference-calculator": {
     title: "Time Difference Calculator — Hours Between Cities | MyZoneTime",
