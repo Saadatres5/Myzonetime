@@ -235,18 +235,20 @@ Rules:
     setError(null);
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('/api/ai-meeting', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
           system: SYSTEM_PROMPT,
           messages: newMessages.map(m => ({ role: m.role, content: m.content })),
         }),
       });
 
       const data = await response.json();
+      if (!response.ok) {
+        setError(data?.error || 'Request failed. Please try again.');
+        return;
+      }
       const aiContent = data.content?.[0]?.text || 'Sorry, I could not generate a response. Please try again.';
       setMessages(prev => [...prev, { role: 'assistant', content: aiContent }]);
     } catch {

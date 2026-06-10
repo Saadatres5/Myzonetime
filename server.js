@@ -42,7 +42,7 @@ app.use(
         styleSrc:    ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc:     ["'self'", "https://fonts.gstatic.com"],
         imgSrc:      ["'self'", "data:", "https:", "https://images.unsplash.com"],
-        connectSrc:  ["'self'", "https://api.open-meteo.com", "https://www.google-analytics.com"],
+        connectSrc:  ["'self'", "https://api.open-meteo.com", "https://www.google-analytics.com", "https://api.anthropic.com"],
         frameSrc:    ["https://googleads.g.doubleclick.net", "https://tpc.googlesyndication.com"],
         objectSrc:   ["'none'"],
         upgradeInsecureRequests: [],
@@ -79,6 +79,52 @@ app.use((req, res, next) => {
     return res.status(429).set("Retry-After", "60").send("Too Many Requests");
   }
   next();
+});
+
+// ─── 5a. JSON body parser (needed for API proxy) ───────────────────────────
+app.use(express.json({ limit: '16kb' }));
+
+// ─── 5b. Anthropic API proxy (/api/ai-meeting) ─────────────────────────────
+// Keeps the Anthropic API key server-side; browser calls /api/ai-meeting.
+const AI_RATE = new Map(); // simple per-IP rate limit: 20 req/min
+app.post('/api/ai-meeting', async (req, res) => {
+  const ip  = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress || 'unknown';
+  const now = Date.now();
+  const ai  = AI_RATE.get(ip) || { count: 0, reset: now + 60_000 };
+  if (now > ai.reset) { ai.count = 0; ai.reset = now + 60_000; }
+  ai.count++;
+  AI_RATE.set(ip, ai);
+  if (ai.count > 20) return res.status(429).json({ error: 'Too many requests. Please wait a minute.' });
+
+  const { messages, system } = req.body;
+  if (!Array.isArray(messages) || !messages.length) {
+    return res.status(400).json({ error: 'Invalid request.' });
+  }
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return res.status(503).json({ error: 'AI service not configured.' });
+
+  try {
+    const upstream = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type':      'application/json',
+        'x-api-key':         apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model:      'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        system:     system || '',
+        messages,
+      }),
+    });
+    const data = await upstream.json();
+    if (!upstream.ok) return res.status(upstream.status).json({ error: data?.error?.message || 'AI error.' });
+    res.json(data);
+  } catch (err) {
+    res.status(502).json({ error: 'Could not reach AI service.' });
+  }
 });
 
 // ─── 5. Static assets (1-year cache for hashed filenames) ──────────────────
