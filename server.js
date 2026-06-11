@@ -101,7 +101,7 @@ app.post('/api/ai-meeting', async (req, res) => {
     return res.status(400).json({ error: 'Invalid request.' });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.SDT_API_KEY;
   if (!apiKey) return res.status(503).json({ error: 'AI service not configured.' });
 
   try {
