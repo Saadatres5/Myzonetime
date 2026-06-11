@@ -42,7 +42,7 @@ app.use(
         styleSrc:    ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc:     ["'self'", "https://fonts.gstatic.com"],
         imgSrc:      ["'self'", "data:", "https:", "https://images.unsplash.com"],
-        connectSrc:  ["'self'", "https://api.open-meteo.com", "https://www.google-analytics.com", "https://api.anthropic.com"],
+        connectSrc:  ["'self'", "https://api.open-meteo.com", "https://www.google-analytics.com", "https://api.groq.com"],
         frameSrc:    ["https://googleads.g.doubleclick.net", "https://tpc.googlesyndication.com"],
         objectSrc:   ["'none'"],
         upgradeInsecureRequests: [],
@@ -105,23 +105,22 @@ app.post('/api/ai-meeting', async (req, res) => {
   if (!apiKey) return res.status(503).json({ error: 'AI service not configured.' });
 
   try {
-    const upstream = await fetch('https://api.anthropic.com/v1/messages', {
+    const upstream = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Content-Type':      'application/json',
-        'x-api-key':         apiKey,
-        'anthropic-version': '2023-06-01',
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model:      'claude-haiku-4-5-20251001',
+        model:      'llama-3.3-70b-versatile',
         max_tokens: 1024,
-        system:     system || '',
-        messages,
+        messages:   [{ role: 'system', content: system || '' }, ...messages],
       }),
     });
     const data = await upstream.json();
     if (!upstream.ok) return res.status(upstream.status).json({ error: data?.error?.message || 'AI error.' });
-    res.json(data);
+    // Normalise to Anthropic-style response shape the frontend expects
+    res.json({ content: [{ text: data.choices?.[0]?.message?.content || '' }] });
   } catch (err) {
     res.status(502).json({ error: 'Could not reach AI service.' });
   }
