@@ -64,12 +64,58 @@ const faqs = [
   },
 ];
 
+const BASE = 'https://myzonetime.com';
+const TODAY = new Date().toISOString().split('T')[0];
+
 const schema = {
-  '@type': 'WebPage',
-  name: 'Current Time in Oslo, Norway',
-  url: 'https://myzonetime.com/oslo',
-  description: 'Live clock and time zone info for Oslo, Norway. CET (UTC+1) in winter, CEST (UTC+2) in summer.',
-  about: { '@type': 'City', name: 'Oslo', containedInPlace: { '@type': 'Country', name: 'Norway' } },
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['City', 'Place'],
+      '@id': BASE + '/oslo#city',
+      name: 'Oslo',
+      url: BASE + '/oslo',
+      containedInPlace: { '@type': 'Country', name: 'Norway' },
+      geo: { '@type': 'GeoCoordinates', latitude: 59.9139, longitude: 10.7522 },
+      additionalProperty: [
+        { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Europe/Oslo' },
+        { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+1/UTC+2' },
+        { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'CET/CEST' },
+        { '@type': 'PropertyValue', name: 'Observes DST', value: 'Yes' },
+      ],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': BASE + '/oslo#webpage',
+      url: BASE + '/oslo',
+      name: 'Oslo Time — Live Clock, CET/CEST | MyZoneTime',
+      isPartOf: { '@id': BASE + '/#website' },
+      publisher: { '@id': BASE + '/#organization' },
+      about: { '@id': BASE + '/oslo#city' },
+      dateModified: TODAY,
+      inLanguage: 'en',
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+          { '@type': 'ListItem', position: 2, name: 'Oslo Time', item: BASE + '/oslo' },
+        ],
+      },
+    },
+    {
+      '@type': 'WebApplication',
+      '@id': BASE + '/oslo#webapp',
+      name: 'Oslo World Clock',
+      url: BASE + '/oslo',
+      description: 'Live current time in Oslo, Norway. CET/CEST (UTC+1/UTC+2). Accurate world clock with DST-aware time zone tools.',
+      applicationCategory: 'UtilitiesApplication',
+      applicationSubCategory: 'World Clock',
+      operatingSystem: 'Any',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      provider: { '@id': BASE + '/#organization' },
+      isPartOf: { '@id': BASE + '/#website' },
+    },
+  ],
 };
 
 const breadcrumbSchema = {

@@ -105,51 +105,132 @@ export default function HomePage() {
   };
 
 
+  // ── Entity-first schema system ──────────────────────────────────────────────
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
   const organizationSchema = {
     '@type': 'Organization',
+    '@id': `${BASE}/#organization`,
     name: 'MyZoneTime',
-    url: 'https://myzonetime.com',
-    logo: { '@type': 'ImageObject', url: 'https://myzonetime.com/favicon.svg', width: 1200, height: 630 },
-    sameAs: [],
-    contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', availableLanguage: 'English' },
-  };
-  
-  const webApplicationSchema = {
-    '@type': 'WebApplication',
-    name: 'MyZoneTime',
-    url: 'https://myzonetime.com',
-    description: 'AI-powered world clock & time zone converter for 500+ cities, smart search, meeting planning, and modern audience growth.',
-    applicationCategory: 'UtilitiesApplication',
-    operatingSystem: 'All',
-    image: 'https://myzonetime.com/favicon.svg',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    featureList: ['AI-powered search', 'Time zone conversion', 'World clock', 'Meeting planner', 'Hijri calendar', 'Live weather'],
+    alternateName: ['MyZoneTime.com', 'MZT'],
+    url: BASE,
+    logo: {
+      '@type': 'ImageObject',
+      '@id': `${BASE}/#logo`,
+      url: `${BASE}/favicon.svg`,
+      width: 512,
+      height: 512,
+      caption: 'MyZoneTime — World Clock & Time Zone Tools',
+    },
+    image: { '@type': 'ImageObject', url: `${BASE}/og-image.jpg`, width: 1200, height: 630 },
+    description: 'MyZoneTime is a free global time intelligence platform providing world clocks, time zone converters, meeting planners, Hijri calendar, and AI-powered scheduling tools for 500+ cities worldwide.',
+    knowsAbout: [
+      { '@type': 'Thing', name: 'Time zones', sameAs: 'https://en.wikipedia.org/wiki/Time_zone' },
+      { '@type': 'Thing', name: 'Coordinated Universal Time', sameAs: 'https://en.wikipedia.org/wiki/Coordinated_Universal_Time' },
+      { '@type': 'Thing', name: 'Daylight saving time', sameAs: 'https://en.wikipedia.org/wiki/Daylight_saving_time' },
+      { '@type': 'Thing', name: 'Islamic calendar', sameAs: 'https://en.wikipedia.org/wiki/Islamic_calendar' },
+      { '@type': 'Thing', name: 'Gulf Standard Time', sameAs: 'https://en.wikipedia.org/wiki/Gulf_Standard_Time' },
+      { '@type': 'Thing', name: 'International meeting scheduling' },
+    ],
+    sameAs: [
+      'https://twitter.com/myzonetime',
+      'https://www.facebook.com/myzonetime',
+      'https://www.linkedin.com/company/myzonetime',
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'MyZoneTime Free Tools',
+      itemListElement: [
+        { '@type': 'Offer', itemOffered: { '@type': 'WebApplication', name: 'World Clock', url: `${BASE}/world-clock` } },
+        { '@type': 'Offer', itemOffered: { '@type': 'WebApplication', name: 'Time Zone Converter', url: `${BASE}/timezone-converter` } },
+        { '@type': 'Offer', itemOffered: { '@type': 'WebApplication', name: 'Global Meeting Planner', url: `${BASE}/meeting-planner` } },
+        { '@type': 'Offer', itemOffered: { '@type': 'WebApplication', name: 'AI Meeting Planner', url: `${BASE}/ai-meeting-planner` } },
+        { '@type': 'Offer', itemOffered: { '@type': 'WebApplication', name: 'Hijri Calendar', url: `${BASE}/hijri-calendar` } },
+        { '@type': 'Offer', itemOffered: { '@type': 'WebApplication', name: 'Time Difference Calculator', url: `${BASE}/time-difference-calculator` } },
+        { '@type': 'Offer', itemOffered: { '@type': 'WebApplication', name: 'Work Hours Calculator', url: `${BASE}/work-hours` } },
+      ],
+    },
+    contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', availableLanguage: ['English', 'Arabic'], url: `${BASE}/contact` },
+    areaServed: { '@type': 'Place', name: 'Worldwide' },
   };
 
   const websiteSchema = {
     '@type': 'WebSite',
+    '@id': `${BASE}/#website`,
     name: 'MyZoneTime',
-    url: 'https://myzonetime.com',
+    url: BASE,
+    publisher: { '@id': `${BASE}/#organization` },
+    inLanguage: 'en',
     potentialAction: {
       '@type': 'SearchAction',
-      target: { '@type': 'EntryPoint', urlTemplate: 'https://myzonetime.com/world-clock?search={search_term_string}' },
+      target: { '@type': 'EntryPoint', urlTemplate: `${BASE}/world-clock?q={search_term_string}` },
       'query-input': 'required name=search_term_string',
     },
   };
 
-  const breadcrumbSchema = {
-    '@type': 'BreadcrumbList',
-    itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' }],
+  const homePageSchema = {
+    '@type': 'WebPage',
+    '@id': `${BASE}/#webpage`,
+    url: BASE,
+    name: 'World Clock & Time Zone Converter — Live Time in 500+ Cities | MyZoneTime',
+    description: 'Free world clock for 500+ cities. Time zone converter, meeting planner, Hijri calendar, and AI-powered scheduling tools for global teams.',
+    isPartOf: { '@id': `${BASE}/#website` },
+    about: { '@id': `${BASE}/#organization` },
+    publisher: { '@id': `${BASE}/#organization` },
+    dateModified: TODAY,
+    inLanguage: 'en',
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: BASE }],
+    },
+    significantLink: [
+      `${BASE}/world-clock`,
+      `${BASE}/meeting-planner`,
+      `${BASE}/ai-meeting-planner`,
+      `${BASE}/timezone-converter`,
+      `${BASE}/hijri-calendar`,
+    ],
   };
-  const sitelinksSchema = {
-    '@type': 'ItemList',
-    name: 'MyZoneTime Tools',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'World Clock', url: 'https://myzonetime.com/world-clock' },
-      { '@type': 'ListItem', position: 2, name: 'Time Zone Converter', url: 'https://myzonetime.com/timezone-converter' },
-      { '@type': 'ListItem', position: 3, name: 'Meeting Planner', url: 'https://myzonetime.com/meeting-planner' },
-      { '@type': 'ListItem', position: 4, name: 'Hijri Calendar', url: 'https://myzonetime.com/hijri-calendar' },
-      { '@type': 'ListItem', position: 5, name: 'Time Difference Calculator', url: 'https://myzonetime.com/time-difference-calculator' },
+
+  const webApplicationSchema = {
+    '@type': 'WebApplication',
+    '@id': `${BASE}/#webapp`,
+    name: 'MyZoneTime — Global Time Intelligence Platform',
+    url: BASE,
+    description: 'AI-powered world clock and time zone tools for global teams. World clock, converter, meeting planner, Hijri calendar, and AI scheduling for 500+ cities.',
+    applicationCategory: 'UtilitiesApplication',
+    applicationSubCategory: 'Time & Clock Tools',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/OnlineOnly' },
+    provider: { '@id': `${BASE}/#organization` },
+    publisher: { '@id': `${BASE}/#organization` },
+    featureList: [
+      'Live world clock for 500+ cities',
+      'DST-aware time zone converter',
+      'International meeting planner with business hours grid',
+      'AI meeting planner with natural language scheduling',
+      'Hijri/Islamic calendar with Gregorian conversion',
+      'Time difference calculator',
+      'Work hours calculator for remote teams',
+      'Stopwatch, timer, and countdown tools',
+    ],
+    dateModified: TODAY,
+  };
+
+  const siteNavSchema = {
+    '@type': 'SiteNavigationElement',
+    '@id': `${BASE}/#navigation`,
+    name: 'MyZoneTime Main Navigation',
+    hasPart: [
+      { '@type': 'SiteNavigationElement', name: 'World Clock',                url: `${BASE}/world-clock` },
+      { '@type': 'SiteNavigationElement', name: 'Time Zone Converter',        url: `${BASE}/timezone-converter` },
+      { '@type': 'SiteNavigationElement', name: 'Global Meeting Planner',     url: `${BASE}/meeting-planner` },
+      { '@type': 'SiteNavigationElement', name: 'AI Meeting Planner',         url: `${BASE}/ai-meeting-planner` },
+      { '@type': 'SiteNavigationElement', name: 'Time Difference Calculator', url: `${BASE}/time-difference-calculator` },
+      { '@type': 'SiteNavigationElement', name: 'Hijri Calendar',             url: `${BASE}/hijri-calendar` },
+      { '@type': 'SiteNavigationElement', name: 'Work Hours Calculator',      url: `${BASE}/work-hours` },
     ],
   };
 
@@ -190,7 +271,7 @@ export default function HomePage() {
         <meta name="twitter:image:alt" content="MyZoneTime — World Clock" />
       </Helmet>
       <CanonicalTag pathname="/" />
-      <StructuredData schemas={[organizationSchema, webApplicationSchema, websiteSchema, breadcrumbSchema, sitelinksSchema]} />
+      <StructuredData schemas={[organizationSchema, websiteSchema, homePageSchema, webApplicationSchema, siteNavSchema]} />
 
       {/* ── Hero ── */}
       <section className="relative w-full min-h-[80vh] flex flex-col items-center justify-center py-20 overflow-hidden">

@@ -62,12 +62,58 @@ const faqs = [
   },
 ];
 
+const BASE = 'https://myzonetime.com';
+const TODAY = new Date().toISOString().split('T')[0];
+
 const schema = {
-  '@type': 'WebPage',
-  name: 'Current Time in Kuala Lumpur, Malaysia',
-  url: 'https://myzonetime.com/kuala-lumpur',
-  description: 'Live clock and time zone info for Kuala Lumpur, Malaysia. Malaysia Time (MYT), UTC+8. No DST.',
-  about: { '@type': 'City', name: 'Kuala Lumpur', containedInPlace: { '@type': 'Country', name: 'Malaysia' } },
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['City', 'Place'],
+      '@id': BASE + '/kuala-lumpur#city',
+      name: 'Kuala Lumpur',
+      url: BASE + '/kuala-lumpur',
+      containedInPlace: { '@type': 'Country', name: 'Malaysia' },
+      geo: { '@type': 'GeoCoordinates', latitude: 3.139, longitude: 101.6869 },
+      additionalProperty: [
+        { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Asia/Kuala_Lumpur' },
+        { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+8' },
+        { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'MYT' },
+        { '@type': 'PropertyValue', name: 'Observes DST', value: 'No' },
+      ],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': BASE + '/kuala-lumpur#webpage',
+      url: BASE + '/kuala-lumpur',
+      name: 'Kuala Lumpur Time — Live Clock, MYT UTC+8 | MyZoneTime',
+      isPartOf: { '@id': BASE + '/#website' },
+      publisher: { '@id': BASE + '/#organization' },
+      about: { '@id': BASE + '/kuala-lumpur#city' },
+      dateModified: TODAY,
+      inLanguage: 'en',
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+          { '@type': 'ListItem', position: 2, name: 'Kuala Lumpur Time', item: BASE + '/kuala-lumpur' },
+        ],
+      },
+    },
+    {
+      '@type': 'WebApplication',
+      '@id': BASE + '/kuala-lumpur#webapp',
+      name: 'Kuala Lumpur World Clock',
+      url: BASE + '/kuala-lumpur',
+      description: 'Live current time in Kuala Lumpur, Malaysia. MYT (UTC+8). Accurate world clock with DST-aware time zone tools.',
+      applicationCategory: 'UtilitiesApplication',
+      applicationSubCategory: 'World Clock',
+      operatingSystem: 'Any',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      provider: { '@id': BASE + '/#organization' },
+      isPartOf: { '@id': BASE + '/#website' },
+    },
+  ],
 };
 
 const breadcrumbSchema = {

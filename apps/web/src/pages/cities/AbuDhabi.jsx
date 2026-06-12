@@ -26,19 +26,59 @@ export default function AbuDhabi() {
     { question: 'What is the best time to call Abu Dhabi from the US?', answer: 'From New York, the best time to call Abu Dhabi is 8:00 PM–11:00 PM EST (which is 9:00 AM–12:00 PM the next day in Abu Dhabi). From Los Angeles (PST, UTC−8), call 5:00 PM–8:00 PM to reach Abu Dhabi at the start of its business day.' },
   ];
 
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'City', name: 'Abu Dhabi', containedInPlace: { '@type': 'Country', name: 'United Arab Emirates' }, url: 'https://myzonetime.com/abu-dhabi' },
-      { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
-        { '@type': 'ListItem', position: 2, name: 'Abu Dhabi Time', item: 'https://myzonetime.com/abu-dhabi' },
-      ]},
-      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
-        '@type': 'Question', name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      }))},
+      {
+        '@type': ['City', 'Place'],
+        '@id': BASE + '/abu-dhabi#city',
+        name: 'Abu Dhabi',
+        url: BASE + '/abu-dhabi',
+        containedInPlace: { '@type': 'Country', name: 'United Arab Emirates' },
+        geo: { '@type': 'GeoCoordinates', latitude: 24.4539, longitude: 54.3773 },
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Asia/Dubai' },
+          { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+4' },
+          { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'GST' },
+          { '@type': 'PropertyValue', name: 'Observes DST', value: 'No' },
+        ],
+      },
+      {
+        '@type': 'WebPage',
+        '@id': BASE + '/abu-dhabi#webpage',
+        url: BASE + '/abu-dhabi',
+        name: 'Abu Dhabi Time — Live Clock, GST UTC+4 | MyZoneTime',
+        isPartOf: { '@id': BASE + '/#website' },
+        publisher: { '@id': BASE + '/#organization' },
+        about: { '@id': BASE + '/abu-dhabi#city' },
+        dateModified: TODAY,
+        inLanguage: 'en',
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+            { '@type': 'ListItem', position: 2, name: 'Abu Dhabi Time', item: BASE + '/abu-dhabi' },
+          ],
+        },
+      },
+      {
+        '@type': 'WebApplication',
+        '@id': BASE + '/abu-dhabi#webapp',
+        name: 'Abu Dhabi World Clock',
+        url: BASE + '/abu-dhabi',
+        description: 'Live current time in Abu Dhabi, United Arab Emirates. GST (UTC+4). Accurate world clock with DST-aware time zone tools.',
+        applicationCategory: 'UtilitiesApplication',
+        applicationSubCategory: 'World Clock',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@id': BASE + '/#organization' },
+        isPartOf: { '@id': BASE + '/#website' },
+      },
     ],
+  }
   };
 
   return (

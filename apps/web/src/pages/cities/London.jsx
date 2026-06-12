@@ -26,19 +26,59 @@ export default function London() {
     { question: 'Is London GMT the same as UTC?', answer: 'GMT and UTC are effectively the same offset (both UTC+0) but are different standards. UTC is the modern international time standard maintained by atomic clocks, while GMT is a historical timezone. For practical purposes of telling time, they are identical.' },
   ];
 
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'City', name: 'London', containedInPlace: { '@type': 'Country', name: 'United Kingdom' }, url: 'https://myzonetime.com/london' },
-      { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
-        { '@type': 'ListItem', position: 2, name: 'London Time', item: 'https://myzonetime.com/london' },
-      ]},
-      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
-        '@type': 'Question', name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      }))},
+      {
+        '@type': ['City', 'Place'],
+        '@id': BASE + '/london#city',
+        name: 'London',
+        url: BASE + '/london',
+        containedInPlace: { '@type': 'Country', name: 'United Kingdom' },
+        geo: { '@type': 'GeoCoordinates', latitude: 51.5074, longitude: -0.1278 },
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Europe/London' },
+          { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+0/UTC+1' },
+          { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'GMT/BST' },
+          { '@type': 'PropertyValue', name: 'Observes DST', value: 'Yes' },
+        ],
+      },
+      {
+        '@type': 'WebPage',
+        '@id': BASE + '/london#webpage',
+        url: BASE + '/london',
+        name: 'London Time — Live Clock, GMT/BST | MyZoneTime',
+        isPartOf: { '@id': BASE + '/#website' },
+        publisher: { '@id': BASE + '/#organization' },
+        about: { '@id': BASE + '/london#city' },
+        dateModified: TODAY,
+        inLanguage: 'en',
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+            { '@type': 'ListItem', position: 2, name: 'London Time', item: BASE + '/london' },
+          ],
+        },
+      },
+      {
+        '@type': 'WebApplication',
+        '@id': BASE + '/london#webapp',
+        name: 'London World Clock',
+        url: BASE + '/london',
+        description: 'Live current time in London, United Kingdom. GMT/BST (UTC+0/UTC+1). Accurate world clock with DST-aware time zone tools.',
+        applicationCategory: 'UtilitiesApplication',
+        applicationSubCategory: 'World Clock',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@id': BASE + '/#organization' },
+        isPartOf: { '@id': BASE + '/#website' },
+      },
     ],
+  }
   };
 
   return (

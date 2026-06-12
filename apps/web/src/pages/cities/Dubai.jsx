@@ -26,18 +26,58 @@ export default function Dubai() {
     { question: 'How do I convert Dubai time to my local time?', answer: 'Add or subtract from UTC+4. For Los Angeles (UTC−8), subtract 12 hours. For Paris (UTC+1 in winter), subtract 3 hours. Use MyZoneTime\'s free time zone converter for an instant, DST-aware result.' },
   ];
 
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'City', name: 'Dubai', containedInPlace: { '@type': 'Country', name: 'United Arab Emirates' }, url: 'https://myzonetime.com/dubai' },
-      { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
-        { '@type': 'ListItem', position: 2, name: 'Dubai Time', item: 'https://myzonetime.com/dubai' },
-      ]},
-      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
-        '@type': 'Question', name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      }))},
+      {
+        '@type': ['City', 'Place'],
+        '@id': BASE + '/dubai#city',
+        name: 'Dubai',
+        url: BASE + '/dubai',
+        containedInPlace: { '@type': 'Country', name: 'United Arab Emirates' },
+        geo: { '@type': 'GeoCoordinates', latitude: 25.2048, longitude: 55.2708 },
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Asia/Dubai' },
+          { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+4' },
+          { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'GST' },
+          { '@type': 'PropertyValue', name: 'Observes DST', value: 'No' },
+        ],
+      },
+      {
+        '@type': 'WebPage',
+        '@id': BASE + '/dubai#webpage',
+        url: BASE + '/dubai',
+        name: 'Dubai Time — Live Clock, GST UTC+4 | MyZoneTime',
+        description: 'Current local time in Dubai, UAE. Gulf Standard Time (GST, UTC+4). No daylight saving. Business hours, time differences to London, New York and India.',
+        isPartOf: { '@id': BASE + '/#website' },
+        publisher: { '@id': BASE + '/#organization' },
+        about: { '@id': BASE + '/dubai#city' },
+        dateModified: TODAY,
+        inLanguage: 'en',
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+            { '@type': 'ListItem', position: 2, name: 'Dubai Time', item: BASE + '/dubai' },
+          ],
+        },
+      },
+      {
+        '@type': 'WebApplication',
+        '@id': BASE + '/dubai#webapp',
+        name: 'Dubai World Clock',
+        url: BASE + '/dubai',
+        description: 'Live current time in Dubai, UAE. Gulf Standard Time (GST, UTC+4). Accurate clock with DST-aware time zone comparison tools.',
+        applicationCategory: 'UtilitiesApplication',
+        applicationSubCategory: 'World Clock',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@id': BASE + '/#organization' },
+        isPartOf: { '@id': BASE + '/#website' },
+      },
     ],
   };
 

@@ -73,12 +73,58 @@ const faqs = [
   },
 ];
 
+const BASE = 'https://myzonetime.com';
+const TODAY = new Date().toISOString().split('T')[0];
+
 const schema = {
-  '@type': 'WebPage',
-  name: 'Current Time in Istanbul, Turkey',
-  url: 'https://myzonetime.com/istanbul',
-  description: 'Live clock and time zone info for Istanbul, Turkey. Turkey Time (TRT), UTC+3. No daylight saving since 2016.',
-  about: { '@type': 'City', name: 'Istanbul', containedInPlace: { '@type': 'Country', name: 'Turkey' } },
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['City', 'Place'],
+      '@id': BASE + '/istanbul#city',
+      name: 'Istanbul',
+      url: BASE + '/istanbul',
+      containedInPlace: { '@type': 'Country', name: 'Turkey' },
+      geo: { '@type': 'GeoCoordinates', latitude: 41.0082, longitude: 28.9784 },
+      additionalProperty: [
+        { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Europe/Istanbul' },
+        { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+3' },
+        { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'TRT' },
+        { '@type': 'PropertyValue', name: 'Observes DST', value: 'No' },
+      ],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': BASE + '/istanbul#webpage',
+      url: BASE + '/istanbul',
+      name: 'Istanbul Time — Live Clock, TRT UTC+3 | MyZoneTime',
+      isPartOf: { '@id': BASE + '/#website' },
+      publisher: { '@id': BASE + '/#organization' },
+      about: { '@id': BASE + '/istanbul#city' },
+      dateModified: TODAY,
+      inLanguage: 'en',
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+          { '@type': 'ListItem', position: 2, name: 'Istanbul Time', item: BASE + '/istanbul' },
+        ],
+      },
+    },
+    {
+      '@type': 'WebApplication',
+      '@id': BASE + '/istanbul#webapp',
+      name: 'Istanbul World Clock',
+      url: BASE + '/istanbul',
+      description: 'Live current time in Istanbul, Turkey. TRT (UTC+3). Accurate world clock with DST-aware time zone tools.',
+      applicationCategory: 'UtilitiesApplication',
+      applicationSubCategory: 'World Clock',
+      operatingSystem: 'Any',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      provider: { '@id': BASE + '/#organization' },
+      isPartOf: { '@id': BASE + '/#website' },
+    },
+  ],
 };
 
 const breadcrumbSchema = {

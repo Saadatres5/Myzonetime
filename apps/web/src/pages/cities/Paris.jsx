@@ -63,12 +63,58 @@ const faqs = [
   },
 ];
 
+const BASE = 'https://myzonetime.com';
+const TODAY = new Date().toISOString().split('T')[0];
+
 const schema = {
-  '@type': 'WebPage',
-  name: 'Current Time in Paris, France',
-  url: 'https://myzonetime.com/paris',
-  description: 'Live clock and time zone info for Paris, France. CET (UTC+1) in winter, CEST (UTC+2) in summer.',
-  about: { '@type': 'City', name: 'Paris', containedInPlace: { '@type': 'Country', name: 'France' } },
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['City', 'Place'],
+      '@id': BASE + '/paris#city',
+      name: 'Paris',
+      url: BASE + '/paris',
+      containedInPlace: { '@type': 'Country', name: 'France' },
+      geo: { '@type': 'GeoCoordinates', latitude: 48.8566, longitude: 2.3522 },
+      additionalProperty: [
+        { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Europe/Paris' },
+        { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+1/UTC+2' },
+        { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'CET/CEST' },
+        { '@type': 'PropertyValue', name: 'Observes DST', value: 'Yes' },
+      ],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': BASE + '/paris#webpage',
+      url: BASE + '/paris',
+      name: 'Paris Time — Live Clock, CET/CEST | MyZoneTime',
+      isPartOf: { '@id': BASE + '/#website' },
+      publisher: { '@id': BASE + '/#organization' },
+      about: { '@id': BASE + '/paris#city' },
+      dateModified: TODAY,
+      inLanguage: 'en',
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+          { '@type': 'ListItem', position: 2, name: 'Paris Time', item: BASE + '/paris' },
+        ],
+      },
+    },
+    {
+      '@type': 'WebApplication',
+      '@id': BASE + '/paris#webapp',
+      name: 'Paris World Clock',
+      url: BASE + '/paris',
+      description: 'Live current time in Paris, France. CET/CEST (UTC+1/UTC+2). Accurate world clock with DST-aware time zone tools.',
+      applicationCategory: 'UtilitiesApplication',
+      applicationSubCategory: 'World Clock',
+      operatingSystem: 'Any',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      provider: { '@id': BASE + '/#organization' },
+      isPartOf: { '@id': BASE + '/#website' },
+    },
+  ],
 };
 
 const breadcrumbSchema = {

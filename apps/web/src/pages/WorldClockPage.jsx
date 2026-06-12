@@ -207,7 +207,7 @@ export default function WorldClockPage() {
   // Schemas
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
+    '@type': 'WebApplication',
     name: 'World Clock',
     applicationCategory: 'UtilityApplication',
     description: 'Live world clock showing current time in 500+ cities. Search any city worldwide.',

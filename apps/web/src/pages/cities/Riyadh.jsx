@@ -26,19 +26,59 @@ export default function Riyadh() {
     { question: 'What is Riyadh time called in English?', answer: 'Riyadh time is officially called Arabia Standard Time (AST), abbreviated as AST and running at UTC+3. It is shared by Saudi Arabia, Iraq, Kuwait, Yemen, Bahrain and Qatar (though Qatar officially uses its own Qatar Time label for the same UTC+3 offset).' },
   ];
 
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'City', name: 'Riyadh', containedInPlace: { '@type': 'Country', name: 'Saudi Arabia' }, url: 'https://myzonetime.com/riyadh' },
-      { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
-        { '@type': 'ListItem', position: 2, name: 'Riyadh Time', item: 'https://myzonetime.com/riyadh' },
-      ]},
-      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
-        '@type': 'Question', name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      }))},
+      {
+        '@type': ['City', 'Place'],
+        '@id': BASE + '/riyadh#city',
+        name: 'Riyadh',
+        url: BASE + '/riyadh',
+        containedInPlace: { '@type': 'Country', name: 'Saudi Arabia' },
+        geo: { '@type': 'GeoCoordinates', latitude: 24.7136, longitude: 46.6753 },
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Asia/Riyadh' },
+          { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+3' },
+          { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'AST' },
+          { '@type': 'PropertyValue', name: 'Observes DST', value: 'No' },
+        ],
+      },
+      {
+        '@type': 'WebPage',
+        '@id': BASE + '/riyadh#webpage',
+        url: BASE + '/riyadh',
+        name: 'Riyadh Time — Live Clock, AST UTC+3 | MyZoneTime',
+        isPartOf: { '@id': BASE + '/#website' },
+        publisher: { '@id': BASE + '/#organization' },
+        about: { '@id': BASE + '/riyadh#city' },
+        dateModified: TODAY,
+        inLanguage: 'en',
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+            { '@type': 'ListItem', position: 2, name: 'Riyadh Time', item: BASE + '/riyadh' },
+          ],
+        },
+      },
+      {
+        '@type': 'WebApplication',
+        '@id': BASE + '/riyadh#webapp',
+        name: 'Riyadh World Clock',
+        url: BASE + '/riyadh',
+        description: 'Live current time in Riyadh, Saudi Arabia. AST (UTC+3). Accurate world clock with DST-aware time zone tools.',
+        applicationCategory: 'UtilitiesApplication',
+        applicationSubCategory: 'World Clock',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@id': BASE + '/#organization' },
+        isPartOf: { '@id': BASE + '/#website' },
+      },
     ],
+  }
   };
 
   return (

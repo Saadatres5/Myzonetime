@@ -26,19 +26,59 @@ export default function Tokyo() {
     { question: 'Why does Japan use only one time zone despite its size?', answer: 'Japan spans about 30 degrees of longitude, enough for two time zones, but chose to standardize on a single zone (JST, UTC+9) after adopting the Western time system in 1886. This simplifies domestic scheduling across the country\'s four main islands.' },
   ];
 
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'City', name: 'Tokyo', containedInPlace: { '@type': 'Country', name: 'Japan' }, url: 'https://myzonetime.com/tokyo' },
-      { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
-        { '@type': 'ListItem', position: 2, name: 'Tokyo Time', item: 'https://myzonetime.com/tokyo' },
-      ]},
-      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
-        '@type': 'Question', name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      }))},
+      {
+        '@type': ['City', 'Place'],
+        '@id': BASE + '/tokyo#city',
+        name: 'Tokyo',
+        url: BASE + '/tokyo',
+        containedInPlace: { '@type': 'Country', name: 'Japan' },
+        geo: { '@type': 'GeoCoordinates', latitude: 35.6762, longitude: 139.6503 },
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Asia/Tokyo' },
+          { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+9' },
+          { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'JST' },
+          { '@type': 'PropertyValue', name: 'Observes DST', value: 'No' },
+        ],
+      },
+      {
+        '@type': 'WebPage',
+        '@id': BASE + '/tokyo#webpage',
+        url: BASE + '/tokyo',
+        name: 'Tokyo Time — Live Clock, JST UTC+9 | MyZoneTime',
+        isPartOf: { '@id': BASE + '/#website' },
+        publisher: { '@id': BASE + '/#organization' },
+        about: { '@id': BASE + '/tokyo#city' },
+        dateModified: TODAY,
+        inLanguage: 'en',
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+            { '@type': 'ListItem', position: 2, name: 'Tokyo Time', item: BASE + '/tokyo' },
+          ],
+        },
+      },
+      {
+        '@type': 'WebApplication',
+        '@id': BASE + '/tokyo#webapp',
+        name: 'Tokyo World Clock',
+        url: BASE + '/tokyo',
+        description: 'Live current time in Tokyo, Japan. JST (UTC+9). Accurate world clock with DST-aware time zone tools.',
+        applicationCategory: 'UtilitiesApplication',
+        applicationSubCategory: 'World Clock',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@id': BASE + '/#organization' },
+        isPartOf: { '@id': BASE + '/#website' },
+      },
     ],
+  }
   };
 
   return (

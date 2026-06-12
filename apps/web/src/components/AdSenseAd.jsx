@@ -48,7 +48,7 @@ export default function AdSenseAd({
           observer.disconnect();
         }
       },
-      { rootMargin: '300px' } // pre-load 300px before entering viewport
+      { rootMargin: '150px' } // reduced from 300px — prevents eager ad load blocking LCP // pre-load 300px before entering viewport
     );
     observer.observe(adRef.current);
     return () => observer.disconnect();

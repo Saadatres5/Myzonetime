@@ -26,19 +26,59 @@ export default function Sydney() {
     { question: 'Why does Brisbane not follow Sydney time during summer?', answer: 'Queensland (Brisbane, UTC+10) does not observe daylight saving time, while New South Wales (Sydney) does. During Sydney\'s summer (AEDT, UTC+11), Sydney is 1 hour ahead of Brisbane. This creates scheduling complexity within Australia from October to April each year.' },
   ];
 
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'City', name: 'Sydney', containedInPlace: { '@type': 'Country', name: 'Australia' }, url: 'https://myzonetime.com/sydney' },
-      { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
-        { '@type': 'ListItem', position: 2, name: 'Sydney Time', item: 'https://myzonetime.com/sydney' },
-      ]},
-      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
-        '@type': 'Question', name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      }))},
+      {
+        '@type': ['City', 'Place'],
+        '@id': BASE + '/sydney#city',
+        name: 'Sydney',
+        url: BASE + '/sydney',
+        containedInPlace: { '@type': 'Country', name: 'Australia' },
+        geo: { '@type': 'GeoCoordinates', latitude: -33.8688, longitude: 151.2093 },
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Australia/Sydney' },
+          { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+10/UTC+11' },
+          { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'AEST/AEDT' },
+          { '@type': 'PropertyValue', name: 'Observes DST', value: 'Yes' },
+        ],
+      },
+      {
+        '@type': 'WebPage',
+        '@id': BASE + '/sydney#webpage',
+        url: BASE + '/sydney',
+        name: 'Sydney Time — Live Clock, AEST/AEDT | MyZoneTime',
+        isPartOf: { '@id': BASE + '/#website' },
+        publisher: { '@id': BASE + '/#organization' },
+        about: { '@id': BASE + '/sydney#city' },
+        dateModified: TODAY,
+        inLanguage: 'en',
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+            { '@type': 'ListItem', position: 2, name: 'Sydney Time', item: BASE + '/sydney' },
+          ],
+        },
+      },
+      {
+        '@type': 'WebApplication',
+        '@id': BASE + '/sydney#webapp',
+        name: 'Sydney World Clock',
+        url: BASE + '/sydney',
+        description: 'Live current time in Sydney, Australia. AEST/AEDT (UTC+10/UTC+11). Accurate world clock with DST-aware time zone tools.',
+        applicationCategory: 'UtilitiesApplication',
+        applicationSubCategory: 'World Clock',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@id': BASE + '/#organization' },
+        isPartOf: { '@id': BASE + '/#website' },
+      },
     ],
+  }
   };
 
   return (

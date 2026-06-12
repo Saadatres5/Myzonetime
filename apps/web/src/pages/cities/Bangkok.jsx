@@ -62,12 +62,58 @@ const faqs = [
   },
 ];
 
+const BASE = 'https://myzonetime.com';
+const TODAY = new Date().toISOString().split('T')[0];
+
 const schema = {
-  '@type': 'WebPage',
-  name: 'Current Time in Bangkok, Thailand',
-  url: 'https://myzonetime.com/bangkok',
-  description: 'Live clock and time zone info for Bangkok, Thailand. Indochina Time (ICT), UTC+7. No daylight saving.',
-  about: { '@type': 'City', name: 'Bangkok', containedInPlace: { '@type': 'Country', name: 'Thailand' } },
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['City', 'Place'],
+      '@id': BASE + '/bangkok#city',
+      name: 'Bangkok',
+      url: BASE + '/bangkok',
+      containedInPlace: { '@type': 'Country', name: 'Thailand' },
+      geo: { '@type': 'GeoCoordinates', latitude: 13.7563, longitude: 100.5018 },
+      additionalProperty: [
+        { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Asia/Bangkok' },
+        { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+7' },
+        { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'ICT' },
+        { '@type': 'PropertyValue', name: 'Observes DST', value: 'No' },
+      ],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': BASE + '/bangkok#webpage',
+      url: BASE + '/bangkok',
+      name: 'Bangkok Time — Live Clock, ICT UTC+7 | MyZoneTime',
+      isPartOf: { '@id': BASE + '/#website' },
+      publisher: { '@id': BASE + '/#organization' },
+      about: { '@id': BASE + '/bangkok#city' },
+      dateModified: TODAY,
+      inLanguage: 'en',
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+          { '@type': 'ListItem', position: 2, name: 'Bangkok Time', item: BASE + '/bangkok' },
+        ],
+      },
+    },
+    {
+      '@type': 'WebApplication',
+      '@id': BASE + '/bangkok#webapp',
+      name: 'Bangkok World Clock',
+      url: BASE + '/bangkok',
+      description: 'Live current time in Bangkok, Thailand. ICT (UTC+7). Accurate world clock with DST-aware time zone tools.',
+      applicationCategory: 'UtilitiesApplication',
+      applicationSubCategory: 'World Clock',
+      operatingSystem: 'Any',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      provider: { '@id': BASE + '/#organization' },
+      isPartOf: { '@id': BASE + '/#website' },
+    },
+  ],
 };
 
 const breadcrumbSchema = {

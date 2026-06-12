@@ -361,22 +361,61 @@ export default function TimeDifferencePairPage() {
     },
   ];
 
-  // ── Structured data ──
-  const faqSchema = {
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(({ question, answer }) => ({
-      '@type': 'Question',
-      name: question,
-      acceptedAnswer: { '@type': 'Answer', text: answer },
-    })),
-  };
-  const breadcrumbSchema = {
+  // ── Structured data (entity-first, no FAQPage) ──
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
+  const pairSchema = {
     '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
-      { '@type': 'ListItem', position: 2, name: 'Time Difference Calculator', item: 'https://myzonetime.com/time-difference-calculator' },
-      { '@type': 'ListItem', position: 3, name: `${city1.name} vs ${city2.name}`, item: canonicalUrl },
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': canonicalUrl + '#webpage',
+        url: canonicalUrl,
+        name: pageTitle,
+        description: pageDesc,
+        isPartOf: { '@id': BASE + '/#website' },
+        publisher: { '@id': BASE + '/#organization' },
+        dateModified: TODAY,
+        inLanguage: 'en',
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+            { '@type': 'ListItem', position: 2, name: 'Time Difference Calculator', item: BASE + '/time-difference-calculator' },
+            { '@type': 'ListItem', position: 3, name: `${city1.name} and ${city2.name}`, item: canonicalUrl },
+          ],
+        },
+      },
+      {
+        '@type': 'WebApplication',
+        '@id': canonicalUrl + '#webapp',
+        name: `Time Difference: ${city1.name} and ${city2.name}`,
+        url: canonicalUrl,
+        description: pageDesc,
+        applicationCategory: 'UtilitiesApplication',
+        applicationSubCategory: 'Time Difference Calculator',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@id': BASE + '/#organization' },
+        isPartOf: { '@id': BASE + '/#website' },
+      },
+      {
+        '@type': 'Place',
+        '@id': canonicalUrl + '#city1',
+        name: city1.name,
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'IANA Time Zone', value: city1.tz },
+        ],
+      },
+      {
+        '@type': 'Place',
+        '@id': canonicalUrl + '#city2',
+        name: city2.name,
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'IANA Time Zone', value: city2.tz },
+        ],
+      },
     ],
   };
 
@@ -399,7 +438,7 @@ export default function TimeDifferencePairPage() {
       </Helmet>
 
       <CanonicalTag pathname={`/time-difference/${canonical1}-and-${canonical2}`} />
-      <StructuredData schemas={[faqSchema]} breadcrumbSchema={breadcrumbSchema} />
+      <StructuredData schema={pairSchema} />
 
       <main className="flex-1 container mx-auto px-4 py-10 max-w-4xl">
         <div className="space-y-8">

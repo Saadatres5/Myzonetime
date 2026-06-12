@@ -41,29 +41,47 @@ export default function DynamicTimezonePage() {
   const title = `${data.abbr} — ${data.fullName} (${data.utcLabel}) | MyZoneTime`;
   const description = `What is ${data.abbr}? ${data.fullName} is ${data.utcLabel}. Learn which countries and cities use ${data.abbr}, current time, UTC offset, DST rules, and conversion examples.`;
 
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'DefinedTerm',
+        '@id': canonicalUrl + '#timezone',
         name: data.abbr,
         description: `${data.fullName} (${data.abbr}) is a time zone at ${data.utcLabel}.`,
         url: canonicalUrl,
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
-          { '@type': 'ListItem', position: 2, name: 'Timezones', item: 'https://myzonetime.com/timezone' },
-          { '@type': 'ListItem', position: 3, name: data.abbr, item: canonicalUrl },
+        inDefinedTermSet: {
+          '@type': 'DefinedTermSet',
+          name: 'IANA Time Zone Database',
+          url: 'https://www.iana.org/time-zones',
+        },
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'UTC Offset', value: data.utcLabel },
+          { '@type': 'PropertyValue', name: 'Full Name', value: data.fullName },
         ],
       },
       {
-        '@type': 'FAQPage',
-        mainEntity: faqs.map(f => ({
-          '@type': 'Question', name: f.question,
-          acceptedAnswer: { '@type': 'Answer', text: f.answer },
-        })),
+        '@type': 'WebPage',
+        '@id': canonicalUrl + '#webpage',
+        url: canonicalUrl,
+        name: title,
+        description: description,
+        isPartOf: { '@id': BASE + '/#website' },
+        publisher: { '@id': BASE + '/#organization' },
+        about: { '@id': canonicalUrl + '#timezone' },
+        dateModified: TODAY,
+        inLanguage: 'en',
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+            { '@type': 'ListItem', position: 2, name: 'Time Zones', item: BASE + '/timezone' },
+            { '@type': 'ListItem', position: 3, name: data.abbr, item: canonicalUrl },
+          ],
+        },
       },
     ],
   };

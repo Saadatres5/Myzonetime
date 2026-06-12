@@ -26,19 +26,59 @@ export default function NewYork() {
     { question: 'Is New York always UTC−5?', answer: 'No. New York is UTC−5 only during Eastern Standard Time (EST), which runs from November to March. During daylight saving (March to November), New York is UTC−4 (EDT). Use MyZoneTime\'s live clock for the exact current offset.' },
   ];
 
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'City', name: 'New York', containedInPlace: { '@type': 'Country', name: 'United States' }, url: 'https://myzonetime.com/new-york' },
-      { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
-        { '@type': 'ListItem', position: 2, name: 'New York Time', item: 'https://myzonetime.com/new-york' },
-      ]},
-      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
-        '@type': 'Question', name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      }))},
+      {
+        '@type': ['City', 'Place'],
+        '@id': BASE + '/new-york#city',
+        name: 'New York',
+        url: BASE + '/new-york',
+        containedInPlace: { '@type': 'Country', name: 'United States' },
+        geo: { '@type': 'GeoCoordinates', latitude: 40.7128, longitude: -74.006 },
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'America/New_York' },
+          { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC-5/UTC-4' },
+          { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'EST/EDT' },
+          { '@type': 'PropertyValue', name: 'Observes DST', value: 'Yes' },
+        ],
+      },
+      {
+        '@type': 'WebPage',
+        '@id': BASE + '/new-york#webpage',
+        url: BASE + '/new-york',
+        name: 'New York Time — Live Clock, EST/EDT | MyZoneTime',
+        isPartOf: { '@id': BASE + '/#website' },
+        publisher: { '@id': BASE + '/#organization' },
+        about: { '@id': BASE + '/new-york#city' },
+        dateModified: TODAY,
+        inLanguage: 'en',
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+            { '@type': 'ListItem', position: 2, name: 'New York Time', item: BASE + '/new-york' },
+          ],
+        },
+      },
+      {
+        '@type': 'WebApplication',
+        '@id': BASE + '/new-york#webapp',
+        name: 'New York World Clock',
+        url: BASE + '/new-york',
+        description: 'Live current time in New York, United States. EST/EDT (UTC-5/UTC-4). Accurate world clock with DST-aware time zone tools.',
+        applicationCategory: 'UtilitiesApplication',
+        applicationSubCategory: 'World Clock',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@id': BASE + '/#organization' },
+        isPartOf: { '@id': BASE + '/#website' },
+      },
     ],
+  }
   };
 
   return (

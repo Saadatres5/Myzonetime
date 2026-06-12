@@ -26,19 +26,59 @@ export default function Singapore() {
     { question: 'Why is Singapore in UTC+8 despite being geographically in UTC+7?', answer: 'Singapore sits close to the UTC+7 meridian geographically, but adopted UTC+8 in 1982 to align with Malaysia and facilitate closer economic integration. The decision prioritised regional business convenience over geographic accuracy.' },
   ];
 
+  const BASE = 'https://myzonetime.com';
+  const TODAY = new Date().toISOString().split('T')[0];
+
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'City', name: 'Singapore', containedInPlace: { '@type': 'Country', name: 'Singapore' }, url: 'https://myzonetime.com/singapore' },
-      { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myzonetime.com' },
-        { '@type': 'ListItem', position: 2, name: 'Singapore Time', item: 'https://myzonetime.com/singapore' },
-      ]},
-      { '@type': 'FAQPage', mainEntity: faqs.map(f => ({
-        '@type': 'Question', name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      }))},
+      {
+        '@type': ['City', 'Place'],
+        '@id': BASE + '/singapore#city',
+        name: 'Singapore',
+        url: BASE + '/singapore',
+        containedInPlace: { '@type': 'Country', name: 'Singapore' },
+        geo: { '@type': 'GeoCoordinates', latitude: 1.3521, longitude: 103.8198 },
+        additionalProperty: [
+          { '@type': 'PropertyValue', name: 'IANA Time Zone', value: 'Asia/Singapore' },
+          { '@type': 'PropertyValue', name: 'UTC Offset', value: 'UTC+8' },
+          { '@type': 'PropertyValue', name: 'Time Zone Abbreviation', value: 'SGT' },
+          { '@type': 'PropertyValue', name: 'Observes DST', value: 'No' },
+        ],
+      },
+      {
+        '@type': 'WebPage',
+        '@id': BASE + '/singapore#webpage',
+        url: BASE + '/singapore',
+        name: 'Singapore Time — Live Clock, SGT UTC+8 | MyZoneTime',
+        isPartOf: { '@id': BASE + '/#website' },
+        publisher: { '@id': BASE + '/#organization' },
+        about: { '@id': BASE + '/singapore#city' },
+        dateModified: TODAY,
+        inLanguage: 'en',
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+            { '@type': 'ListItem', position: 2, name: 'Singapore Time', item: BASE + '/singapore' },
+          ],
+        },
+      },
+      {
+        '@type': 'WebApplication',
+        '@id': BASE + '/singapore#webapp',
+        name: 'Singapore World Clock',
+        url: BASE + '/singapore',
+        description: 'Live current time in Singapore, Singapore. SGT (UTC+8). Accurate world clock with DST-aware time zone tools.',
+        applicationCategory: 'UtilitiesApplication',
+        applicationSubCategory: 'World Clock',
+        operatingSystem: 'Any',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@id': BASE + '/#organization' },
+        isPartOf: { '@id': BASE + '/#website' },
+      },
     ],
+  }
   };
 
   return (
