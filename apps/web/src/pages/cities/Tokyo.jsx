@@ -78,7 +78,6 @@ export default function Tokyo() {
         isPartOf: { '@id': BASE + '/#website' },
       },
     ],
-  }
   };
 
   return (

@@ -78,7 +78,6 @@ export default function Riyadh() {
         isPartOf: { '@id': BASE + '/#website' },
       },
     ],
-  }
   };
 
   return (

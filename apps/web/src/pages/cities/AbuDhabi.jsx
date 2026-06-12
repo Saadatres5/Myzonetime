@@ -78,7 +78,6 @@ export default function AbuDhabi() {
         isPartOf: { '@id': BASE + '/#website' },
       },
     ],
-  }
   };
 
   return (

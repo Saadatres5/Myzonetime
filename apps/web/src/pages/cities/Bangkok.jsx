@@ -116,16 +116,6 @@ const schema = {
   ],
 };
 
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home',        item: 'https://myzonetime.com' },
-    { '@type': 'ListItem', position: 2, name: 'World Clock', item: 'https://myzonetime.com/world-clock' },
-    { '@type': 'ListItem', position: 3, name: 'Bangkok',     item: 'https://myzonetime.com/bangkok' },
-  ],
-};
-
 export default function Bangkok() {
   const { time, formatTime } = useLocalTime(TIMEZONE);
 
@@ -144,7 +134,7 @@ export default function Bangkok() {
         <meta name="ICBM" content="13.7563, 100.5018" />
       </Helmet>
       <CanonicalTag pathname="/bangkok" />
-      <StructuredData schema={schema} breadcrumbSchema={breadcrumbSchema} />
+      <StructuredData schema={schema} />
 
       <section className="relative w-full py-20 flex flex-col items-center justify-center text-center overflow-hidden border-b border-border/50">
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-background via-card/30 to-background" aria-hidden="true" />

@@ -78,7 +78,6 @@ export default function NewYork() {
         isPartOf: { '@id': BASE + '/#website' },
       },
     ],
-  }
   };
 
   return (

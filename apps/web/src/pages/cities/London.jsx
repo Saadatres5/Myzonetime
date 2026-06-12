@@ -78,7 +78,6 @@ export default function London() {
         isPartOf: { '@id': BASE + '/#website' },
       },
     ],
-  }
   };
 
   return (

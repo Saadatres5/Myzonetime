@@ -78,7 +78,6 @@ export default function Singapore() {
         isPartOf: { '@id': BASE + '/#website' },
       },
     ],
-  }
   };
 
   return (

@@ -78,7 +78,6 @@ export default function Sydney() {
         isPartOf: { '@id': BASE + '/#website' },
       },
     ],
-  }
   };
 
   return (
