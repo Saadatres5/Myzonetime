@@ -160,18 +160,89 @@ Sitemap: ${sitemapUrl}
   );
 });
 
-// Serve sitemap-index.xml (references sub-sitemaps). Fall back to static file in dist/ if present.
-app.get('/sitemap-index.xml', (req, res) => {
-  const staticIndex = path.join(DIST, 'sitemap-index.xml');
-  if (fs.existsSync(staticIndex)) {
-    res.set('Content-Type', 'application/xml; charset=utf-8');
-    return res.sendFile(staticIndex);
-  }
-
-  // Fallback: build a simple sitemap-index pointing to /sitemap.xml
-  const indexXml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap>\n    <loc>${BASE}/sitemap.xml</loc>\n  </sitemap>\n</sitemapindex>`;
+// ─── Sitemap helpers ───────────────────────────────────────────────────────
+function xmlUrl(loc, lastmod, changefreq, priority) {
+  return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+}
+function sitemapHeader() {
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+}
+function sitemapFooter() { return `</urlset>`; }
+function sendXml(res, body) {
   res.set('Content-Type', 'application/xml; charset=utf-8');
-  res.send(indexXml);
+  res.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+  res.set('X-Robots-Tag', 'noindex'); // sitemaps themselves should not be indexed
+  res.send(body);
+}
+
+// ─── sitemap-index.xml — master index listing all sub-sitemaps ────────────
+app.get('/sitemap-index.xml', (req, res) => {
+  const today = new Date().toISOString().split('T')[0];
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>${BASE}/sitemap.xml</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${BASE}/city-sitemap.xml</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${BASE}/timezone-sitemap.xml</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${BASE}/time-difference-sitemap.xml</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>
+</sitemapindex>`;
+  sendXml(res, xml);
+});
+
+// ─── sitemap.xml — core tool pages ────────────────────────────────────────
+app.get('/sitemap.xml', (req, res) => {
+  const today = new Date().toISOString().split('T')[0];
+  const urls = CORE_ROUTES
+    .concat([
+      { path: '/privacy-policy',     priority: '0.3', changefreq: 'yearly'  },
+      { path: '/terms-of-service',   priority: '0.3', changefreq: 'yearly'  },
+      { path: '/contact-us',         priority: '0.4', changefreq: 'yearly'  },
+      { path: '/world-clock-widget', priority: '0.5', changefreq: 'monthly' },
+    ])
+    .map(r => xmlUrl(`${BASE}${r.path}`, today, r.changefreq, r.priority))
+    .join('\n');
+  sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
+});
+
+// ─── city-sitemap.xml — all city pages ────────────────────────────────────
+app.get('/city-sitemap.xml', (req, res) => {
+  const today = new Date().toISOString().split('T')[0];
+  const cityPaths = getCityRoutePaths();
+  const urls = cityPaths
+    .map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8'))
+    .join('\n');
+  sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
+});
+
+// ─── timezone-sitemap.xml — all /timezone/:tz pages ───────────────────────
+app.get('/timezone-sitemap.xml', (req, res) => {
+  const today = new Date().toISOString().split('T')[0];
+  const tzPaths = getTimezoneRoutePaths()
+    .filter(p => p !== '@timezone-index@')
+    .map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7'));
+  // Include the timezone index page
+  const indexUrl = xmlUrl(`${BASE}/timezone`, today, 'weekly', '0.8');
+  sendXml(res, `${sitemapHeader()}\n${indexUrl}\n${tzPaths.join('\n')}\n${sitemapFooter()}`);
+});
+
+// ─── time-difference-sitemap.xml — all /time-difference/:pair pages ───────
+app.get('/time-difference-sitemap.xml', (req, res) => {
+  const today = new Date().toISOString().split('T')[0];
+  const urls = TIME_DIFFERENCE_ROUTES
+    .map(r => xmlUrl(`${BASE}${r.path}`, today, r.changefreq, r.priority))
+    .join('\n');
+  sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
 });
 
 // ─── 7. ads.txt ────────────────────────────────────────────────────────────
@@ -180,7 +251,7 @@ app.get("/ads.txt", (req, res) => {
   // SEO FIX: serve dynamically so it's always current; also served from dist if static exists
   const staticAds = path.join(DIST, "ads.txt");
   if (fs.existsSync(staticAds)) return res.sendFile(staticAds);
-  res.send("google.com, pub-1017873487030471, DIRECT, f08c47fec0942fa0\n");
+  res.send("google.com, pub-5444446255342320, DIRECT, f08c47fec0942fa0\n");
 });
 
 // ─── 8. llms.txt ───────────────────────────────────────────────────────────
@@ -196,10 +267,7 @@ Allow: /
   );
 });
 
-// ─── 9. Dynamic sitemap.xml ────────────────────────────────────────────────
-// SEO FIX: Build sitemap routes from source data rather than a fixed list.
-// This ensures city and timezone routes stay up to date with the data layer.
-function parseTopLevelObjectKeys(filePath, exportName) {
+// ─── 10. Health check (noindex) ────────────────────────────────────────────
   if (!fs.existsSync(filePath)) return [];
   const text = fs.readFileSync(filePath, 'utf8');
   const marker = `export const ${exportName}`;
@@ -330,6 +398,49 @@ function parseTopLevelObjectKeys(filePath, exportName) {
   return keys;
 }
 
+function parseTopLevelObjectKeys(filePath, exportName) {
+  if (!fs.existsSync(filePath)) return [];
+  const text = fs.readFileSync(filePath, 'utf8');
+  const marker = `export const ${exportName}`;
+  const start = text.indexOf(marker);
+  if (start === -1) return [];
+  const braceStart = text.indexOf('{', start);
+  if (braceStart === -1) return [];
+
+  // Walk the top-level keys of the exported object
+  const objectBody = text.slice(braceStart + 1);
+  const keys = [];
+  let depth = 0;
+  let j = 0;
+  while (j < objectBody.length) {
+    const ch = objectBody[j];
+    if (depth === 0) {
+      if (/[A-Za-z0-9_\-]/.test(ch)) {
+        let key = '';
+        while (j < objectBody.length && /[A-Za-z0-9_\-]/.test(objectBody[j])) {
+          key += objectBody[j];
+          j++;
+        }
+        while (j < objectBody.length && /\s/.test(objectBody[j])) j++;
+        if (objectBody[j] === ':') {
+          keys.push(key);
+        }
+        j++;
+        continue;
+      }
+    }
+
+    if (ch === '{') {
+      depth++;
+    } else if (ch === '}') {
+      if (depth > 0) depth--;
+    }
+    j++;
+  }
+
+  return keys;
+}
+
 function getCityRoutePaths() {
   const cityFile = path.join(__dirname, 'apps/web/src/data/cityPageData.js');
   const keys = parseTopLevelObjectKeys(cityFile, 'CITY_SEO_DATA');
@@ -399,23 +510,6 @@ const ROUTES = uniqueRoutes([
   { path: "/world-clock-widget",priority: "0.5", changefreq: "monthly" },
 ]);
 
-const TODAY = new Date().toISOString().split("T")[0];
-
-app.get("/sitemap.xml", (req, res) => {
-  // If a static sitemap was generated at build time, serve it (contains full city lists).
-  const staticSitemap = path.join(DIST, 'sitemap.xml');
-  if (fs.existsSync(staticSitemap)) {
-    res.set('Content-Type', 'application/xml; charset=utf-8');
-    res.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
-    return res.sendFile(staticSitemap);
-  }
-
-  // Fallback: generate a minimal sitemap from ROUTES (used in dev or when static missing)
-  const urls = ROUTES.map(r => `\n  <url>\n    <loc>${BASE}${r.path}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`).join("");
-  res.set('Content-Type', 'application/xml; charset=utf-8');
-  res.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
-  res.send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9\n          http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n${urls}\n</urlset>`);
-});
 
 // ─── 10. Health check (noindex) ────────────────────────────────────────────
 app.get("/health", (req, res) => {
