@@ -248,9 +248,6 @@ app.get('/time-difference-sitemap.xml', (req, res) => {
 // ─── 7. ads.txt ────────────────────────────────────────────────────────────
 app.get("/ads.txt", (req, res) => {
   res.set("Content-Type", "text/plain");
-  // SEO FIX: serve dynamically so it's always current; also served from dist if static exists
-  const staticAds = path.join(DIST, "ads.txt");
-  if (fs.existsSync(staticAds)) return res.sendFile(staticAds);
   res.send("google.com, pub-5444446255342320, DIRECT, f08c47fec0942fa0\n");
 });
 
