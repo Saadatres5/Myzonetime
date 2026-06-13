@@ -60,7 +60,7 @@ export default function DateCalculatorPage() {
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebApplication",
     "name": "Date Calculator",
     "applicationCategory": "UtilityApplication",
     "description": "Calculate days, weeks, and business days between two dates."

@@ -41,7 +41,7 @@ export default function StopwatchPage() {
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebApplication",
     "name": "Stopwatch",
     "applicationCategory": "UtilityApplication",
     "description": "Precision online stopwatch with lap tracking."

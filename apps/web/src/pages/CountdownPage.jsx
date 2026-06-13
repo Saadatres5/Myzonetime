@@ -79,7 +79,7 @@ export default function CountdownPage() {
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebApplication",
     "name": "Countdown Timer",
     "applicationCategory": "UtilityApplication",
     "description": "Create a countdown to any future date and time."

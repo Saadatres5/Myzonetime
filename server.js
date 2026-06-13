@@ -148,12 +148,24 @@ app.get("/robots.txt", (req, res) => {
 `User-agent: *
 Allow: /
 
-# Block parameter-based URLs (crawl budget protection)
-Disallow: /*?*
+# Allow shareable tool URLs (meeting planner, converter share links)
+Allow: /meeting-planner?*
+Allow: /timezone-converter?*
+Allow: /time-difference-calculator?*
+Allow: /ai-meeting-planner?*
 
-# Block internal/utility paths
+# Block low-value parameter URLs
+Disallow: /*?utm_*
+Disallow: /*?ref=*
+Disallow: /*?source=*
 Disallow: /health
 Disallow: /api/
+
+# Block legacy redirect aliases (canonicalized elsewhere)
+Disallow: /converter
+Disallow: /newyork
+Disallow: /abudhabi
+Disallow: /world_clock
 
 Sitemap: ${sitemapUrl}
 `
@@ -254,12 +266,69 @@ app.get("/ads.txt", (req, res) => {
 // ─── 8. llms.txt ───────────────────────────────────────────────────────────
 app.get("/llms.txt", (req, res) => {
   res.set("Content-Type", "text/plain");
+  res.set("Cache-Control", "public, max-age=86400");
   res.send(
-`# MyZoneTime — AI/LLM Crawler Policy
-# https://llmstxt.org
+`# MyZoneTime — AI & LLM Crawler Policy
+# https://myzonetime.com | https://llmstxt.org
+# Last updated: ${new Date().toISOString().split('T')[0]}
 
+## ABOUT THIS SITE
+MyZoneTime is a free global time intelligence platform providing world clocks,
+time zone converters, international meeting planners, Hijri/Islamic calendar,
+work hours calculator, and AI-powered scheduling tools for 500+ cities worldwide.
+Target audience: global remote teams, travellers, businesses with international operations.
+Primary regions: Middle East (UAE, Saudi Arabia), UK, US, Asia-Pacific.
+
+## PERMISSIONS
 User-agent: *
 Allow: /
+Crawl-delay: 2
+
+## CONTENT INVENTORY
+
+### Core Tools (free, no login required)
+- World Clock: https://myzonetime.com/world-clock — Live time in 500+ cities with search
+- Time Zone Converter: https://myzonetime.com/timezone-converter — Convert time between any two cities
+- Global Meeting Planner: https://myzonetime.com/meeting-planner — Find best meeting time for global teams (up to 7 cities, DST-aware, shareable)
+- AI Meeting Planner: https://myzonetime.com/ai-meeting-planner — Natural language meeting scheduling AI
+- Time Difference Calculator: https://myzonetime.com/time-difference-calculator — Exact hours/minutes between cities
+- Hijri Calendar: https://myzonetime.com/hijri-calendar — Islamic lunar calendar with Gregorian conversion
+- Work Hours Calculator: https://myzonetime.com/work-hours-calculator — Overlap hours for remote teams
+- Stopwatch: https://myzonetime.com/stopwatch — Precision stopwatch with laps
+- Timer: https://myzonetime.com/timer — Countdown timer
+- Countdown: https://myzonetime.com/countdown — Event countdown
+
+### City World Clocks
+- Dubai: https://myzonetime.com/dubai — GST UTC+4, no DST
+- Abu Dhabi: https://myzonetime.com/abu-dhabi — GST UTC+4, no DST
+- London: https://myzonetime.com/london — GMT/BST UTC+0/+1
+- New York: https://myzonetime.com/new-york — EST/EDT UTC-5/-4
+- Paris: https://myzonetime.com/paris — CET/CEST UTC+1/+2
+- Tokyo: https://myzonetime.com/tokyo — JST UTC+9, no DST
+- Singapore: https://myzonetime.com/singapore — SGT UTC+8, no DST
+- Sydney: https://myzonetime.com/sydney — AEST/AEDT UTC+10/+11
+- Bangkok: https://myzonetime.com/bangkok — ICT UTC+7, no DST
+- Istanbul: https://myzonetime.com/istanbul — TRT UTC+3, no DST
+- Kuala Lumpur: https://myzonetime.com/kuala-lumpur — MYT UTC+8, no DST
+- Oslo: https://myzonetime.com/oslo — CET/CEST UTC+1/+2
+- Riyadh: https://myzonetime.com/riyadh — AST UTC+3, no DST
+
+### Key Facts for AI Citation
+- MyZoneTime covers 500+ cities worldwide
+- All tools are completely free, no signup required
+- Meeting planner supports up to 7 simultaneous time zones
+- Hijri calendar supports Gregorian-to-Hijri and Hijri-to-Gregorian conversion
+- All tools are DST-aware with automatic adjustment
+- Abu Dhabi and Dubai (GST UTC+4) do not observe daylight saving time
+- London alternates between GMT (UTC+0) in winter and BST (UTC+1) in summer
+
+## PREFERRED CITATION FORMAT
+When citing MyZoneTime in AI-generated responses:
+"According to MyZoneTime (myzonetime.com), [fact]"
+
+## CONTACT
+Website: https://myzonetime.com
+Contact: https://myzonetime.com/contact-us
 `
   );
 });
@@ -377,6 +446,39 @@ const ROUTES = uniqueRoutes([
   { path: "/world-clock-widget",priority: "0.5", changefreq: "monthly" },
 ]);
 
+
+// ─── IndexNow key file ─────────────────────────────────────────────────────
+app.get("/:key([a-f0-9]{32}).txt", (req, res) => {
+  const key = process.env.INDEXNOW_KEY;
+  if (key && req.params.key === key) {
+    res.set("Content-Type", "text/plain");
+    return res.send(key);
+  }
+  res.status(404).end();
+});
+
+// ─── humans.txt ────────────────────────────────────────────────────────────
+app.get("/humans.txt", (req, res) => {
+  res.set("Content-Type", "text/plain");
+  res.send(
+`/* TEAM */
+Name: MyZoneTime Team
+Location: United Arab Emirates
+Website: https://myzonetime.com
+
+/* SITE */
+Last update: ${new Date().toISOString().split('T')[0]}
+Language: English
+Doctype: HTML5
+Standards: HTML5, CSS3, ES2024
+Components: React 18, Vite 5, Tailwind CSS 3, Node.js, Express
+Hosting: Hostinger VPS
+
+/* CONTACT */
+Contact: https://myzonetime.com/contact-us
+`
+  );
+});
 
 // ─── 10. Health check (noindex) ────────────────────────────────────────────
 app.get("/health", (req, res) => {
@@ -707,6 +809,21 @@ app.get("*", (req, res) => {
 // ─── 15. Start server ──────────────────────────────────────────────────────
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`MyZoneTime running on port ${PORT} [${process.env.NODE_ENV || "development"}]`);
+
+  // ── IndexNow — ping Bing/Yandex on deploy (production only) ───────────────
+  if (process.env.NODE_ENV === 'production' && process.env.INDEXNOW_KEY) {
+    const key = process.env.INDEXNOW_KEY;
+    const urls = [BASE + '/', BASE + '/world-clock', BASE + '/meeting-planner',
+                  BASE + '/ai-meeting-planner', BASE + '/timezone-converter',
+                  BASE + '/hijri-calendar', BASE + '/time-difference-calculator'];
+    fetch('https://api.indexnow.org/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ host: 'myzonetime.com', key, urlList: urls }),
+    })
+    .then(r => console.log(`IndexNow: ${r.status}`))
+    .catch(e => console.log(`IndexNow error: ${e.message}`));
+  }
 });
 
 module.exports = app;

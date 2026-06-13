@@ -68,7 +68,7 @@ export default function WorkHoursCalculatorPage() {
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebApplication",
     "name": "Work Hours Calculator",
     "applicationCategory": "UtilityApplication",
     "description": "Calculate daily and weekly working hours."

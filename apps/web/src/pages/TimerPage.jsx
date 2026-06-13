@@ -109,7 +109,7 @@ export default function TimerPage() {
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebApplication",
     "name": "Timer",
     "applicationCategory": "UtilityApplication",
     "description": "Customizable countdown timer with alerts."

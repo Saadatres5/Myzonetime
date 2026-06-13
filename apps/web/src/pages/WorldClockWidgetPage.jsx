@@ -41,7 +41,7 @@ export default function WorldClockWidgetPage() {
 
   // SSR injects the authoritative JSON-LD from server.js; this is a client fallback.
   const schema = {
-    '@type': 'SoftwareApplication',
+    '@type': 'WebApplication',
     name: 'World Clock Widget — Free Embeddable Clock',
     url: 'https://myzonetime.com/world-clock-widget',
     description: 'Free embeddable world clock widget for any website. Copy-paste HTML iframe. Shows live time for multiple cities.',
