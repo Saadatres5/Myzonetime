@@ -11,7 +11,7 @@
  */
 import React, { useEffect, useRef, useState } from 'react';
 
-const PUBLISHER_ID = 'ca-pub-1017873487030471';
+const PUBLISHER_ID = 'ca-pub-5444446255342320';
 
 // ── Ad slot IDs ────────────────────────────────────────────────────────────
 // IMPORTANT: Replace these with your real ad unit slot IDs from AdSense Dashboard.
