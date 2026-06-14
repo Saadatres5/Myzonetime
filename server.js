@@ -160,17 +160,6 @@ Sitemap: ${sitemapUrl}
   );
 });
 
-// ─── Sitemap fallback paths (used if file-parsing fails on server) ──────────
-const FALLBACK_CITY_PATHS = [
-  '/dubai','/abu-dhabi','/london','/new-york','/paris','/tokyo',
-  '/singapore','/sydney','/bangkok','/istanbul','/kuala-lumpur','/oslo','/riyadh',
-];
-const FALLBACK_TZ_PATHS = [
-  '/timezone/gst','/timezone/gmt','/timezone/bst','/timezone/est','/timezone/edt',
-  '/timezone/cet','/timezone/cest','/timezone/jst','/timezone/sgt','/timezone/aest',
-  '/timezone/ict','/timezone/trt','/timezone/myt','/timezone/ast',
-];
-
 // ─── Sitemap helpers ───────────────────────────────────────────────────────
 function xmlUrl(loc, lastmod, changefreq, priority) {
   return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
@@ -227,38 +216,24 @@ app.get('/sitemap.xml', (req, res) => {
 });
 
 // ─── city-sitemap.xml — all city pages ────────────────────────────────────
-// ─── city-sitemap.xml — all city pages ────────────────────────────────────
 app.get('/city-sitemap.xml', (req, res) => {
   const today = new Date().toISOString().split('T')[0];
-  try {
-    const cityPaths = getCityRoutePaths();
-    const urls = cityPaths.length > 0
-      ? cityPaths.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8')).join('\n')
-      : FALLBACK_CITY_PATHS.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8')).join('\n');
-    sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
-  } catch (e) {
-    const urls = FALLBACK_CITY_PATHS.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8')).join('\n');
-    sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
-  }
+  const cityPaths = getCityRoutePaths();
+  const urls = cityPaths
+    .map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8'))
+    .join('\n');
+  sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
 });
 
 // ─── timezone-sitemap.xml — all /timezone/:tz pages ───────────────────────
 app.get('/timezone-sitemap.xml', (req, res) => {
   const today = new Date().toISOString().split('T')[0];
-  try {
-    const tzPaths = getTimezoneRoutePaths()
-      .filter(p => p !== '@timezone-index@')
-      .map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7'));
-    const indexUrl = xmlUrl(`${BASE}/timezone`, today, 'weekly', '0.8');
-    const allPaths = tzPaths.length > 0
-      ? tzPaths
-      : FALLBACK_TZ_PATHS.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7'));
-    sendXml(res, `${sitemapHeader()}\n${indexUrl}\n${allPaths.join('\n')}\n${sitemapFooter()}`);
-  } catch (e) {
-    const indexUrl = xmlUrl(`${BASE}/timezone`, today, 'weekly', '0.8');
-    const urls = FALLBACK_TZ_PATHS.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7')).join('\n');
-    sendXml(res, `${sitemapHeader()}\n${indexUrl}\n${urls}\n${sitemapFooter()}`);
-  }
+  const tzPaths = getTimezoneRoutePaths()
+    .filter(p => p !== '@timezone-index@')
+    .map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7'));
+  // Include the timezone index page
+  const indexUrl = xmlUrl(`${BASE}/timezone`, today, 'weekly', '0.8');
+  sendXml(res, `${sitemapHeader()}\n${indexUrl}\n${tzPaths.join('\n')}\n${sitemapFooter()}`);
 });
 
 // ─── time-difference-sitemap.xml — all /time-difference/:pair pages ───────
@@ -402,6 +377,13 @@ const ROUTES = uniqueRoutes([
   { path: "/world-clock-widget",priority: "0.5", changefreq: "monthly" },
 ]);
 
+
+// ─── IndexNow key file ─────────────────────────────────────────────────────
+const INDEXNOW_KEY = process.env.INDEXNOW_KEY || '7e2f04f815104ea3a0f7af7c1ee2a3ed';
+app.get(`/${INDEXNOW_KEY}.txt`, (req, res) => {
+  res.set('Content-Type', 'text/plain');
+  res.send(INDEXNOW_KEY);
+});
 
 // ─── 10. Health check (noindex) ────────────────────────────────────────────
 app.get("/health", (req, res) => {
@@ -732,6 +714,33 @@ app.get("*", (req, res) => {
 // ─── 15. Start server ──────────────────────────────────────────────────────
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`MyZoneTime running on port ${PORT} [${process.env.NODE_ENV || "development"}]`);
+
+  // ── IndexNow ping on every deploy ──────────────────────────────────────────
+  if (process.env.NODE_ENV === 'production' && INDEXNOW_KEY) {
+    const payload = {
+      host: 'myzonetime.com',
+      key: INDEXNOW_KEY,
+      keyLocation: `${BASE}/${INDEXNOW_KEY}.txt`,
+      urlList: [
+        `${BASE}/`, `${BASE}/world-clock`, `${BASE}/meeting-planner`,
+        `${BASE}/ai-meeting-planner`, `${BASE}/timezone-converter`,
+        `${BASE}/time-difference-calculator`, `${BASE}/hijri-calendar`,
+        `${BASE}/work-hours-calculator`, `${BASE}/dubai`, `${BASE}/abu-dhabi`,
+        `${BASE}/london`, `${BASE}/new-york`, `${BASE}/paris`, `${BASE}/tokyo`,
+        `${BASE}/singapore`, `${BASE}/riyadh`, `${BASE}/stopwatch`,
+        `${BASE}/timer`, `${BASE}/countdown`,
+      ],
+    };
+    ['https://api.indexnow.org/indexnow','https://www.bing.com/indexnow','https://yandex.com/indexnow'].forEach(engine => {
+      fetch(engine, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify(payload),
+      })
+      .then(r => console.log(`IndexNow [${engine.split('/')[2]}]: ${r.status}`))
+      .catch(e => console.log(`IndexNow [${engine.split('/')[2]}] error: ${e.message}`));
+    });
+  }
 });
 
 module.exports = app;
