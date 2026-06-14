@@ -160,6 +160,17 @@ Sitemap: ${sitemapUrl}
   );
 });
 
+// ─── Sitemap fallback paths (used if file-parsing fails on server) ──────────
+const FALLBACK_CITY_PATHS = [
+  '/dubai','/abu-dhabi','/london','/new-york','/paris','/tokyo',
+  '/singapore','/sydney','/bangkok','/istanbul','/kuala-lumpur','/oslo','/riyadh',
+];
+const FALLBACK_TZ_PATHS = [
+  '/timezone/gst','/timezone/gmt','/timezone/bst','/timezone/est','/timezone/edt',
+  '/timezone/cet','/timezone/cest','/timezone/jst','/timezone/sgt','/timezone/aest',
+  '/timezone/ict','/timezone/trt','/timezone/myt','/timezone/ast',
+];
+
 // ─── Sitemap helpers ───────────────────────────────────────────────────────
 function xmlUrl(loc, lastmod, changefreq, priority) {
   return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
@@ -216,24 +227,38 @@ app.get('/sitemap.xml', (req, res) => {
 });
 
 // ─── city-sitemap.xml — all city pages ────────────────────────────────────
+// ─── city-sitemap.xml — all city pages ────────────────────────────────────
 app.get('/city-sitemap.xml', (req, res) => {
   const today = new Date().toISOString().split('T')[0];
-  const cityPaths = getCityRoutePaths();
-  const urls = cityPaths
-    .map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8'))
-    .join('\n');
-  sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
+  try {
+    const cityPaths = getCityRoutePaths();
+    const urls = cityPaths.length > 0
+      ? cityPaths.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8')).join('\n')
+      : FALLBACK_CITY_PATHS.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8')).join('\n');
+    sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
+  } catch (e) {
+    const urls = FALLBACK_CITY_PATHS.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8')).join('\n');
+    sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
+  }
 });
 
 // ─── timezone-sitemap.xml — all /timezone/:tz pages ───────────────────────
 app.get('/timezone-sitemap.xml', (req, res) => {
   const today = new Date().toISOString().split('T')[0];
-  const tzPaths = getTimezoneRoutePaths()
-    .filter(p => p !== '@timezone-index@')
-    .map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7'));
-  // Include the timezone index page
-  const indexUrl = xmlUrl(`${BASE}/timezone`, today, 'weekly', '0.8');
-  sendXml(res, `${sitemapHeader()}\n${indexUrl}\n${tzPaths.join('\n')}\n${sitemapFooter()}`);
+  try {
+    const tzPaths = getTimezoneRoutePaths()
+      .filter(p => p !== '@timezone-index@')
+      .map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7'));
+    const indexUrl = xmlUrl(`${BASE}/timezone`, today, 'weekly', '0.8');
+    const allPaths = tzPaths.length > 0
+      ? tzPaths
+      : FALLBACK_TZ_PATHS.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7'));
+    sendXml(res, `${sitemapHeader()}\n${indexUrl}\n${allPaths.join('\n')}\n${sitemapFooter()}`);
+  } catch (e) {
+    const indexUrl = xmlUrl(`${BASE}/timezone`, today, 'weekly', '0.8');
+    const urls = FALLBACK_TZ_PATHS.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7')).join('\n');
+    sendXml(res, `${sitemapHeader()}\n${indexUrl}\n${urls}\n${sitemapFooter()}`);
+  }
 });
 
 // ─── time-difference-sitemap.xml — all /time-difference/:pair pages ───────
@@ -667,9 +692,12 @@ function renderHtml(routePath) {
 app.use(express.static(DIST, {
   maxAge: "1h",
   index: false,   // IMPORTANT: disable auto-serve of index.html — we handle it below
-  // NOTE: sitemap.xml, robots.txt, ads.txt, llms.txt are NOT in dist/
-  // They are served by dedicated dynamic routes above.
-  // Only static assets (images, icons, manifest.json) come from dist/ via this middleware.
+  setHeaders: (res, filePath) => {
+    // Long cache for hashed assets is set by the /assets route above
+    if (filePath.endsWith(".xml") || filePath.endsWith(".txt")) {
+      res.set("Cache-Control", "public, max-age=3600");
+    }
+  },
 }));
 
 // ─── 14. SPA catch-all (SSR meta injection per route) ──────────────────────
