@@ -12,8 +12,26 @@
 Options -Indexes
 FileETag None
 
+# ── Sitemap & crawler files — explicit 200 passthrough ───────────────────────
+# Forces Hostinger's reverse proxy/WAF to allow these XML/TXT paths through to Node.js
+<FilesMatch "\.(xml|txt)$">
+  Header set Access-Control-Allow-Origin "*"
+  Header set X-Robots-Tag "noindex"
+</FilesMatch>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Pass sitemap and crawler files directly to Node.js — no redirects
+  RewriteRule ^sitemap\.xml$               - [L]
+  RewriteRule ^sitemap-index\.xml$         - [L]
+  RewriteRule ^city-sitemap\.xml$          - [L]
+  RewriteRule ^timezone-sitemap\.xml$      - [L]
+  RewriteRule ^time-difference-sitemap\.xml$ - [L]
+  RewriteRule ^robots\.txt$                - [L]
+  RewriteRule ^ads\.txt$                   - [L]
+  RewriteRule ^llms\.txt$                  - [L]
+  RewriteRule ^humans\.txt$                - [L]
 
   # ── 1. Force HTTPS (301 permanent) ─────────────────────────────────────────
   RewriteCond %{HTTPS} off
