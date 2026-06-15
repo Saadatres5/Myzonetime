@@ -144,6 +144,7 @@ app.get("/robots.txt", (req, res) => {
   res.set("X-Robots-Tag", "noindex"); // robots.txt itself should not be indexed
   // Prefer sitemap-index to ensure large city sitemaps are discovered
   const sitemapUrl = `${BASE}/sitemap-index.xml`;
+const sitemapUrlAlt = `${BASE}/sitemap-index`;
   res.send(
 `User-agent: *
 Allow: /
@@ -170,6 +171,7 @@ Disallow: /abudhabi
 Disallow: /world_clock
 
 Sitemap: ${sitemapUrl}
+Sitemap: ${sitemapUrlAlt}
 `
   );
 });
@@ -189,8 +191,9 @@ function sendXml(res, body) {
   res.send(body);
 }
 
-// ─── sitemap-index.xml — master index listing all sub-sitemaps ────────────
-app.get('/sitemap-index.xml', (req, res) => {
+// ─── sitemap-index.xml — master index + extension-less aliases ─────────────
+// Dual routes: .xml for standards compliance, extension-less as WAF fallback
+app.get(['/sitemap-index.xml', '/sitemap-index'], (req, res) => {
   const today = new Date().toISOString().split('T')[0];
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -215,7 +218,7 @@ app.get('/sitemap-index.xml', (req, res) => {
 });
 
 // ─── sitemap.xml — core tool pages ────────────────────────────────────────
-app.get('/sitemap.xml', (req, res) => {
+app.get(['/sitemap.xml', '/sitemap'], (req, res) => {
   const today = new Date().toISOString().split('T')[0];
   const urls = CORE_ROUTES
     .concat([
@@ -230,7 +233,7 @@ app.get('/sitemap.xml', (req, res) => {
 });
 
 // ─── city-sitemap.xml — all city pages ────────────────────────────────────
-app.get('/city-sitemap.xml', (req, res) => {
+app.get(['/city-sitemap.xml', '/city-sitemap'], (req, res) => {
   const today = new Date().toISOString().split('T')[0];
   const cityPaths = getCityRoutePaths();
   const urls = cityPaths
@@ -240,7 +243,7 @@ app.get('/city-sitemap.xml', (req, res) => {
 });
 
 // ─── timezone-sitemap.xml — all /timezone/:tz pages ───────────────────────
-app.get('/timezone-sitemap.xml', (req, res) => {
+app.get(['/timezone-sitemap.xml', '/timezone-sitemap'], (req, res) => {
   const today = new Date().toISOString().split('T')[0];
   const tzPaths = getTimezoneRoutePaths()
     .filter(p => p !== '@timezone-index@')
@@ -251,7 +254,7 @@ app.get('/timezone-sitemap.xml', (req, res) => {
 });
 
 // ─── time-difference-sitemap.xml — all /time-difference/:pair pages ───────
-app.get('/time-difference-sitemap.xml', (req, res) => {
+app.get(['/time-difference-sitemap.xml', '/time-difference-sitemap'], (req, res) => {
   const today = new Date().toISOString().split('T')[0];
   const urls = TIME_DIFFERENCE_ROUTES
     .map(r => xmlUrl(`${BASE}${r.path}`, today, r.changefreq, r.priority))
