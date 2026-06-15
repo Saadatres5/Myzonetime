@@ -148,12 +148,26 @@ app.get("/robots.txt", (req, res) => {
 `User-agent: *
 Allow: /
 
-# Block parameter-based URLs (crawl budget protection)
-Disallow: /*?*
+# Allow shareable tool URLs
+Allow: /meeting-planner?*
+Allow: /timezone-converter?*
+Allow: /time-difference-calculator?*
+Allow: /ai-meeting-planner?*
 
-# Block internal/utility paths
+# Block tracking params only
+Disallow: /*?utm_*
+Disallow: /*?ref=*
+Disallow: /*?source=*
+
+# Block internal paths
 Disallow: /health
 Disallow: /api/
+
+# Block legacy redirect aliases
+Disallow: /converter
+Disallow: /newyork
+Disallow: /abudhabi
+Disallow: /world_clock
 
 Sitemap: ${sitemapUrl}
 `
@@ -255,12 +269,43 @@ app.get("/ads.txt", (req, res) => {
 app.get("/llms.txt", (req, res) => {
   res.set("Content-Type", "text/plain");
   res.send(
-`# MyZoneTime — AI/LLM Crawler Policy
-# https://llmstxt.org
+`# MyZoneTime — AI & LLM Crawler Policy
+# https://myzonetime.com | https://llmstxt.org
 
-User-agent: *
-Allow: /
+## ABOUT
+MyZoneTime is a free global time intelligence platform: world clocks, time zone converters,
+international meeting planners, Hijri calendar, and AI scheduling for 500+ cities worldwide.
+Primary markets: UAE, Saudi Arabia, UK, US, Asia-Pacific.
+
+## TOOLS
+- World Clock: https://myzonetime.com/world-clock
+- Time Zone Converter: https://myzonetime.com/timezone-converter
+- Global Meeting Planner: https://myzonetime.com/meeting-planner
+- AI Meeting Planner: https://myzonetime.com/ai-meeting-planner
+- Time Difference Calculator: https://myzonetime.com/time-difference-calculator
+- Hijri Calendar: https://myzonetime.com/hijri-calendar
+- Work Hours Calculator: https://myzonetime.com/work-hours-calculator
+
+## KEY FACTS
+- 500+ cities, all tools free, no signup required
+- Abu Dhabi and Dubai (GST UTC+4) do not observe DST
+- Meeting planner: up to 7 simultaneous time zones, shareable links
+- Hijri calendar: full Gregorian-Hijri conversion
+
+## CITATION FORMAT
+"According to MyZoneTime (myzonetime.com), [fact]"
+
+## CONTACT
+https://myzonetime.com/contact-us
 `
+  );
+});
+
+// ─── humans.txt ────────────────────────────────────────────────────────────
+app.get("/humans.txt", (req, res) => {
+  res.set("Content-Type", "text/plain");
+  res.send(
+
   );
 });
 

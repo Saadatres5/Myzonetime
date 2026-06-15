@@ -79,7 +79,7 @@ export default function WorkHoursCalculatorPage() {
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://myzonetime.com" },
-      { "@type": "ListItem", "position": 2, "name": "Work Hours Calculator", "item": "https://myzonetime.com/work-hours" }
+      { "@type": "ListItem", "position": 2, "name": "Work Hours Calculator", "item": "https://myzonetime.com/work-hours-calculator" }
     ]
   };
 
