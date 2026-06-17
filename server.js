@@ -385,6 +385,10 @@ const CORE_ROUTES = [
   { path: "/ai-meeting-planner",         priority: "0.9", changefreq: "weekly"  },
   { path: "/time-difference-calculator", priority: "0.8", changefreq: "weekly"  },
   { path: "/hijri-calendar",             priority: "0.8", changefreq: "daily"   },
+  { path: "/india-time",                 priority: "0.9", changefreq: "daily"   },
+  { path: "/time-calculator",            priority: "0.8", changefreq: "monthly" },
+  { path: "/time-management-tips",       priority: "0.7", changefreq: "monthly" },
+  { path: "/windows-time-settings",      priority: "0.7", changefreq: "monthly" },
   { path: "/stopwatch",                  priority: "0.7", changefreq: "monthly" },
   { path: "/timer",                      priority: "0.7", changefreq: "monthly" },
   { path: "/countdown",                  priority: "0.7", changefreq: "monthly" },
@@ -494,6 +498,30 @@ const META = {
     description: "View today's Hijri (Islamic) date and convert between Hijri and Gregorian calendars. Accurate Islamic calendar for 2025.",
     canonical: `${BASE}/hijri-calendar`,
     h1: "Hijri Calendar",
+  },
+  "/india-time": {
+    title: "India Time Now — Current Time in India (IST UTC+5:30) | MyZoneTime",
+    description: "What time is it in India right now? Live India Standard Time (IST, UTC+5:30) clock. Indian time difference to US, UK, Dubai, Singapore and more. No DST.",
+    canonical: `${BASE}/india-time`,
+    h1: "Current Time in India",
+  },
+  "/time-calculator": {
+    title: "Time Calculator — Add, Subtract & Find Time Duration | MyZoneTime",
+    description: "Free time calculator. Add or subtract hours and minutes from any time, or calculate the exact duration between two times. Instant, no signup.",
+    canonical: `${BASE}/time-calculator`,
+    h1: "Time Calculator",
+  },
+  "/time-management-tips": {
+    title: "Effective Time Management Tips — 8 Proven Strategies | MyZoneTime",
+    description: "8 effective time management tips backed by research: prioritization frameworks, time blocking, energy management, and more.",
+    canonical: `${BASE}/time-management-tips`,
+    h1: "Effective Time Management Tips",
+  },
+  "/windows-time-settings": {
+    title: "How to Set Time & Change Time Format in Windows | MyZoneTime",
+    description: "Step-by-step guide: set your time and time zone manually in Windows 10/11, and change the time format from 12-hour to 24-hour.",
+    canonical: `${BASE}/windows-time-settings`,
+    h1: "How to Set Time & Change Time Format in Windows",
   },
   "/stopwatch": {
     title: "Online Stopwatch — Precision Timer with Lap Recording | MyZoneTime",
@@ -737,8 +765,35 @@ const SPA_ROUTE_PATTERNS = [
   /^\/[a-z0-9-]+$/,
 ];
 
+// Dynamic city slugs from cityPageData — all return 200
+function getCitySlugSet() {
+  try {
+    const data = fs.readFileSync(path.join(__dirname, 'apps/web/src/data/cityPageData.js'), 'utf8');
+    const start = data.indexOf('export const CITY_SEO_DATA');
+    const braceStart = data.indexOf('{', start);
+    const body = data.slice(braceStart + 1);
+    const slugs = new Set();
+    let depth = 0, j = 0;
+    while (j < body.length) {
+      const ch = body[j];
+      if (depth === 0 && /[a-z0-9-]/.test(ch)) {
+        let key = '';
+        while (j < body.length && /[a-z0-9-]/.test(body[j])) { key += body[j]; j++; }
+        while (j < body.length && /\s/.test(body[j])) j++;
+        if (body[j] === ':') slugs.add('/' + key);
+        j++; continue;
+      }
+      if (ch === '{') depth++; else if (ch === '}') { if (depth > 0) depth--; }
+      j++;
+    }
+    return slugs;
+  } catch(e) { return new Set(); }
+}
+const CITY_SLUGS = getCitySlugSet();
+
 function isKnownRoute(pathname) {
   if (KNOWN_ROUTES.has(pathname)) return true;
+  if (CITY_SLUGS.has(pathname)) return true;  // dynamic city pages
   return SPA_ROUTE_PATTERNS.some(pattern => pattern.test(pathname));
 }
 

@@ -9,13 +9,18 @@ export default function Footer() {
     { to: '/world-clock',               label: 'World Clock' },
     { to: '/timezone-converter',        label: 'Time Zone Converter' },
     { to: '/meeting-planner',           label: 'Meeting Planner' },
+    { to: '/ai-meeting-planner',        label: 'AI Meeting Planner' },
     { to: '/time-difference-calculator',label: 'Time Difference' },
+    { to: '/time-calculator',           label: 'Time Calculator' },
     { to: '/work-hours-calculator',     label: 'Work Hours Calculator' },
     { to: '/date-calculator',           label: 'Date Calculator' },
     { to: '/hijri-calendar',            label: 'Hijri Calendar' },
+    { to: '/india-time',                label: 'India Time' },
     { to: '/stopwatch',                 label: 'Stopwatch' },
     { to: '/timer',                     label: 'Timer' },
     { to: '/countdown',                 label: 'Countdown' },
+    { to: '/time-management-tips',      label: 'Time Management Tips' },
+    { to: '/windows-time-settings',     label: 'Windows Time Settings' },
   ];
 
   const cityLinks = [

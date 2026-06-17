@@ -19,6 +19,10 @@ const WorkHoursCalculatorPage      = React.lazy(() => import('./pages/WorkHoursC
 const MeetingPlannerPage           = React.lazy(() => import('./pages/MeetingPlannerPage.jsx'));
 const AIMeetingPlannerPage         = React.lazy(() => import('./pages/AIMeetingPlannerPage.jsx'));
 const HijriCalendarPage            = React.lazy(() => import('./pages/HijriCalendarPage.jsx'));
+const IndiaTimePage                = React.lazy(() => import('./pages/IndiaTimePage.jsx'));
+const TimeCalculatorPage           = React.lazy(() => import('./pages/TimeCalculatorPage.jsx'));
+const TimeManagementTipsPage       = React.lazy(() => import('./pages/TimeManagementTipsPage.jsx'));
+const WindowsTimeSettingsPage      = React.lazy(() => import('./pages/WindowsTimeSettingsPage.jsx'));
 const TimeDifferenceCalculatorPage = React.lazy(() => import('./pages/TimeDifferenceCalculatorPage.jsx'));
 const WorldClockWidgetPage         = React.lazy(() => import('./pages/WorldClockWidgetPage.jsx'));
 const EmbedPage                    = React.lazy(() => import('./pages/EmbedPage.jsx'));
@@ -96,6 +100,10 @@ function AppContent({ settings, updateSetting }) {
             <Route path="/meeting-planner"              element={<MeetingPlannerPage />} />
             <Route path="/ai-meeting-planner"           element={<AIMeetingPlannerPage />} />
             <Route path="/hijri-calendar"               element={<HijriCalendarPage />} />
+            <Route path="/india-time"                   element={<IndiaTimePage />} />
+            <Route path="/time-calculator"              element={<TimeCalculatorPage />} />
+            <Route path="/time-management-tips"         element={<TimeManagementTipsPage />} />
+            <Route path="/windows-time-settings"        element={<WindowsTimeSettingsPage />} />
             <Route path="/time-difference-calculator"   element={<TimeDifferenceCalculatorPage />} />
             <Route path="/world-clock-widget"           element={<WorldClockWidgetPage />} />
             <Route path="/embed/world-clock"            element={<EmbedPage />} />
