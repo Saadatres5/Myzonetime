@@ -9,13 +9,18 @@ export default function Footer() {
     { to: '/world-clock',               label: 'World Clock' },
     { to: '/timezone-converter',        label: 'Time Zone Converter' },
     { to: '/meeting-planner',           label: 'Meeting Planner' },
+    { to: '/ai-meeting-planner',        label: 'AI Meeting Planner' },
     { to: '/time-difference-calculator',label: 'Time Difference' },
+    { to: '/time-calculator',           label: 'Time Calculator' },
     { to: '/work-hours-calculator',     label: 'Work Hours Calculator' },
     { to: '/date-calculator',           label: 'Date Calculator' },
     { to: '/hijri-calendar',            label: 'Hijri Calendar' },
+    { to: '/india-time',                label: 'India Time' },
     { to: '/stopwatch',                 label: 'Stopwatch' },
     { to: '/timer',                     label: 'Timer' },
     { to: '/countdown',                 label: 'Countdown' },
+    { to: '/time-management-tips',      label: 'Time Management Tips' },
+    { to: '/windows-time-settings',     label: 'Windows Time Settings' },
   ];
 
   const cityLinks = [
@@ -131,6 +136,7 @@ export default function Footer() {
         <div className="border-t border-border/50 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <p>© {currentYear} MyZoneTime. All rights reserved.</p>
           <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2" aria-label="Legal links">
+            <Link to="/about"             className="hover:text-primary transition-colors">About</Link>
             <Link to="/privacy-policy"  className="hover:text-primary transition-colors">Privacy Policy</Link>
             <Link to="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link>
             <Link to="/contact-us"      className="hover:text-primary transition-colors">Contact</Link>

@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { citiesData } from '@/data/citiesData.js';
 import StructuredData from '@/components/StructuredData.jsx';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
+import FAQSection from '@/components/FAQSection.jsx';
 import AdSenseAd, { AD_SLOTS } from '@/components/AdSenseAd.jsx';
 
 /* ─── helpers ───────────────────────────────────────────────────────────────── */
@@ -119,6 +120,14 @@ function ConversionTable({ tz1, tz2, city1Name, city2Name }) {
 }
 
 /* ─── Page ───────────────────────────────────────────────────────────────────── */
+
+const TZ_CONVERTER_FAQS = [
+  { question: 'How do I convert time between two time zones?', answer: 'Enter your source city and destination city in the converter, then select the time you want to convert. The converter shows the exact equivalent time in the destination city, automatically accounting for UTC offsets and daylight saving time rules.' },
+  { question: 'Why does the time conversion differ in summer vs winter?', answer: 'Many countries observe daylight saving time (DST), advancing their clocks by one hour in summer and returning to standard time in winter. When two cities have different DST schedules — or one observes DST and the other does not — the time difference between them changes seasonally. For example, the gap between London and Dubai is 4 hours in winter and 3 hours in summer.' },
+  { question: 'What does UTC+0 mean?', answer: 'UTC+0 means a time zone that is exactly aligned with Coordinated Universal Time — zero hours ahead or behind. London in winter (GMT) and Reykjavik (year-round) use UTC+0. It serves as the reference point from which all other time zones are calculated.' },
+  { question: 'What is the time difference between IST and EST?', answer: 'India Standard Time (IST, UTC+5:30) is 10 hours 30 minutes ahead of US Eastern Standard Time (EST, UTC-5) in winter, and 9 hours 30 minutes ahead during Eastern Daylight Time (EDT, UTC-4) in summer. Since India does not observe DST, any change in the offset is caused entirely by the US clock change.' },
+  { question: 'What is the time difference between GST (Dubai) and GMT (London)?', answer: 'Dubai (Gulf Standard Time, GST, UTC+4) is 4 hours ahead of London in winter (GMT, UTC+0) and 3 hours ahead in summer (BST, UTC+1). GST does not change — the seasonal variation is entirely due to London switching between GMT and BST.' },
+];
 export default function TimeZoneConverterPage() {
   const [fromId, setFromId] = useState('nyc');
   const [toId, setToId]     = useState('lon');

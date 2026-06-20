@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Search, X, Plus, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
+import FAQSection from '@/components/FAQSection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import { citiesData } from '@/data/citiesData.js';
 
@@ -111,6 +112,15 @@ function CityCard({ city, time, onRemove, index }) {
 }
 
 // ─── Main page ─────────────────────────────────────────────────────────────
+
+const WORLD_CLOCK_FAQS = [
+  { question: 'What is a world clock?', answer: 'A world clock displays the current local time in multiple cities and time zones simultaneously. Unlike a single clock that shows one time, a world clock lets you compare times across different countries at a glance — essential for international business, remote teams, and global travel.' },
+  { question: 'How do I add a city to the world clock?', answer: 'Type any city name in the search box at the top of the world clock. The search covers 500+ cities worldwide. Select your city from the dropdown and it will be added to your clock display. Your city selection is saved automatically.' },
+  { question: 'What is the difference between UTC and GMT?', answer: 'UTC (Coordinated Universal Time) is the modern international time standard, while GMT (Greenwich Mean Time) is a time zone. For practical purposes they show the same time, but UTC is the technical reference used for time zone calculations. Most modern systems use UTC as the base.' },
+  { question: 'Why do some cities have a half-hour time difference?', answer: 'Some countries chose time zones that are offset by 30 or 45 minutes from UTC instead of full hours. India (UTC+5:30), Afghanistan (UTC+4:30), Iran (UTC+3:30), and Nepal (UTC+5:45) are the most common examples. These offsets were adopted as compromises between geographic position and political preference for a single national time zone.' },
+  { question: 'What is daylight saving time and which countries observe it?', answer: 'Daylight saving time (DST) is the practice of advancing clocks by one hour in summer to extend daylight into the evening. Most of North America, Europe, and parts of Australia and South America observe DST. The Middle East (including UAE, Saudi Arabia), most of Asia, Africa, and Japan do not. This means the time difference between UAE and UK is 4 hours in winter and 3 hours in summer.' },
+  { question: 'Which cities are in the same time zone as Dubai?', answer: 'Dubai uses Gulf Standard Time (GST, UTC+4). Other cities sharing this time zone include Abu Dhabi, Muscat, Baku, Tbilisi, and Yerevan. No major European or US city shares this exact offset. GST has no daylight saving adjustment, so the offset from UTC stays fixed year-round.' },
+];
 export default function WorldClockPage() {
   const [displayedCities, setDisplayedCities] = useState(loadDisplayedCities);
   const [time, setTime]                       = useState(new Date());
@@ -354,6 +364,9 @@ export default function WorldClockPage() {
         </p>
 
       </div>
+
+      <FAQSection faqs={WORLD_CLOCK_FAQS} title="World Clock — Frequently Asked Questions" />
+
     </main>
   );
 }

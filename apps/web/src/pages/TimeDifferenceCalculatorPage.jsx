@@ -3,10 +3,19 @@ import { Helmet } from 'react-helmet-async';
 import { Clock, ArrowRightLeft, Lightbulb } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import CanonicalTag from '@/components/CanonicalTag.jsx';
+import FAQSection from '@/components/FAQSection.jsx';
 import StructuredData from '@/components/StructuredData.jsx';
 import { citiesData } from '@/data/citiesData.js';
 import { useLocalTime } from '@/hooks/useLocalTime.js';
 
+
+const TD_CALC_FAQS = [
+  { question: 'How do I calculate the time difference between two cities?', answer: 'Select any two cities from the search boxes. The calculator instantly shows the exact difference in hours and minutes, accounting for both cities current UTC offsets and whether either city is currently on daylight saving time.' },
+  { question: 'What is the time difference between India and the UK?', answer: 'India Standard Time (IST, UTC+5:30) is 5 hours 30 minutes ahead of UK winter time (GMT, UTC+0) and 4 hours 30 minutes ahead of UK summer time (BST, UTC+1). India does not change its clocks, so the variation is entirely due to the UK switching between GMT and BST.' },
+  { question: 'What is the time difference between Dubai and New York?', answer: 'Dubai (GST, UTC+4) is 9 hours ahead of New York in winter (EST, UTC-5) and 8 hours ahead during US Eastern Daylight Time (EDT, UTC-4) in summer. Dubai does not observe daylight saving time, so the difference changes only when New York switches.' },
+  { question: 'What is the time difference between London and Singapore?', answer: 'Singapore Standard Time (SGT, UTC+8) is 8 hours ahead of London in winter (GMT) and 7 hours ahead in summer (BST). Singapore does not observe DST, so the gap narrows by one hour when London moves to BST in late March.' },
+  { question: 'Can two cities in the same country have different time differences?', answer: 'Yes. Large countries like the US, Russia, Australia, and Brazil have multiple time zones. New York and Los Angeles have a 3-hour difference. In Australia, Sydney and Perth have a 2–3 hour difference depending on DST. India and China are exceptions — each uses a single national time zone despite their geographic span.' },
+];
 export default function TimeDifferenceCalculatorPage() {
   const [city1Id, setCity1Id] = useState('lon');
   const [city2Id, setCity2Id] = useState('dxb');

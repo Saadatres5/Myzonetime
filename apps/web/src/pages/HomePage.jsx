@@ -271,7 +271,15 @@ export default function HomePage() {
         <meta name="twitter:image:alt" content="MyZoneTime — World Clock" />
       </Helmet>
       <CanonicalTag pathname="/" />
-      <StructuredData schemas={[organizationSchema, websiteSchema, homePageSchema, webApplicationSchema, siteNavSchema]} />
+      <StructuredData schemas={[organizationSchema, websiteSchema, homePageSchema, webApplicationSchema, siteNavSchema, {
+        '@type': 'WebPage',
+        '@id': 'https://myzonetime.com/#speakable',
+        speakable: {
+          '@type': 'SpeakableSpecification',
+          cssSelector: ['h1', '.hero-description', '.utc-banner'],
+        },
+        url: 'https://myzonetime.com/',
+      }]} />
 
       {/* ── Hero ── */}
       <section className="relative w-full min-h-[80vh] flex flex-col items-center justify-center py-20 overflow-hidden">
