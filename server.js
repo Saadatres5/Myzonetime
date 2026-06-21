@@ -55,18 +55,6 @@ app.use(
     referrerPolicy:       { policy: "strict-origin-when-cross-origin" },
     crossOriginOpenerPolicy:   { policy: "same-origin-allow-popups" }, // needed for Google Sign-In/Ads popups
     crossOriginResourcePolicy: { policy: "cross-origin" },             // allows CDN assets
-    permissionsPolicy: {
-      features: {
-        geolocation:           [],  // disallow unless user grants
-        microphone:            [],
-        camera:                [],
-        payment:               [],
-        usb:                   [],
-        fullscreen:            ["'self'"],
-        accelerometer:         [],
-        gyroscope:             [],
-      },
-    },
   })
 );
 
@@ -156,37 +144,42 @@ app.get("/robots.txt", (req, res) => {
   res.set("X-Robots-Tag", "noindex"); // robots.txt itself should not be indexed
   // Prefer sitemap-index to ensure large city sitemaps are discovered
   const sitemapUrl = `${BASE}/sitemap-index.xml`;
-const sitemapUrlAlt = `${BASE}/sitemap-index`;
   res.send(
 `User-agent: *
 Allow: /
 
-# Allow shareable tool URLs
-Allow: /meeting-planner?*
-Allow: /timezone-converter?*
-Allow: /time-difference-calculator?*
-Allow: /ai-meeting-planner?*
+# Block parameter-based URLs (crawl budget protection)
+Disallow: /*?*
 
-# Block tracking params only
-Disallow: /*?utm_*
-Disallow: /*?ref=*
-Disallow: /*?source=*
-
-# Block internal paths
+# Block internal/utility paths
 Disallow: /health
 Disallow: /api/
 
-# Block legacy redirect aliases
-Disallow: /converter
-Disallow: /newyork
-Disallow: /abudhabi
-Disallow: /world_clock
-
 Sitemap: ${sitemapUrl}
-Sitemap: ${sitemapUrlAlt}
 `
   );
 });
+
+// ─── Sitemap cache (1 hour) — prevents slow generation causing 403 timeouts ─
+const _sitemapCache = new Map();
+function getCached(key, buildFn) {
+  const hit = _sitemapCache.get(key);
+  if (hit && Date.now() - hit.t < 3600000) return hit.xml;
+  const xml = buildFn();
+  _sitemapCache.set(key, { xml, t: Date.now() });
+  return xml;
+}
+
+// ─── Fallback paths (used if file-parsing fails) ──────────────────────────
+const FALLBACK_CITY_PATHS = [
+  '/dubai','/abu-dhabi','/london','/new-york','/paris','/tokyo',
+  '/singapore','/sydney','/bangkok','/istanbul','/kuala-lumpur','/oslo','/riyadh',
+];
+const FALLBACK_TZ_PATHS = [
+  '/timezone/gst','/timezone/gmt','/timezone/bst','/timezone/est','/timezone/edt',
+  '/timezone/cet','/timezone/cest','/timezone/jst','/timezone/sgt','/timezone/aest',
+  '/timezone/ict','/timezone/trt','/timezone/myt','/timezone/ast',
+];
 
 // ─── Sitemap helpers ───────────────────────────────────────────────────────
 function xmlUrl(loc, lastmod, changefreq, priority) {
@@ -203,34 +196,24 @@ function sendXml(res, body) {
   res.send(body);
 }
 
-// ─── sitemap-index.xml — master index + extension-less aliases ─────────────
-// Dual routes: .xml for standards compliance, extension-less as WAF fallback
+// ─── sitemap-index — dual routes (.xml + extension-less WAF bypass) ─────────
 app.get(['/sitemap-index.xml', '/sitemap-index'], (req, res) => {
-  const today = new Date().toISOString().split('T')[0];
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+  const xml = getCached('index', () => {
+    const today = new Date().toISOString().split('T')[0];
+    return `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap>
-    <loc>${BASE}/sitemap.xml</loc>
-    <lastmod>${today}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${BASE}/city-sitemap.xml</loc>
-    <lastmod>${today}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${BASE}/timezone-sitemap.xml</loc>
-    <lastmod>${today}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${BASE}/time-difference-sitemap.xml</loc>
-    <lastmod>${today}</lastmod>
-  </sitemap>
+  <sitemap><loc>${BASE}/sitemap.xml</loc><lastmod>${today}</lastmod></sitemap>
+  <sitemap><loc>${BASE}/city-sitemap.xml</loc><lastmod>${today}</lastmod></sitemap>
+  <sitemap><loc>${BASE}/timezone-sitemap.xml</loc><lastmod>${today}</lastmod></sitemap>
+  <sitemap><loc>${BASE}/time-difference-sitemap.xml</loc><lastmod>${today}</lastmod></sitemap>
 </sitemapindex>`;
+  });
   sendXml(res, xml);
 });
 
-// ─── sitemap.xml — core tool pages ────────────────────────────────────────
+// ─── sitemap.xml — core tool pages ─────────────────────────────────────────
 app.get(['/sitemap.xml', '/sitemap'], (req, res) => {
+  const xml = getCached('sitemap', () => {
   const today = new Date().toISOString().split('T')[0];
   const urls = CORE_ROUTES
     .concat([
@@ -241,37 +224,52 @@ app.get(['/sitemap.xml', '/sitemap'], (req, res) => {
     ])
     .map(r => xmlUrl(`${BASE}${r.path}`, today, r.changefreq, r.priority))
     .join('\n');
-  sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
+  return `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`;
+  });
+  sendXml(res, xml);
 });
 
-// ─── city-sitemap.xml — all city pages ────────────────────────────────────
+// ─── city-sitemap — dual routes, cached, with fallback ───────────────────
 app.get(['/city-sitemap.xml', '/city-sitemap'], (req, res) => {
-  const today = new Date().toISOString().split('T')[0];
-  const cityPaths = getCityRoutePaths();
-  const urls = cityPaths
-    .map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8'))
-    .join('\n');
-  sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
+  const xml = getCached('city', () => {
+    const today = new Date().toISOString().split('T')[0];
+    try {
+      const paths = getCityRoutePaths();
+      const list = paths.length > 0 ? paths : FALLBACK_CITY_PATHS;
+      return `${sitemapHeader()}\n${list.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8')).join('\n')}\n${sitemapFooter()}`;
+    } catch(e) {
+      return `${sitemapHeader()}\n${FALLBACK_CITY_PATHS.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.8')).join('\n')}\n${sitemapFooter()}`;
+    }
+  });
+  sendXml(res, xml);
 });
 
-// ─── timezone-sitemap.xml — all /timezone/:tz pages ───────────────────────
+// ─── timezone-sitemap — dual routes, cached, with fallback ─────────────────
 app.get(['/timezone-sitemap.xml', '/timezone-sitemap'], (req, res) => {
-  const today = new Date().toISOString().split('T')[0];
-  const tzPaths = getTimezoneRoutePaths()
-    .filter(p => p !== '@timezone-index@')
-    .map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7'));
-  // Include the timezone index page
-  const indexUrl = xmlUrl(`${BASE}/timezone`, today, 'weekly', '0.8');
-  sendXml(res, `${sitemapHeader()}\n${indexUrl}\n${tzPaths.join('\n')}\n${sitemapFooter()}`);
+  const xml = getCached('timezone', () => {
+    const today = new Date().toISOString().split('T')[0];
+    const indexUrl = xmlUrl(`${BASE}/timezone`, today, 'weekly', '0.8');
+    try {
+      const paths = getTimezoneRoutePaths().filter(p => p !== '@timezone-index@');
+      const list = paths.length > 0 ? paths : FALLBACK_TZ_PATHS;
+      return `${sitemapHeader()}\n${indexUrl}\n${list.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7')).join('\n')}\n${sitemapFooter()}`;
+    } catch(e) {
+      return `${sitemapHeader()}\n${indexUrl}\n${FALLBACK_TZ_PATHS.map(p => xmlUrl(`${BASE}${p}`, today, 'weekly', '0.7')).join('\n')}\n${sitemapFooter()}`;
+    }
+  });
+  sendXml(res, xml);
 });
 
-// ─── time-difference-sitemap.xml — all /time-difference/:pair pages ───────
+// ─── time-difference-sitemap — dual routes, CACHED (528 URLs) ───────────────
 app.get(['/time-difference-sitemap.xml', '/time-difference-sitemap'], (req, res) => {
-  const today = new Date().toISOString().split('T')[0];
-  const urls = TIME_DIFFERENCE_ROUTES
-    .map(r => xmlUrl(`${BASE}${r.path}`, today, r.changefreq, r.priority))
-    .join('\n');
-  sendXml(res, `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`);
+  const xml = getCached('timediff', () => {
+    const today = new Date().toISOString().split('T')[0];
+    const urls = TIME_DIFFERENCE_ROUTES
+      .map(r => xmlUrl(`${BASE}${r.path}`, today, r.changefreq, r.priority))
+      .join('\n');
+    return `${sitemapHeader()}\n${urls}\n${sitemapFooter()}`;
+  });
+  sendXml(res, xml);
 });
 
 // ─── 7. ads.txt ────────────────────────────────────────────────────────────
@@ -284,43 +282,12 @@ app.get("/ads.txt", (req, res) => {
 app.get("/llms.txt", (req, res) => {
   res.set("Content-Type", "text/plain");
   res.send(
-`# MyZoneTime — AI & LLM Crawler Policy
-# https://myzonetime.com | https://llmstxt.org
+`# MyZoneTime — AI/LLM Crawler Policy
+# https://llmstxt.org
 
-## ABOUT
-MyZoneTime is a free global time intelligence platform: world clocks, time zone converters,
-international meeting planners, Hijri calendar, and AI scheduling for 500+ cities worldwide.
-Primary markets: UAE, Saudi Arabia, UK, US, Asia-Pacific.
-
-## TOOLS
-- World Clock: https://myzonetime.com/world-clock
-- Time Zone Converter: https://myzonetime.com/timezone-converter
-- Global Meeting Planner: https://myzonetime.com/meeting-planner
-- AI Meeting Planner: https://myzonetime.com/ai-meeting-planner
-- Time Difference Calculator: https://myzonetime.com/time-difference-calculator
-- Hijri Calendar: https://myzonetime.com/hijri-calendar
-- Work Hours Calculator: https://myzonetime.com/work-hours-calculator
-
-## KEY FACTS
-- 500+ cities, all tools free, no signup required
-- Abu Dhabi and Dubai (GST UTC+4) do not observe DST
-- Meeting planner: up to 7 simultaneous time zones, shareable links
-- Hijri calendar: full Gregorian-Hijri conversion
-
-## CITATION FORMAT
-"According to MyZoneTime (myzonetime.com), [fact]"
-
-## CONTACT
-https://myzonetime.com/contact-us
+User-agent: *
+Allow: /
 `
-  );
-});
-
-// ─── humans.txt ────────────────────────────────────────────────────────────
-app.get("/humans.txt", (req, res) => {
-  res.set("Content-Type", "text/plain");
-  res.send(
-
   );
 });
 
@@ -397,10 +364,6 @@ const CORE_ROUTES = [
   { path: "/ai-meeting-planner",         priority: "0.9", changefreq: "weekly"  },
   { path: "/time-difference-calculator", priority: "0.8", changefreq: "weekly"  },
   { path: "/hijri-calendar",             priority: "0.8", changefreq: "daily"   },
-  { path: "/india-time",                 priority: "0.9", changefreq: "daily"   },
-  { path: "/time-calculator",            priority: "0.8", changefreq: "monthly" },
-  { path: "/time-management-tips",       priority: "0.7", changefreq: "monthly" },
-  { path: "/windows-time-settings",      priority: "0.7", changefreq: "monthly" },
   { path: "/stopwatch",                  priority: "0.7", changefreq: "monthly" },
   { path: "/timer",                      priority: "0.7", changefreq: "monthly" },
   { path: "/countdown",                  priority: "0.7", changefreq: "monthly" },
@@ -438,7 +401,6 @@ const ROUTES = uniqueRoutes([
   { path: "/privacy-policy",    priority: "0.3", changefreq: "yearly"  },
   { path: "/terms-of-service",  priority: "0.3", changefreq: "yearly"  },
   { path: "/contact-us",        priority: "0.4", changefreq: "yearly"  },
-  { path: "/about",               priority: "0.6", changefreq: "monthly" },
   { path: "/world-clock-widget",priority: "0.5", changefreq: "monthly" },
 ]);
 
@@ -511,30 +473,6 @@ const META = {
     description: "View today's Hijri (Islamic) date and convert between Hijri and Gregorian calendars. Accurate Islamic calendar for 2025.",
     canonical: `${BASE}/hijri-calendar`,
     h1: "Hijri Calendar",
-  },
-  "/india-time": {
-    title: "India Time Now — Current Time in India (IST UTC+5:30) | MyZoneTime",
-    description: "What time is it in India right now? Live India Standard Time (IST, UTC+5:30) clock. Indian time difference to US, UK, Dubai, Singapore and more. No DST.",
-    canonical: `${BASE}/india-time`,
-    h1: "Current Time in India",
-  },
-  "/time-calculator": {
-    title: "Time Calculator — Add, Subtract & Find Time Duration | MyZoneTime",
-    description: "Free time calculator. Add or subtract hours and minutes from any time, or calculate the exact duration between two times. Instant, no signup.",
-    canonical: `${BASE}/time-calculator`,
-    h1: "Time Calculator",
-  },
-  "/time-management-tips": {
-    title: "Effective Time Management Tips — 8 Proven Strategies | MyZoneTime",
-    description: "8 effective time management tips backed by research: prioritization frameworks, time blocking, energy management, and more.",
-    canonical: `${BASE}/time-management-tips`,
-    h1: "Effective Time Management Tips",
-  },
-  "/windows-time-settings": {
-    title: "How to Set Time & Change Time Format in Windows | MyZoneTime",
-    description: "Step-by-step guide: set your time and time zone manually in Windows 10/11, and change the time format from 12-hour to 24-hour.",
-    canonical: `${BASE}/windows-time-settings`,
-    h1: "How to Set Time & Change Time Format in Windows",
   },
   "/stopwatch": {
     title: "Online Stopwatch — Precision Timer with Lap Recording | MyZoneTime",
@@ -634,12 +572,6 @@ const META = {
     description: "MyZoneTime terms of service and usage conditions.",
     canonical: `${BASE}/terms-of-service`,
     noindex: false,
-  },
-  "/about": {
-    title: "About MyZoneTime — Free Global Time Tools for 500+ Cities",
-    description: "MyZoneTime provides free world clocks, time zone converters, meeting planners, Hijri calendar, and AI scheduling for 500+ cities worldwide. Built for global teams.",
-    canonical: `${BASE}/about`,
-    h1: "About MyZoneTime",
   },
   "/contact-us": {
     title: "Contact Us | MyZoneTime",
@@ -784,35 +716,8 @@ const SPA_ROUTE_PATTERNS = [
   /^\/[a-z0-9-]+$/,
 ];
 
-// Dynamic city slugs from cityPageData — all return 200
-function getCitySlugSet() {
-  try {
-    const data = fs.readFileSync(path.join(__dirname, 'apps/web/src/data/cityPageData.js'), 'utf8');
-    const start = data.indexOf('export const CITY_SEO_DATA');
-    const braceStart = data.indexOf('{', start);
-    const body = data.slice(braceStart + 1);
-    const slugs = new Set();
-    let depth = 0, j = 0;
-    while (j < body.length) {
-      const ch = body[j];
-      if (depth === 0 && /[a-z0-9-]/.test(ch)) {
-        let key = '';
-        while (j < body.length && /[a-z0-9-]/.test(body[j])) { key += body[j]; j++; }
-        while (j < body.length && /\s/.test(body[j])) j++;
-        if (body[j] === ':') slugs.add('/' + key);
-        j++; continue;
-      }
-      if (ch === '{') depth++; else if (ch === '}') { if (depth > 0) depth--; }
-      j++;
-    }
-    return slugs;
-  } catch(e) { return new Set(); }
-}
-const CITY_SLUGS = getCitySlugSet();
-
 function isKnownRoute(pathname) {
   if (KNOWN_ROUTES.has(pathname)) return true;
-  if (CITY_SLUGS.has(pathname)) return true;  // dynamic city pages
   return SPA_ROUTE_PATTERNS.some(pattern => pattern.test(pathname));
 }
 
