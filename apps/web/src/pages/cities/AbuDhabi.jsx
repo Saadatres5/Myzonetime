@@ -84,7 +84,7 @@ export default function AbuDhabi() {
     <>
       <Helmet>
         <title>Abu Dhabi Time — Live Clock, GST UTC+4 | MyZoneTime</title>
-        <meta name="description" content="Current time in Abu Dhabi, UAE. Gulf Standard Time (GST, UTC+4), no DST. ADX hours, time difference to London, India and New York explained." />
+        <meta name="description" content="Current time in Abu Dhabi, UAE. Gulf Standard Time (GST, UTC+4), no DST. ADX hours, time differences to London and New York." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="geo.region" content="AE-AZ" />
         <meta name="geo.placename" content="Abu Dhabi, United Arab Emirates" />

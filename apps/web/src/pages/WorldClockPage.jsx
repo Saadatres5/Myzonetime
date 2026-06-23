@@ -238,7 +238,7 @@ export default function WorldClockPage() {
     <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-6xl">
       <Helmet>
         <title>World Clock — Live Time in 500+ Cities | MyZoneTime</title>
-        <meta name="description" content="Live world clock showing current time in 500+ cities worldwide. Search any city and track multiple time zones at once. Free, no sign-up." />
+        <meta name="description" content="Live world clock for 500+ cities worldwide. Search any city and track multiple time zones at once. Free, no sign-up required." />
         <meta property="og:title"       content="World Clock — Live Time in 500+ Cities | MyZoneTime" />
         <meta property="og:description" content="Live world clock showing current time in 500+ cities. Track time zones for Dubai, London, New York, Tokyo, Singapore, Sydney, and more." />
         <meta property="og:image"       content="https://myzonetime.com/favicon.svg" />
@@ -364,6 +364,24 @@ export default function WorldClockPage() {
         </p>
 
       </div>
+
+      {/* SEO content section */}
+      <section className="py-16 border-t border-border/40" aria-labelledby="worldclock-about">
+        <div className="container max-w-4xl mx-auto px-4">
+          <h2 id="worldclock-about" className="text-2xl font-bold tracking-tight mb-4">About the MyZoneTime World Clock</h2>
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            The MyZoneTime world clock displays live, second-by-second local times for 500+ cities across every continent. Add any city using the search bar above, and remove cities you don't need. Your selection is saved automatically so your dashboard is ready each time you return.
+          </p>
+          <h2 className="text-2xl font-bold tracking-tight mb-4">How to Use the World Clock</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            Search for any city in the world and it appears instantly on your board. Click a city card to open its dedicated time zone page with full details — UTC offset, DST status, business hours, and time differences to other major cities. Each card also links directly to our time zone converter so you can calculate exact meeting windows in seconds.
+          </p>
+          <h3 className="text-xl font-semibold mb-3">DST-Aware and Always Accurate</h3>
+          <p className="text-muted-foreground leading-relaxed">
+            All clocks automatically adjust for daylight saving time changes. When clocks spring forward or fall back in any country, MyZoneTime updates immediately — no manual changes needed. This makes it the reliable choice for remote teams scheduling across the US, Europe, and Australia where DST rules differ.
+          </p>
+        </div>
+      </section>
 
       <FAQSection faqs={WORLD_CLOCK_FAQS} title="World Clock — Frequently Asked Questions" />
 

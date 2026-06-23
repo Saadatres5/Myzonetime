@@ -111,7 +111,7 @@ export default function TimeCalculatorPage() {
       <CanonicalTag pathname="/time-calculator" />
       <Helmet>
         <title>Time Calculator — Add, Subtract & Find Time Duration | MyZoneTime</title>
-        <meta name="description" content="Free time calculator. Add or subtract hours and minutes from any time, or calculate the exact duration between two times. Instant, no signup." />
+        <meta name="description" content="Free time calculator. Add or subtract hours and minutes, or find the exact duration between two times. Instant, no signup." />
         <meta property="og:title" content="Time Calculator | MyZoneTime" />
         <meta property="og:description" content="Add, subtract, or find the duration between times instantly. Free online time calculator." />
         <meta property="og:image" content="https://myzonetime.com/og-image.svg" />

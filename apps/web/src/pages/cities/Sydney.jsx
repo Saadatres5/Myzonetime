@@ -84,7 +84,7 @@ export default function Sydney() {
     <>
       <Helmet>
         <title>Sydney Time — Live Clock, AEST/AEDT UTC+10/+11 | MyZoneTime</title>
-        <meta name="description" content="Current local time in Sydney. AEST (UTC+10) in winter, AEDT (UTC+11) in summer. ASX hours, DST dates and time differences to London and New York." />
+        <meta name="description" content="Current time in Sydney. AEST (UTC+10) winter, AEDT (UTC+11) summer. ASX hours, DST dates, time differences to London and New York." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="geo.region" content="AU-NSW" />
         <meta name="geo.placename" content="Sydney, Australia" />

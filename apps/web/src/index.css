@@ -148,6 +148,7 @@
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
+    font-size: 16px; /* Minimum for mobile readability */
   }
 
   body::before {
@@ -275,5 +276,34 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ── Mobile friendliness: touch targets + readable font sizes ── */
+@media (max-width: 768px) {
+  /* Ensure all interactive elements meet 48×48px minimum tap target */
+  button,
+  a,
+  input,
+  select,
+  textarea,
+  [role="button"],
+  [role="link"] {
+    min-height: 44px;
+  }
+
+  /* Ensure body text is readable on mobile */
+  body {
+    font-size: 16px;
+  }
+
+  p, li, span {
+    font-size: clamp(14px, 4vw, 16px);
+  }
+
+  /* Ensure nav links have adequate spacing on mobile */
+  nav a {
+    padding: 8px 4px;
+    display: inline-block;
   }
 }

@@ -125,7 +125,7 @@ export default function Oslo() {
     <main id="main-content" className="flex-1 w-full bg-background text-foreground">
       <Helmet>
         <title>Current Time in Oslo, Norway — Live Clock CET/CEST | MyZoneTime</title>
-        <meta name="description" content="Live clock for Oslo, Norway. Central European Time (CET/CEST), UTC+1 or UTC+2. Current time, weather, business hours, and best time to call Oslo from anywhere." />
+        <meta name="description" content="Live clock for Oslo, Norway. Central European Time (CET/CEST, UTC+1/+2). Business hours, weather, best time to call Oslo." />
         <meta property="og:title" content="Current Time in Oslo, Norway — CET/CEST | MyZoneTime" />
         <meta property="og:description" content="Live clock for Oslo. CET (UTC+1) in winter, CEST (UTC+2) in summer." />
         <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />

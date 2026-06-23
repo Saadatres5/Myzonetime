@@ -238,6 +238,20 @@ export default function TimerPage() {
           </Button>
         </div>
       </div>
+
+      {/* SEO content */}
+      <section className="py-14 border-t border-border/40">
+        <div className="container max-w-3xl mx-auto px-4">
+          <h2 className="text-2xl font-bold tracking-tight mb-4">Free Online Countdown Timer</h2>
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            Use this free countdown timer for cooking, workouts, meetings, study sessions, or any task that benefits from a time limit. Set hours, minutes, and seconds, then start the countdown. An audio alert plays when the timer reaches zero.
+          </p>
+          <h2 className="text-2xl font-bold tracking-tight mb-4">Using the Timer for Productivity</h2>
+          <p className="text-muted-foreground leading-relaxed">
+            The Pomodoro technique recommends 25-minute focus sessions followed by 5-minute breaks. Set this timer for 25 minutes, work without distraction, then take a short break. Repeat four times and take a longer 15–30 minute rest. This method is proven to improve focus and reduce mental fatigue.
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

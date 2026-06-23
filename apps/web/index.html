@@ -6,7 +6,7 @@
 
   <!-- Default SEO (overridden per-page by react-helmet-async) -->
   <title>World Clock &amp; Time Zone Converter — Free | MyZoneTime</title>
-  <meta name="description" content="Free world clock showing live time in 500+ cities. Time zone converter, meeting planner, Hijri calendar, and work hours calculator. No signup needed." />
+  <meta name="description" content="Free world clock for 500+ cities. Convert time zones, plan meetings, check Hijri dates — no signup needed." />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
   <!-- Canonical (overridden per-page) -->
@@ -73,8 +73,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
   </noscript>
 
-  <!-- Google AdSense — async, non-blocking -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5444446255342320" crossorigin="anonymous"></script>
+  <!-- Google AdSense — deferred after load to reduce INP -->
+  <script>
+    window.addEventListener('load', function() {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5444446255342320';
+      s.crossOrigin = 'anonymous';
+      document.head.appendChild(s);
+    });
+  </script>
 
   <!-- Organization schema (static, always present) -->
   <script type="application/ld+json">
@@ -90,7 +98,13 @@
       "height": 512
     },
     "description": "Free world clock and time zone tools for global teams — converter, meeting planner, Hijri calendar, and more.",
-    "sameAs": []
+    "sameAs": [
+      "https://twitter.com/myzonetime",
+      "https://www.facebook.com/myzonetime",
+      "https://www.linkedin.com/company/myzonetime",
+      "https://www.instagram.com/myzonetime",
+      "https://www.youtube.com/@myzonetime"
+    ]
   }
   </script>
 

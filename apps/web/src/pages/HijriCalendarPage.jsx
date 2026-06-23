@@ -72,7 +72,7 @@ export default function HijriCalendarPage() {
     <main className="flex-1 w-full bg-background text-foreground">
       <Helmet>
         <title>Islamic / Hijri Date Today — Hijri Calendar Converter | MyZoneTime</title>
-        <meta name="description" content="Check today's Islamic (Hijri) date. Free Hijri calendar converter with Gregorian comparison. Perfect for Muslims and GCC region users." />
+        <meta name="description" content="Check today's Islamic (Hijri) date. Free Hijri-Gregorian calendar converter — ideal for Muslims and GCC region users." />
         <meta property="og:title" content="Islamic / Hijri Date Today | MyZoneTime" />
         <meta property="og:description" content="Today's Hijri date with Islamic calendar explanation and Gregorian comparison table." />
         <meta property="og:image" content="https://myzonetime.com/favicon.svg" />

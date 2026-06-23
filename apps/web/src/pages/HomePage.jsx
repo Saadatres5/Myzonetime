@@ -248,7 +248,7 @@ export default function HomePage() {
     <main className="flex-1 w-full bg-background text-foreground" id="main-content">
       <Helmet>
         <title>World Clock &amp; Time Zone Converter — Live Time in 500+ Cities | MyZoneTime</title>
-        <meta name="description" content="AI-powered world clock for 500+ cities. Smart city search, international time conversion, and modern audience-ready tools for global teams." />
+        <meta name="description" content="Free world clock for 500+ cities. Convert time zones, plan meetings, check Hijri dates — no signup needed." />
         <meta name="author" content="MyZoneTime" />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta property="og:type" content="website" />
@@ -449,6 +449,70 @@ export default function HomePage() {
       <div className="container max-w-4xl mx-auto px-4 py-2">
         <AdSenseAd slot={AD_SLOTS.TOOL_INLINE} format="auto" minHeight={90} />
       </div>
+
+      {/* ── SEO Content Section ── */}
+      <section className="py-20 border-t border-border/40" aria-labelledby="about-heading">
+        <div className="container max-w-4xl mx-auto px-4">
+          <h2 id="about-heading" className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
+            Free World Clock &amp; Time Zone Tools for Global Teams
+          </h2>
+          <p className="text-lg text-muted-foreground leading-relaxed mb-10">
+            MyZoneTime is a free, no-signup platform that gives individuals and teams instant access to live time data for 500+ cities worldwide. Whether you need to schedule an international meeting, check prayer times, convert between time zones, or simply see what time it is right now in Tokyo or New York — we have a tool for that.
+          </p>
+
+          <div className="grid gap-10 md:grid-cols-2 mb-12">
+            <div>
+              <h3 className="text-xl font-semibold mb-3">World Clock for 500+ Cities</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Our world clock displays live local times across hundreds of cities simultaneously. From Dubai and London to Sydney and Singapore, you can track multiple time zones at a glance. Each city page includes current time, UTC offset, daylight saving status, and local weather.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-3">Time Zone Converter</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Convert between any two time zones in seconds. Our converter is DST-aware and updates automatically when clocks change. Perfect for remote workers, international clients, and global businesses that need accurate, real-time conversions every day.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-3">Global Meeting Planner</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Planning a meeting across multiple continents? Our meeting planner highlights overlapping business hours for up to 5 cities at once. Stop guessing and avoid scheduling calls at 3am for someone on your team. Find the best time that works for everyone.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-3">Hijri Calendar &amp; Islamic Date</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                View today's Hijri (Islamic) date alongside the Gregorian calendar. Our Hijri calendar is updated daily and is widely used by Muslim communities worldwide for tracking prayer times, Ramadan dates, and Islamic holidays.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-3">Time Difference Calculator</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Calculate the exact hour difference between any two cities — accounting for daylight saving time. Get shareable links to send colleagues or clients so everyone sees the same result instantly.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-3">Work Hours &amp; Date Calculators</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Track billable work hours, calculate how many days between two dates, and use our countdown timer for deadlines or events. All tools are free, fast, and work directly in your browser — no app download or account needed.
+              </p>
+            </div>
+          </div>
+
+          <h2 className="text-2xl font-bold tracking-tight mb-4">Why Use MyZoneTime?</h2>
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            Unlike many time zone tools, MyZoneTime is completely free with no account required. We focus on speed, accuracy, and accessibility. Our tools are built for remote workers, digital nomads, international teams, and anyone who regularly works across time zones. The platform is mobile-friendly and designed to load instantly.
+          </p>
+          <ul className="list-disc list-inside text-muted-foreground space-y-2 text-sm leading-relaxed">
+            <li>Live time updates every second — always accurate</li>
+            <li>500+ cities across every continent and time zone</li>
+            <li>DST-aware conversions — no manual adjustments needed</li>
+            <li>Hijri Islamic calendar built in</li>
+            <li>No signup, no ads popup, no tracking walls</li>
+            <li>Embeddable world clock widget for your own website</li>
+          </ul>
+        </div>
+      </section>
 
       <FAQSection faqs={homeFaqs} />
     </main>

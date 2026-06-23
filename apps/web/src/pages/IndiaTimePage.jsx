@@ -134,7 +134,7 @@ export default function IndiaTimePage() {
       <CanonicalTag pathname="/india-time" />
       <Helmet>
         <title>India Time Now — Current Time in India (IST UTC+5:30) | MyZoneTime</title>
-        <meta name="description" content="What time is it in India right now? Live India Standard Time (IST, UTC+5:30) clock. Indian time difference to US, UK, Dubai, Singapore and more. No DST." />
+        <meta name="description" content="Live India Standard Time (IST, UTC+5:30) clock. Time difference to US, UK, Dubai, and Singapore. No daylight saving." />
         <meta property="og:title" content="India Time Now — Current IST Time | MyZoneTime" />
         <meta property="og:description" content="Live current time in India. IST (UTC+5:30), no daylight saving. Compare Indian time to any city worldwide." />
         <meta property="og:image" content="https://myzonetime.com/og-image.svg" />

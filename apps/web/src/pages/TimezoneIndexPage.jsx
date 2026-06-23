@@ -36,7 +36,7 @@ export default function TimezoneIndexPage() {
     <>
       <Helmet>
         <title>All Time Zones — UTC Offsets, Countries & DST Rules | MyZoneTime</title>
-        <meta name="description" content="Browse every major time zone: UTC, GMT, EST, CST, PST, IST, GST, CET, JST and more. See UTC offsets, which countries use each zone, DST rules, and current local time." />
+        <meta name="description" content="Browse every major time zone: UTC, GMT, EST, PST, IST, GST, CET, JST and more. See UTC offsets, DST rules, and current local time." />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content="All Time Zones — UTC Offsets & DST Rules | MyZoneTime" />
         <meta property="og:description" content="Explore every major time zone with current times, UTC offsets, countries, and DST schedules." />
@@ -79,6 +79,20 @@ export default function TimezoneIndexPage() {
                 </div>
               </Link>
             ))}
+          </div>
+        </section>
+
+        {/* SEO content */}
+        <section className="py-14 border-t border-border/40">
+          <div className="container max-w-3xl mx-auto px-4">
+            <h2 className="text-2xl font-bold tracking-tight mb-4">Understanding Time Zones</h2>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              A time zone is a region of the world that observes a uniform standard time. There are 24 primary time zones, each offset from Coordinated Universal Time (UTC) by whole or half hours. Some countries like India (UTC+5:30) and Nepal (UTC+5:45) use non-standard offsets.
+            </p>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">Daylight Saving Time (DST)</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Many countries shift their clocks forward by one hour in spring and back in autumn to make better use of daylight. Not all countries observe DST — the UAE, Japan, India, and China are among those that stay on a fixed offset year-round. Each time zone page on MyZoneTime clearly shows whether DST applies and the exact dates clocks change.
+            </p>
           </div>
         </section>
       </main>

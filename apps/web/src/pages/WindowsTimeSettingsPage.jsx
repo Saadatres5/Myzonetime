@@ -132,7 +132,7 @@ export default function WindowsTimeSettingsPage() {
       <CanonicalTag pathname="/windows-time-settings" />
       <Helmet>
         <title>How to Set Time & Change Time Format in Windows | MyZoneTime</title>
-        <meta name="description" content="Step-by-step guide: set your time and time zone manually in Windows 10/11, and change the time format from 12-hour to 24-hour. Screenshots-free, simple instructions." />
+        <meta name="description" content="How to set time and time zone in Windows 10/11, and switch between 12-hour and 24-hour format. Step-by-step, simple instructions." />
         <meta property="og:title" content="Set Time & Time Zone Manually in Windows | MyZoneTime" />
         <meta property="og:description" content="Complete guide to manually setting time, time zone, and changing time format in Windows." />
         <meta property="og:image" content="https://myzonetime.com/og-image.svg" />

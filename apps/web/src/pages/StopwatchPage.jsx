@@ -139,6 +139,20 @@ export default function StopwatchPage() {
           </div>
         )}
       </div>
+
+      {/* SEO content */}
+      <section className="py-14 border-t border-border/40">
+        <div className="container max-w-3xl mx-auto px-4">
+          <h2 className="text-2xl font-bold tracking-tight mb-4">Free Online Stopwatch with Lap Timer</h2>
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            This free stopwatch measures elapsed time to the millisecond. Use it for sports training, cooking, experiments, presentations, or any task where you need precise time tracking. Tap the Lap button to record split times without stopping the clock.
+          </p>
+          <h2 className="text-2xl font-bold tracking-tight mb-4">How to Use the Lap Timer</h2>
+          <p className="text-muted-foreground leading-relaxed">
+            Press Start to begin counting. Press Lap each time you want to record a split time — the stopwatch keeps running. Each lap entry shows both the individual lap duration and cumulative elapsed time. Press Reset to clear all laps and return to zero.
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

@@ -84,7 +84,7 @@ export default function London() {
     <>
       <Helmet>
         <title>London Time — Live Clock, GMT/BST UTC+0/+1 | MyZoneTime</title>
-        <meta name="description" content="Current local time in London, UK. GMT (UTC+0) in winter, BST (UTC+1) in summer. Business hours, DST dates and time differences to NY and Dubai." />
+        <meta name="description" content="Current time in London, UK. GMT (UTC+0) winter, BST (UTC+1) summer. Business hours, DST dates, time differences to NY and Dubai." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="geo.region" content="GB-ENG" />
         <meta name="geo.placename" content="London, United Kingdom" />

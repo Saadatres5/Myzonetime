@@ -69,7 +69,7 @@ export default function TimeDifferenceCalculatorPage() {
     <main className="flex-1 w-full bg-background text-foreground">
       <Helmet>
         <title>Time Difference Calculator — Find Time Difference Between Cities | MyZoneTime</title>
-        <meta name="description" content="Calculate the exact time difference between any two cities. Free time difference calculator with meeting window suggestions for remote teams." />
+        <meta name="description" content="Calculate the exact time difference between any two cities. DST-aware, free tool with meeting window suggestions for remote teams." />
         <meta property="og:title" content="Time Difference Calculator | MyZoneTime" />
         <meta property="og:description" content="Find the exact time difference between any two cities. Get meeting window suggestions instantly." />
         <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
@@ -189,6 +189,20 @@ export default function TimeDifferenceCalculatorPage() {
       </div>
 
       {/* SEO: internal links to common time-difference pairs to avoid orphan pages */}
+      {/* SEO content */}
+      <section className="py-14 border-t border-border/40">
+        <div className="container max-w-3xl mx-auto px-4">
+          <h2 className="text-2xl font-bold tracking-tight mb-4">How the Time Difference Calculator Works</h2>
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            Select any two cities from the dropdowns above and the calculator instantly shows the exact hour difference between them. All results are DST-aware — when either city is observing daylight saving time, the offset adjusts automatically so you always get the correct current difference, not a static UTC comparison.
+          </p>
+          <h2 className="text-2xl font-bold tracking-tight mb-4">Why Time Differences Matter for Remote Teams</h2>
+          <p className="text-muted-foreground leading-relaxed">
+            Knowing the exact time gap between two cities helps you schedule calls during overlapping business hours, set accurate deadlines, and avoid the common mistake of booking a meeting at 3 AM for a colleague. Use the meeting tip shown after each calculation to find the best shared window for both locations.
+          </p>
+        </div>
+      </section>
+
       <nav aria-hidden="true" className="sr-only">
         <a href="/time-difference/new-york-and-london">New York and London</a>
         <a href="/time-difference/dubai-and-london">Dubai and London</a>

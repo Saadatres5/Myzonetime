@@ -85,7 +85,7 @@ export default function Dubai() {
     <>
       <Helmet>
         <title>Dubai Time — Live Clock, GST UTC+4 | MyZoneTime</title>
-        <meta name="description" content="Current local time in Dubai, UAE. Gulf Standard Time (GST, UTC+4). No daylight saving. Business hours, time differences to London, New York and India." />
+        <meta name="description" content="Current time in Dubai, UAE. Gulf Standard Time (GST, UTC+4), no DST. Business hours, time differences to London and New York." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="geo.region" content="AE-DU" />
         <meta name="geo.placename" content="Dubai, United Arab Emirates" />

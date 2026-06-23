@@ -278,7 +278,7 @@ Rules:
       <CanonicalTag path="/ai-meeting-planner" />
       <Helmet>
         <title>AI Meeting Planner Worldwide — Smart Global Time Zone Scheduler | MyZoneTime</title>
-        <meta name="description" content="AI-powered worldwide meeting planner. Describe your meeting in plain English and get instant best time slots, local times for every city, DST warnings, and global scheduling scenarios. Free, no signup." />
+        <meta name="description" content="AI meeting planner for global teams. Get instant best time slots across any city — DST-aware, free, no signup required." />
         <meta property="og:title" content="AI Meeting Planner Worldwide | MyZoneTime" />
         <meta property="og:description" content="Tell the AI your cities and date. Get the best meeting time worldwide with local times, DST notes, alternatives, and tips — instantly." />
         <meta property="og:image" content="https://myzonetime.com/og-image.svg" />

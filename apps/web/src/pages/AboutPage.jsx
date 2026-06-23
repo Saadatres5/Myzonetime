@@ -72,7 +72,7 @@ export default function AboutPage() {
       <CanonicalTag pathname="/about" />
       <Helmet>
         <title>About MyZoneTime — Free Global Time Tools for 500+ Cities | MyZoneTime</title>
-        <meta name="description" content="MyZoneTime provides free world clocks, time zone converters, meeting planners, Hijri calendar, and AI scheduling tools for 500+ cities. Built for global teams and the Gulf region." />
+        <meta name="description" content="MyZoneTime offers free world clocks, time zone converters, meeting planners, and Hijri calendar for 500+ cities globally." />
         <meta property="og:title" content="About MyZoneTime — Free Global Time Intelligence Platform" />
         <meta property="og:description" content="Free world clocks, time zone tools, meeting planners, and Hijri calendar for 500+ cities worldwide." />
         <meta property="og:image" content="https://myzonetime.com/og-image.svg" />

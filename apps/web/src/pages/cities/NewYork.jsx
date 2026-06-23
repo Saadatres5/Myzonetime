@@ -84,7 +84,7 @@ export default function NewYork() {
     <>
       <Helmet>
         <title>New York Time — Live Clock, EST/EDT UTC−5/−4 | MyZoneTime</title>
-        <meta name="description" content="Current local time in New York City, USA. Eastern Standard Time (EST, UTC−5) in winter, EDT (UTC−4) in summer. NYSE hours, DST dates and time differences." />
+        <meta name="description" content="Current time in New York. EST (UTC−5) winter, EDT (UTC−4) summer. NYSE hours, DST dates, and time differences to other cities." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="geo.region" content="US-NY" />
         <meta name="geo.placename" content="New York City, United States" />

@@ -134,7 +134,7 @@ export default function Paris() {
     <main id="main-content" className="flex-1 w-full bg-background text-foreground">
       <Helmet>
         <title>Current Time in Paris, France — Live Clock CET/CEST | MyZoneTime</title>
-        <meta name="description" content="Live clock for Paris, France. Central European Time (CET/CEST), UTC+1 or UTC+2 in summer. Current time, weather, business hours, and best time to call Paris." />
+        <meta name="description" content="Live clock for Paris, France. Central European Time (CET/CEST, UTC+1/+2). Business hours, weather, best time to call Paris." />
         <meta property="og:title" content="Current Time in Paris, France — CET/CEST | MyZoneTime" />
         <meta property="og:description" content="Live clock for Paris. CET (UTC+1) in winter, CEST (UTC+2) in summer." />
         <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, Globe, ArrowRightLeft, Calendar, Timer, Moon, Mail } from 'lucide-react';
+import { Clock, Globe, ArrowRightLeft, Calendar, Timer, Moon, Mail, Twitter, Facebook, Linkedin, Youtube, Instagram } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -81,6 +81,24 @@ export default function Footer() {
               <Link to="/timezone" className="flex items-center gap-1.5 hover:text-primary transition-colors">
                 <Globe className="w-3.5 h-3.5" aria-hidden="true" /> All Timezones
               </Link>
+            </div>
+            {/* Social media links */}
+            <div className="mt-5 flex items-center gap-4">
+              <a href="https://twitter.com/myzonetime" target="_blank" rel="noopener noreferrer" aria-label="MyZoneTime on X (Twitter)" className="text-muted-foreground hover:text-primary transition-colors">
+                <Twitter className="w-4 h-4" aria-hidden="true" />
+              </a>
+              <a href="https://www.facebook.com/myzonetime" target="_blank" rel="noopener noreferrer" aria-label="MyZoneTime on Facebook" className="text-muted-foreground hover:text-primary transition-colors">
+                <Facebook className="w-4 h-4" aria-hidden="true" />
+              </a>
+              <a href="https://www.linkedin.com/company/myzonetime" target="_blank" rel="noopener noreferrer" aria-label="MyZoneTime on LinkedIn" className="text-muted-foreground hover:text-primary transition-colors">
+                <Linkedin className="w-4 h-4" aria-hidden="true" />
+              </a>
+              <a href="https://www.instagram.com/myzonetime" target="_blank" rel="noopener noreferrer" aria-label="MyZoneTime on Instagram" className="text-muted-foreground hover:text-primary transition-colors">
+                <Instagram className="w-4 h-4" aria-hidden="true" />
+              </a>
+              <a href="https://www.youtube.com/@myzonetime" target="_blank" rel="noopener noreferrer" aria-label="MyZoneTime on YouTube" className="text-muted-foreground hover:text-primary transition-colors">
+                <Youtube className="w-4 h-4" aria-hidden="true" />
+              </a>
             </div>
           </div>
 

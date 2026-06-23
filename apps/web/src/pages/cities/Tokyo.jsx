@@ -84,7 +84,7 @@ export default function Tokyo() {
     <>
       <Helmet>
         <title>Tokyo Time — Live Clock, JST UTC+9 | MyZoneTime</title>
-        <meta name="description" content="Current local time in Tokyo, Japan. JST (UTC+9), no daylight saving ever. TSE hours, time differences to London, New York and Sydney explained." />
+        <meta name="description" content="Current time in Tokyo, Japan. Japan Standard Time (JST, UTC+9), no DST. TSE hours, time differences to London and New York." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="geo.region" content="JP-13" />
         <meta name="geo.placename" content="Tokyo, Japan" />

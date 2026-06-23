@@ -84,7 +84,7 @@ export default function Riyadh() {
     <>
       <Helmet>
         <title>Riyadh Time — Live Clock, AST UTC+3 | MyZoneTime</title>
-        <meta name="description" content="Current local time in Riyadh, Saudi Arabia. AST (UTC+3), no daylight saving. Business hours, prayer schedule and time differences to London and Dubai." />
+        <meta name="description" content="Current time in Riyadh, Saudi Arabia. AST (UTC+3), no DST. Business hours, prayer schedule, time differences to London and Dubai." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="geo.region" content="SA-01" />
         <meta name="geo.placename" content="Riyadh, Saudi Arabia" />

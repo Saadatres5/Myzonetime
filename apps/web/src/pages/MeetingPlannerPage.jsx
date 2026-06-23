@@ -278,7 +278,7 @@ export default function MeetingPlannerPage() {
     <>
       <Helmet>
         <title>Meeting Planner — Global, International & Worldwide Time Zones | MyZoneTime</title>
-        <meta name="description" content="Free global meeting planner for international teams. Find the best meeting time across worldwide time zones — including Abu Dhabi, Dubai, London, New York. DST-aware, shareable, no signup." />
+        <meta name="description" content="Free global meeting planner. Find the best meeting time across worldwide time zones — DST-aware, shareable, no signup." />
         <meta property="og:title" content="Meeting Planner Worldwide — Best Time Across Time Zones | MyZoneTime" />
         <meta property="og:description" content="Free worldwide meeting planner for global teams. Find overlapping business hours across up to 7 time zones with automatic DST support." />
         <meta property="og:image" content="https://myzonetime.com/favicon.svg" />

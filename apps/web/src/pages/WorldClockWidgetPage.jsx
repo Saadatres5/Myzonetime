@@ -68,7 +68,7 @@ export default function WorldClockWidgetPage() {
       */}
       <Helmet>
         <title>Free World Clock Widget — Embed on Any Website | MyZoneTime</title>
-        <meta name="description" content="Add a free embeddable world clock widget to your website. Display live local time for multiple cities with a simple copy-paste HTML snippet. No coding required." />
+        <meta name="description" content="Free embeddable world clock for your site. Show live time for multiple cities with a simple copy-paste snippet. No coding needed." />
         <meta property="og:title" content="Free World Clock Widget — Embed on Any Website | MyZoneTime" />
         <meta property="og:description" content="Free embeddable world clock widget. Add live time display for multiple cities to your website with easy copy-paste HTML code." />
         <meta property="og:image" content="https://myzonetime.com/favicon.svg" />

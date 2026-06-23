@@ -122,7 +122,7 @@ export default function TimeManagementTipsPage() {
       <CanonicalTag pathname="/time-management-tips" />
       <Helmet>
         <title>Effective Time Management Tips — 8 Proven Strategies | MyZoneTime</title>
-        <meta name="description" content="8 effective time management tips backed by research: prioritization frameworks, time blocking, energy management, and more. Practical strategies you can use today." />
+        <meta name="description" content="8 research-backed time management tips: prioritization, time blocking, energy management, and practical strategies for today." />
         <meta property="og:title" content="Effective Time Management Tips | MyZoneTime" />
         <meta property="og:description" content="8 proven time management strategies — Eisenhower Matrix, time blocking, the two-minute rule, and more." />
         <meta property="og:image" content="https://myzonetime.com/og-image.svg" />

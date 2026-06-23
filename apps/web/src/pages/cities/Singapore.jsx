@@ -84,7 +84,7 @@ export default function Singapore() {
     <>
       <Helmet>
         <title>Singapore Time — Live Clock, SGT UTC+8 | MyZoneTime</title>
-        <meta name="description" content="Current local time in Singapore. Singapore Standard Time (SGT, UTC+8), no daylight saving. SGX trading hours, time differences to London, Dubai and Sydney." />
+        <meta name="description" content="Current time in Singapore. Singapore Standard Time (SGT, UTC+8), no DST. SGX hours, time differences to London, Dubai, and Sydney." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="geo.region" content="SG" />
         <meta name="geo.placename" content="Singapore" />
