@@ -113,6 +113,50 @@ export default function Riyadh() {
         pathname="/riyadh"
         description="Riyadh, the capital of Saudi Arabia, operates on Arabia Standard Time (AST, UTC+3) all year with no daylight saving adjustments. As the political and economic capital of the Arab world's largest economy and home to Saudi Aramco headquarters, Riyadh's fixed clock is a key reference point for energy markets, Islamic finance and Gulf region business scheduling."
       >
+        <section className="py-10 border-t border-border/40">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Riyadh Time Zone: Arabia Standard Time (AST, UTC+3)</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Riyadh and all of Saudi Arabia operate on Arabia Standard Time (AST), which is UTC+3 year-round. Saudi Arabia does not observe daylight saving time, so the UTC offset stays fixed at +3 regardless of the season. This makes it straightforward to calculate time differences with Riyadh throughout the year.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                AST (UTC+3) is shared with several neighbouring countries: Kuwait, Qatar, Bahrain, and Yemen all use the same UTC+3 offset. This makes the entire core Gulf Cooperation Council (GCC) region — except the UAE and Oman (UTC+4) — operate on the same clock as Riyadh.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Riyadh Business Hours and the Saudi Working Week</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Saudi Arabia officially moved to a Monday–Friday working week for government and most businesses in 2013, aligning with international norms. Standard government and bank hours are 7:30 AM to 3:30 PM AST. Private sector companies typically work 9:00 AM to 6:00 PM, with a midday break in some traditional businesses.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                During Ramadan, working hours are legally shortened. Government employees work 6 hours per day, and many private businesses reduce to a 6-hour day as well. Friday remains a day of special significance — Friday prayers (Jumu'ah) typically take place around midday, and many businesses close or reduce hours on Friday afternoons.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Time Differences: Riyadh to Major Cities</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border-collapse">
+                  <thead><tr className="border-b border-border"><th className="text-left py-2 pr-4 font-semibold">City</th><th className="text-left py-2 font-semibold">Difference from Riyadh (AST)</th></tr></thead>
+                  <tbody className="text-muted-foreground">
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">London (GMT)</td><td className="py-2">−3 hrs (winter) / −2 hrs (summer)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Dubai (GST)</td><td className="py-2">+1 hr (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">New York (EST)</td><td className="py-2">−8 hrs (winter) / −7 hrs (summer)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Mumbai (IST)</td><td className="py-2">+2:30 hrs (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Singapore (SGT)</td><td className="py-2">+5 hrs (always)</td></tr>
+                    <tr><td className="py-2 pr-4">Cairo (EET)</td><td className="py-2">−1 hr (always)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">About Riyadh</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Riyadh is the capital and largest city of Saudi Arabia, with a population of over 7.5 million. It serves as the political, administrative, and economic centre of the country. Saudi Arabia holds the world's second-largest proven oil reserves, and Riyadh is home to Saudi Aramco — the world's most valuable company by market capitalisation. The city is also the headquarters of the Saudi Central Bank (SAMA), the Saudi Exchange (Tadawul), and the sovereign wealth fund PIF (Public Investment Fund), which manages over $700 billion in assets. Riyadh is undergoing rapid transformation as part of Vision 2030, the government's plan to diversify the economy beyond oil.
+              </p>
+            </div>
+          </div>
+        </section>
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Riyadh" relatedCity="Dubai" />
       </CityPage>

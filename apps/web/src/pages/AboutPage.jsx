@@ -189,6 +189,44 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <section className="py-16 border-t border-border/40">
+          <div className="container max-w-3xl mx-auto px-4 space-y-8">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Why Time Zone Tools Matter</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                As remote work, international trade, and global communication continue to grow, the ability to quickly and accurately work across time zones has become an essential skill. Scheduling errors caused by time zone confusion cost businesses millions of hours each year — missed calls, late deliveries, and rescheduled meetings all stem from the deceptively simple question: "What time is it there?"
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                MyZoneTime was built to eliminate that uncertainty. We provide the tools that make it easy for anyone — whether a freelancer, a corporate team, or a traveller — to understand time across borders instantly and without confusion.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Built for the Gulf Region and Global Teams</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                While MyZoneTime serves users worldwide, we pay particular attention to the needs of users in the Gulf Cooperation Council (GCC) region — the UAE, Saudi Arabia, Qatar, Kuwait, Bahrain, and Oman. This region has a unique time zone landscape: no daylight saving time, a historically Friday-Saturday weekend (now shifting to Saturday-Sunday in many private sector companies), and close business ties with both Asian and European markets simultaneously.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                We also include the Hijri Islamic calendar alongside the Gregorian calendar, recognising that for hundreds of millions of people, Hijri dates are as important as Gregorian ones for religious observance, legal documents, and cultural events.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Our Commitment to Accuracy</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                All time data on MyZoneTime uses the IANA Time Zone Database — the same standard used by operating systems, browsers, and most programming languages worldwide. This ensures our clocks and conversions are accurate for every city, including correct handling of daylight saving transitions, historical rule changes, and unusual offsets like Nepal's UTC+5:45.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                We update our tools continuously to reflect policy changes — when a country changes its DST rules or UTC offset (as Samoa did in 2011 and Turkey did in 2016), we ensure our platform reflects the new reality as quickly as possible.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Free, Forever</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Every tool on MyZoneTime is free to use. There are no paywalls, no account requirements, and no feature tiers. We believe that access to accurate time information is a basic utility, not a premium feature. We sustain the platform through non-intrusive advertising so that all core tools remain permanently accessible to everyone, everywhere.
+              </p>
+            </div>
+          </div>
+        </section>
+
       </main>
     </>
   );

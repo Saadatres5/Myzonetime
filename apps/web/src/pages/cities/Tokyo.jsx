@@ -113,6 +113,59 @@ export default function Tokyo() {
         pathname="/tokyo"
         description="Tokyo operates on Japan Standard Time (JST, UTC+9) every day of the year with absolutely no daylight saving adjustments. As Asia's largest financial centre and home to the Tokyo Stock Exchange — the world's third-largest by market capitalisation — Tokyo anchors the Asian trading session and sets the day in motion before London and New York open."
       >
+        <section className="py-10 border-t border-border/40">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Tokyo Time Zone: Japan Standard Time (JST, UTC+9)</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Tokyo and all of Japan operate on Japan Standard Time (JST), which is UTC+9 year-round. Japan abolished daylight saving time in 1952 after a brief post-war experiment and has not observed it since. This makes JST one of the most stable major time zones in the world — the offset never changes, making it straightforward to schedule calls with Tokyo partners without worrying about seasonal adjustments.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                JST is shared across all of Japan. South Korea (KST) and North Korea (Pyongyang Time) also use UTC+9, making the time the same in Seoul and Tokyo. Indonesia's Eastern Time (WIT) also uses UTC+9, covering Papua and the Maluku Islands.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Tokyo Stock Exchange (TSE) Trading Hours</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                The Tokyo Stock Exchange (TSE) — now part of the Japan Exchange Group (JPX) — operates Monday to Friday. The morning session runs 9:00 AM to 11:30 AM JST and the afternoon session from 12:30 PM to 3:30 PM JST. In 2024, the TSE extended its afternoon close from 3:00 PM to 3:30 PM, giving traders additional time to react to US and European news.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Standard business hours in Japan are typically 9:00 AM to 6:00 PM JST, Monday to Friday, though many Japanese companies — especially in finance and technology — expect longer working hours. The concept of "karoshi" (overwork) has led to government reforms encouraging shorter hours, and many modern firms now operate closer to 9:00 AM to 5:30 PM.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Time Differences: Tokyo to Major Cities</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border-collapse">
+                  <thead><tr className="border-b border-border"><th className="text-left py-2 pr-4 font-semibold">City</th><th className="text-left py-2 font-semibold">Difference from Tokyo (JST)</th></tr></thead>
+                  <tbody className="text-muted-foreground">
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">London (GMT)</td><td className="py-2">−9 hrs (winter) / −8 hrs (summer)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">New York (EST)</td><td className="py-2">−14 hrs (winter) / −13 hrs (summer)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Dubai (GST)</td><td className="py-2">−5 hrs (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Singapore (SGT)</td><td className="py-2">−1 hr (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Sydney (AEST)</td><td className="py-2">+1 hr (AEST) / +2 hrs (AEDT)</td></tr>
+                    <tr><td className="py-2 pr-4">Los Angeles (PST)</td><td className="py-2">−17 hrs (winter) / −16 hrs (summer)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Best Times to Call Tokyo from Other Cities</h2>
+              <ul className="list-disc list-inside text-muted-foreground space-y-2 leading-relaxed">
+                <li><strong className="text-foreground">Tokyo ↔ Singapore:</strong> Nearly full business day overlap. 9:00 AM–6:00 PM Tokyo = 8:00 AM–5:00 PM Singapore — the best Asian city pairing for scheduling.</li>
+                <li><strong className="text-foreground">Tokyo ↔ Dubai:</strong> 2:00–6:00 PM Tokyo = 9:00 AM–1:00 PM Dubai. Tokyo afternoon aligns well with Dubai mornings.</li>
+                <li><strong className="text-foreground">Tokyo ↔ London:</strong> Window is very tight. 5:00–6:00 PM Tokyo = 9:00–10:00 AM London (GMT). Tokyo must call early evening; London must call first thing in the morning.</li>
+                <li><strong className="text-foreground">Tokyo ↔ New York:</strong> No business-hours overlap exists. When Tokyo business opens at 9 AM, it is 7 PM the previous day in New York. Video calls must be done outside normal hours for one party.</li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">About Tokyo</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Tokyo is the capital of Japan and the most populous metropolitan area in the world, with over 37 million people in the greater Tokyo area. It is Japan's political, economic, and cultural centre, home to the Imperial Palace, the Japanese government, and the headquarters of many of the world's largest companies including Toyota, Sony, Mitsubishi, and SoftBank. Tokyo consistently ranks among the world's top global cities for finance, innovation, and quality of life. Its train network — the most extensive in the world — moves millions of commuters daily with extraordinary punctuality, a reflection of the Japanese cultural emphasis on precision and time.
+              </p>
+            </div>
+          </div>
+        </section>
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Tokyo" relatedCity="Singapore" />
       </CityPage>

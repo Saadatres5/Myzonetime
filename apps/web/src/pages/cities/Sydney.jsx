@@ -113,6 +113,50 @@ export default function Sydney() {
         pathname="/sydney"
         description="Sydney runs on Australian Eastern Time — AEST (UTC+10) in autumn and winter, and AEDT (UTC+11) in spring and summer. As Australia's largest city and financial capital, home to the ASX, Sydney is the first major financial centre to open each trading day, setting the tone for Asian and then global markets."
       >
+        <section className="py-10 border-t border-border/40">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Sydney Time Zone: AEST and AEDT</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Sydney uses Australian Eastern Time, which switches between AEST (Australian Eastern Standard Time, UTC+10) and AEDT (Australian Eastern Daylight Time, UTC+11). Australia's DST runs in the opposite direction to the northern hemisphere: clocks spring forward in early October and fall back in early April. This means Sydney is at UTC+11 during the Australian summer (October–April) and UTC+10 during winter (April–October).
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                This reversed DST schedule can cause confusion when scheduling with Northern Hemisphere counterparts, because both parties may be shifting clocks at similar times of year — narrowing or widening the gap unpredictably. Always verify Sydney's current UTC offset before scheduling international calls in March–April or September–October.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">ASX Trading Hours and Sydney Business Day</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                The Australian Securities Exchange (ASX) operates Monday to Friday with its main equities session from 10:00 AM to 4:00 PM AEST/AEDT. A pre-open phase runs 7:00–10:00 AM and a closing auction from 4:00–4:12 PM. As the first major equity market to open each day, the ASX gives global investors their first look at market sentiment before Tokyo, Hong Kong, London, or New York open.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Standard business hours in Sydney are Monday to Friday, 9:00 AM to 5:00 PM AEST/AEDT. Sydney is UTC+10/+11, making it one of the most advanced time zones relative to global peers — while Sydney is having lunch, it is still yesterday evening in New York.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Time Differences: Sydney to Major Cities</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border-collapse">
+                  <thead><tr className="border-b border-border"><th className="text-left py-2 pr-4 font-semibold">City</th><th className="text-left py-2 font-semibold">Difference from Sydney</th></tr></thead>
+                  <tbody className="text-muted-foreground">
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">London (GMT)</td><td className="py-2">−10 hrs (AEST) / −11 hrs (AEDT)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Dubai (GST)</td><td className="py-2">−6 hrs (AEST) / −7 hrs (AEDT)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">New York (EST)</td><td className="py-2">−15 hrs (AEST) / −16 hrs (AEDT)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Singapore (SGT)</td><td className="py-2">−2 hrs (AEST) / −3 hrs (AEDT)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Tokyo (JST)</td><td className="py-2">−1 hr (AEST) / −2 hrs (AEDT)</td></tr>
+                    <tr><td className="py-2 pr-4">Mumbai (IST)</td><td className="py-2">−4:30 hrs (AEST) / −5:30 hrs (AEDT)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">About Sydney</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Sydney is Australia's largest city with a population of over 5.3 million in the greater metropolitan area. It is the capital of New South Wales and the country's primary financial, commercial, and cultural hub. Sydney Harbour, the Opera House, and the Harbour Bridge make it one of the world's most recognisable cities. As a financial centre, Sydney hosts the headquarters of Australia's four major banks, the ASX, and hundreds of multinational regional offices. Its port and airport are the largest in Australia by volume, connecting it to every major time zone on earth.
+              </p>
+            </div>
+          </div>
+        </section>
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Sydney" relatedCity="London" />
       </CityPage>

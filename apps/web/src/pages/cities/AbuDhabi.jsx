@@ -113,6 +113,50 @@ export default function AbuDhabi() {
         pathname="/abu-dhabi"
         description="Abu Dhabi, the capital of the UAE and seat of the federal government, operates on Gulf Standard Time (GST, UTC+4) year-round without daylight saving. Home to sovereign wealth fund ADIA, the Abu Dhabi Securities Exchange (ADX) and the headquarters of leading energy companies, Abu Dhabi's stable clock is a cornerstone of Gulf region financial scheduling."
       >
+        <section className="py-10 border-t border-border/40">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Abu Dhabi Time Zone: Gulf Standard Time (GST, UTC+4)</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Abu Dhabi and the entire UAE use Gulf Standard Time (GST), which is UTC+4 year-round. The UAE does not observe daylight saving time, so the offset is permanently fixed at 4 hours ahead of UTC. This makes Abu Dhabi and Dubai the same time always — there is no difference between the two cities' clocks, despite Abu Dhabi being the capital and Dubai being the commercial hub.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                GST is also used by Oman (Muscat). Saudi Arabia, Qatar, Kuwait, and Bahrain — geographically close — are one hour behind at UTC+3 (Arabia Standard Time). India is just 30 minutes ahead at UTC+5:30, making Abu Dhabi a useful scheduling bridge between the Gulf and the Indian subcontinent.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Abu Dhabi Business Hours and Financial Institutions</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Standard business hours in Abu Dhabi are Monday to Friday, 9:00 AM to 6:00 PM GST. Government offices typically operate 7:30 AM to 3:30 PM. The Abu Dhabi Securities Exchange (ADX) is open Sunday to Thursday, 10:00 AM to 2:30 PM GST — following the traditional Gulf business week for listed securities.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Abu Dhabi is home to some of the world's largest sovereign wealth funds, including the Abu Dhabi Investment Authority (ADIA), Mubadala Investment Company, and ADQ. These institutions invest globally, requiring constant coordination with financial centres in New York, London, Singapore, and Tokyo — making accurate time zone tools essential for Abu Dhabi-based investment professionals.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Time Differences: Abu Dhabi to Major Cities</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border-collapse">
+                  <thead><tr className="border-b border-border"><th className="text-left py-2 pr-4 font-semibold">City</th><th className="text-left py-2 font-semibold">Difference from Abu Dhabi (GST)</th></tr></thead>
+                  <tbody className="text-muted-foreground">
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">London (GMT)</td><td className="py-2">−4 hrs (winter) / −3 hrs (summer)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Riyadh (AST)</td><td className="py-2">−1 hr (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">New York (EST)</td><td className="py-2">−9 hrs (winter) / −8 hrs (summer)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Mumbai (IST)</td><td className="py-2">+1:30 hrs (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Singapore (SGT)</td><td className="py-2">+4 hrs (always)</td></tr>
+                    <tr><td className="py-2 pr-4">Tokyo (JST)</td><td className="py-2">+5 hrs (always)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">About Abu Dhabi</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Abu Dhabi is the capital of the United Arab Emirates and the largest of the seven emirates by area. With a population of approximately 3.8 million, it is the UAE's second most populous city after Dubai. Abu Dhabi holds approximately 90% of the UAE's oil reserves and generates the bulk of the country's GDP. The city is home to the federal government, the Presidential Palace, and the headquarters of ADNOC — one of the world's largest oil companies. Abu Dhabi has diversified into tourism, culture (the Louvre Abu Dhabi), and technology through its sovereign wealth investments, while maintaining its position as a globally significant financial capital.
+              </p>
+            </div>
+          </div>
+        </section>
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Abu Dhabi" relatedCity="Dubai" />
       </CityPage>

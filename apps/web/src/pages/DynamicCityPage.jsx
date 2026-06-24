@@ -205,6 +205,35 @@ export default function DynamicCityPage() {
           </div>
         </section>
 
+        <section className="py-10 border-t border-border/40">
+          <div className="container max-w-3xl mx-auto px-4 space-y-8">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">About the {city.name} Time Zone</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                {city.name} is in the <strong className="text-foreground">{city.timezone}</strong> time zone. The current UTC offset is displayed at the top of this page and updates automatically to reflect any daylight saving time changes. All times shown are sourced from the IANA Time Zone Database — the same standard used by operating systems, browsers, and programming languages worldwide — ensuring accuracy for every city, every day of the year.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Use the tools above to convert {city.name} time to any other city, plan meetings across time zones, or compare {city.name} alongside other cities on the world clock. All tools are free, require no signup, and work directly in your browser.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Scheduling Across Time Zones</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Working across time zones requires knowing not just the current offset, but also whether daylight saving time applies and when transitions occur. A city might be UTC+1 in winter and UTC+2 in summer — meaning the gap between it and a non-DST city changes by an hour twice a year. This is why it's important to use a DST-aware tool like MyZoneTime rather than relying on a fixed offset.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                For international teams, the most practical approach is to identify the overlapping business hours between your locations. Our Meeting Planner does exactly this — enter up to five cities and it highlights the hours when everyone is within their standard working day, making it easy to find a time that works for all participants without anyone having to join a call at an unusual hour.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">How to Read UTC Offsets</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                A UTC offset like UTC+4 means the local time is 4 hours ahead of Coordinated Universal Time. UTC−5 means the local time is 5 hours behind UTC. When comparing two cities, subtract one offset from the other to get the time difference. For example, UTC+4 (Dubai) vs UTC−5 (New York) gives a difference of 9 hours — Dubai is 9 hours ahead of New York in winter. During summer, when New York moves to EDT (UTC−4), the gap shrinks to 8 hours. Always check whether DST is currently active before assuming a fixed offset applies.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <FAQSection faqs={faqs} includeSchema={false} title={`${city.name} Time Zone — FAQ`} />
       </CityPage>
     </>

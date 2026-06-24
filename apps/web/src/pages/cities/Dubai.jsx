@@ -114,6 +114,81 @@ export default function Dubai() {
         pathname="/dubai"
         description="Dubai runs on Gulf Standard Time (GST, UTC+4) year-round with no daylight saving adjustments. As the commercial heart of the UAE and a global aviation hub, it bridges Asian mornings with European afternoons — making it one of the world's most strategically timed cities for international business."
       >
+        {/* Rich content for AdSense quality */}
+        <section className="py-10 border-t border-border/40">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Dubai Time Zone: Gulf Standard Time (GST, UTC+4)</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Dubai operates on Gulf Standard Time (GST), which is UTC+4 — meaning it is always 4 hours ahead of Coordinated Universal Time. Unlike most major financial hubs, Dubai does not observe daylight saving time. The UAE made this permanent decision decades ago, giving businesses and residents a consistent, predictable clock year-round. This stability makes Dubai particularly reliable for international scheduling: you never need to recalculate offsets in March or November.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                The Gulf Standard Time zone is shared by the UAE and Oman. Other neighbouring countries use slightly different offsets: Saudi Arabia is on AST (UTC+3), Qatar on AST (UTC+3), and Bahrain also on AST (UTC+3) — all one hour behind Dubai. India, just across the Arabian Sea, uses IST (UTC+5:30), making Dubai 30 minutes behind Mumbai and Delhi despite being geographically close.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Dubai Business Hours and the Working Week</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                The standard UAE working week runs Sunday through Thursday, with Friday and Saturday as the official weekend. Standard business hours are 9:00 AM to 6:00 PM GST, though many companies in the financial and technology sectors operate 8:00 AM to 5:00 PM or 9:00 AM to 5:00 PM Monday through Friday to align with Western counterparts.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                The Dubai International Financial Centre (DIFC) and Abu Dhabi Global Market (ADGM) shifted to a Monday–Friday working week in January 2022, following a government reform. Many multinational companies operating out of Dubai now follow this schedule to better overlap with European and American markets.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                During Ramadan, working hours are legally reduced. Government employees work 6 hours per day, and many private businesses follow suit. The exact dates of Ramadan shift each year because they follow the Islamic lunar calendar.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Time Differences: Dubai to Major World Cities</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border-collapse">
+                  <thead>
+                    <tr className="border-b border-border">
+                      <th className="text-left py-2 pr-4 font-semibold">City</th>
+                      <th className="text-left py-2 pr-4 font-semibold">Time Zone</th>
+                      <th className="text-left py-2 font-semibold">Difference from Dubai</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-muted-foreground">
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">London</td><td className="py-2 pr-4">GMT/BST</td><td className="py-2">−4 hrs (winter) / −3 hrs (summer)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">New York</td><td className="py-2 pr-4">EST/EDT</td><td className="py-2">−9 hrs (winter) / −8 hrs (summer)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Mumbai / Delhi</td><td className="py-2 pr-4">IST</td><td className="py-2">+0:30 hrs (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Singapore</td><td className="py-2 pr-4">SGT</td><td className="py-2">+4 hrs (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Tokyo</td><td className="py-2 pr-4">JST</td><td className="py-2">+5 hrs (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Sydney</td><td className="py-2 pr-4">AEST/AEDT</td><td className="py-2">+6 hrs (winter) / +7 hrs (summer)</td></tr>
+                    <tr><td className="py-2 pr-4">Paris / Berlin</td><td className="py-2 pr-4">CET/CEST</td><td className="py-2">−3 hrs (winter) / −2 hrs (summer)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Best Time to Schedule Calls with Dubai</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Dubai's UTC+4 position places it in an advantageous crossroads for global business. Here are the best overlap windows for scheduling calls:
+              </p>
+              <ul className="list-disc list-inside text-muted-foreground space-y-2 leading-relaxed">
+                <li><strong className="text-foreground">Dubai ↔ London:</strong> 9:00 AM–1:00 PM Dubai time overlaps with 5:00–9:00 AM London (GMT). The afternoon window of 1:00–5:00 PM Dubai aligns with 9:00 AM–1:00 PM London.</li>
+                <li><strong className="text-foreground">Dubai ↔ New York:</strong> Best window is 4:00–6:00 PM Dubai (8:00–10:00 AM New York EST). Morning Dubai time (9:00–11:00 AM) falls in the early hours in New York (1:00–3:00 AM), so late afternoon Dubai is strongly preferred.</li>
+                <li><strong className="text-foreground">Dubai ↔ India:</strong> Nearly all of the Dubai business day overlaps with India. Any time from 9:00 AM to 6:00 PM Dubai is 9:30 AM to 6:30 PM in Mumbai or Delhi.</li>
+                <li><strong className="text-foreground">Dubai ↔ Singapore / Hong Kong:</strong> 9:00 AM–2:00 PM Dubai time maps to 1:00–6:00 PM in Singapore (SGT, UTC+8). A productive overlap for trade and financial calls.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">About Dubai</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Dubai is the most populous city in the United Arab Emirates and one of the world's leading financial, commercial, and tourism hubs. Located on the southeast coast of the Persian Gulf, it is part of the emirate of Dubai and serves as the country's business capital. The city is home to the world's tallest building, the Burj Khalifa, and one of the busiest airports in the world, Dubai International Airport (DXB).
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                The city's population is highly international — over 85% of residents are expatriates from more than 200 nationalities. This diversity means that Dubai workers and businesses regularly interact across nearly every time zone on the planet, making accurate time zone tools essential for daily communication and scheduling.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Dubai" relatedCity="London" />
       </CityPage>

@@ -184,6 +184,35 @@ export default function WorkHoursCalculatorPage() {
           </div>
         </div>
       </div>
+
+      <section className="py-14 border-t border-border/40">
+        <div className="container max-w-3xl mx-auto px-4 space-y-8">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">How the Work Hours Calculator Works</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Enter your daily start and end times, specify your break duration, and choose how many days per week you work. The calculator instantly computes your net daily working hours (excluding breaks), weekly totals, and monthly estimates. It's useful for freelancers tracking billable hours, employees verifying payslips, and employers setting shift schedules.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              All calculations happen in your browser — no data is stored or transmitted. You can adjust any input and the results update immediately without page reloads.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">Understanding Work Hours by Country</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Standard full-time work hours vary significantly around the world. In the United States, 40 hours per week (8 hours × 5 days) is the standard. In France, the legal working week is 35 hours. Germany averages around 34–36 hours, while Japan — despite its cultural association with long hours — has a legal cap of 40 hours per week plus up to 45 hours of overtime per month.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              In the Gulf region (UAE, Saudi Arabia, Qatar), the legal maximum is 48 hours per week (8 hours per day, 6 days per week) for most workers in the private sector, reduced during Ramadan. Understanding these norms is important for international HR teams setting fair expectations across offices in different countries.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">Calculating Overtime and Part-Time Hours</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Use this tool to calculate part-time schedules by adjusting the number of working days. For overtime calculation, enter your extended finish time and compare the result against your contracted hours to see how many extra hours you have worked. Freelancers can use the daily hours figure as a baseline for billing: multiply your daily hours by your hourly rate to get your day rate, or use the weekly figure to estimate monthly invoices.
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

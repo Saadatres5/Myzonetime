@@ -157,6 +157,37 @@ export default function DateCalculatorPage() {
           </div>
         )}
       </div>
+
+      <section className="py-14 border-t border-border/40">
+        <div className="container max-w-3xl mx-auto px-4 space-y-8">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">How to Use the Date Calculator</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Select a start date and end date to instantly calculate the exact number of days between them. The calculator counts every calendar day inclusive of the start date, giving you accurate results for deadlines, project timelines, contract durations, and countdowns to events. You can also add or subtract a specific number of days from a date to find a future or past date — useful for computing payment due dates, subscription renewals, or legal notice periods.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              The result also shows the breakdown in weeks and months where applicable, so you can quickly communicate durations in the most natural unit for your context.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">Common Uses for a Date Calculator</h2>
+            <ul className="list-disc list-inside text-muted-foreground space-y-2 leading-relaxed">
+              <li><strong className="text-foreground">Project planning:</strong> Calculate sprint lengths, milestone intervals, and deadline buffers between any two dates.</li>
+              <li><strong className="text-foreground">Legal and contracts:</strong> Many contracts specify notice periods (e.g. "30 days written notice"). Use this tool to find the exact calendar date that falls 30 or 90 days from today.</li>
+              <li><strong className="text-foreground">Finance:</strong> Calculate bond maturity dates, invoice payment terms (Net 30, Net 60), and loan duration in days.</li>
+              <li><strong className="text-foreground">HR and payroll:</strong> Calculate an employee's tenure, probation end date, or annual leave accrual periods.</li>
+              <li><strong className="text-foreground">Travel:</strong> Find out how many days until your trip, or calculate a visa expiry date from entry.</li>
+              <li><strong className="text-foreground">Health:</strong> Calculate gestational age, prescription durations, or days since a medical event.</li>
+            </ul>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">How Days Between Dates Are Calculated</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              The number of days between two dates is calculated by subtracting the start date from the end date — counting every calendar day in between. This tool accounts for leap years automatically, so February 29 is correctly counted when it falls within your selected range. All calculations are done client-side in your browser, meaning no data is sent to any server and results are instant regardless of your internet connection.
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

@@ -142,15 +142,39 @@ export default function StopwatchPage() {
 
       {/* SEO content */}
       <section className="py-14 border-t border-border/40">
-        <div className="container max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl font-bold tracking-tight mb-4">Free Online Stopwatch with Lap Timer</h2>
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            This free stopwatch measures elapsed time to the millisecond. Use it for sports training, cooking, experiments, presentations, or any task where you need precise time tracking. Tap the Lap button to record split times without stopping the clock.
-          </p>
-          <h2 className="text-2xl font-bold tracking-tight mb-4">How to Use the Lap Timer</h2>
-          <p className="text-muted-foreground leading-relaxed">
-            Press Start to begin counting. Press Lap each time you want to record a split time — the stopwatch keeps running. Each lap entry shows both the individual lap duration and cumulative elapsed time. Press Reset to clear all laps and return to zero.
-          </p>
+        <div className="container max-w-3xl mx-auto px-4 space-y-8">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">Free Online Stopwatch with Lap Timer</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              This free stopwatch measures elapsed time to the millisecond, directly in your browser with no app download or signup required. Use it for sports training, cooking, lab experiments, presentations, interviews, or any task that requires precise time tracking. The lap timer lets you record split times without stopping or resetting the main clock.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              All timing happens client-side using your device's high-resolution clock API, ensuring millisecond-level accuracy. The stopwatch continues running even if you switch browser tabs, so you can time tasks while working in other windows.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">How to Use the Lap Timer</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Press Start to begin counting. Press Lap each time you want to record a split time — the stopwatch keeps running uninterrupted. Each lap entry shows both the individual lap duration and the cumulative elapsed time from zero. Press Reset to clear all laps and return the stopwatch to zero. You can export or screenshot your lap results for record-keeping.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">Common Uses for a Stopwatch</h2>
+            <ul className="list-disc list-inside text-muted-foreground space-y-2 leading-relaxed">
+              <li><strong className="text-foreground">Sports and fitness:</strong> Time running intervals, swim laps, cycling segments, or gym sets. Use the lap feature to record each split independently while tracking your total session time.</li>
+              <li><strong className="text-foreground">Cooking:</strong> Time multiple dishes simultaneously — start the stopwatch when the first item goes in, and use laps to mark when each subsequent item is added.</li>
+              <li><strong className="text-foreground">Presentations and public speaking:</strong> Practise your talk and use laps to mark each section, then review whether each segment ran within its target time.</li>
+              <li><strong className="text-foreground">Science and experiments:</strong> Record reaction times, measure intervals between observations, or time controlled experiments where sub-second precision matters.</li>
+              <li><strong className="text-foreground">Board games and quizzes:</strong> Time each player's turn or each round fairly, using the lap feature to log each participant's time without resetting between turns.</li>
+              <li><strong className="text-foreground">Productivity:</strong> Time yourself on focused work blocks (e.g. 25-minute Pomodoro sessions) and use laps to track how long each individual task actually took.</li>
+            </ul>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">Stopwatch vs Countdown Timer: Which Should You Use?</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              A stopwatch counts up from zero — you start it and it runs until you stop it, measuring how long something took. A countdown timer counts down from a set duration to zero and alerts you when time is up. Use a stopwatch when you want to measure elapsed time (e.g. how long a race took). Use a countdown timer when you want to be notified after a fixed period (e.g. a 25-minute focus block or a 10-minute cooking timer). MyZoneTime offers both — the stopwatch is on this page, and the countdown timer is available separately with an audio alert.
+            </p>
+          </div>
         </div>
       </section>
     </main>

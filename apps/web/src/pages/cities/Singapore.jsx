@@ -113,6 +113,50 @@ export default function Singapore() {
         pathname="/singapore"
         description="Singapore operates on Singapore Standard Time (SGT, UTC+8) year-round with no daylight saving. As Southeast Asia's premier financial hub and one of the world's busiest ports, Singapore's fixed clock makes it a reliable anchor for cross-timezone scheduling between European, Middle Eastern and Asia-Pacific business partners."
       >
+        <section className="py-10 border-t border-border/40">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Singapore Time Zone: SGT (UTC+8)</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Singapore uses Singapore Standard Time (SGT), which is UTC+8 year-round. The country abolished daylight saving time in 1982 and has not observed it since, giving businesses and residents a completely stable clock with no seasonal adjustments. This predictability is one reason Singapore is favoured as a regional headquarters for multinational companies operating across Asia.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                SGT is shared with several neighbouring countries including Malaysia, the Philippines, Brunei, and parts of Indonesia (Western Indonesia Time). Hong Kong and China also use UTC+8 (China Standard Time / Hong Kong Time), making Singapore's business hours naturally aligned with these major regional economies.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Singapore Business Hours and Financial Markets</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Standard business hours in Singapore are Monday to Friday, 9:00 AM to 6:00 PM SGT. The Singapore Exchange (SGX) operates two sessions: a morning session from 9:00 AM to 12:00 PM and an afternoon session from 1:00 PM to 5:00 PM SGT. Derivatives markets run extended hours.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Singapore's opening hours overlap with the tail end of the Tokyo and Sydney trading sessions and the early portion of the European session (which opens around 2:00–3:00 PM SGT in winter). This makes Singapore a genuine bridge between East Asian and European markets.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">Time Differences: Singapore to Major Cities</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border-collapse">
+                  <thead><tr className="border-b border-border"><th className="text-left py-2 pr-4 font-semibold">City</th><th className="text-left py-2 font-semibold">Difference from Singapore</th></tr></thead>
+                  <tbody className="text-muted-foreground">
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">London (GMT)</td><td className="py-2">−8 hrs (winter) / −7 hrs (summer)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Dubai (GST)</td><td className="py-2">−4 hrs (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">New York (EST)</td><td className="py-2">−13 hrs (winter) / −12 hrs (summer)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Tokyo (JST)</td><td className="py-2">+1 hr (always)</td></tr>
+                    <tr className="border-b border-border/50"><td className="py-2 pr-4">Sydney (AEST)</td><td className="py-2">+2 hrs (winter) / +3 hrs (summer)</td></tr>
+                    <tr><td className="py-2 pr-4">Mumbai (IST)</td><td className="py-2">−2:30 hrs (always)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight mb-4">About Singapore</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Singapore is a city-state and island nation at the southern tip of the Malay Peninsula. With a population of about 5.9 million, it is one of the world's most densely populated countries and consistently ranks as one of the most economically competitive. Singapore is Asia's leading financial centre, home to major banks, commodity traders, and tech firms, and its port is one of the world's busiest container ports. Its stable government, low taxes, and strategic location make it the preferred Asian base for thousands of international companies.
+              </p>
+            </div>
+          </div>
+        </section>
         <FAQSection faqs={faqs} includeSchema={false} />
         <RelatedTools city="Singapore" relatedCity="Dubai" />
       </CityPage>

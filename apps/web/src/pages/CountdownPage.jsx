@@ -192,6 +192,37 @@ export default function CountdownPage() {
           )}
         </div>
       </div>
+
+      <section className="py-14 border-t border-border/40">
+        <div className="container max-w-3xl mx-auto px-4 space-y-8">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">Free Online Countdown Timer to Any Date</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Use this countdown timer to count down the days, hours, minutes, and seconds to any future date and time. Set a target date — a birthday, product launch, wedding, exam, holiday, or deadline — and watch the live countdown tick in real time. The countdown updates every second directly in your browser with no page refresh needed.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              You can create multiple named countdowns at once, each tracking a different event. All countdowns are saved locally in your browser so they persist between visits without requiring an account or signup.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">Popular Uses for a Countdown Timer</h2>
+            <ul className="list-disc list-inside text-muted-foreground space-y-2 leading-relaxed">
+              <li><strong className="text-foreground">Product launches:</strong> Count down to a go-live date or public announcement to build team anticipation and keep everyone aligned on the deadline.</li>
+              <li><strong className="text-foreground">Events and celebrations:</strong> Weddings, birthdays, anniversaries, holidays — see exactly how long until the big day.</li>
+              <li><strong className="text-foreground">Exams and deadlines:</strong> Students and professionals use countdowns to maintain urgency on submission dates and revision schedules.</li>
+              <li><strong className="text-foreground">Travel:</strong> Count down to your next flight, holiday, or visa renewal date.</li>
+              <li><strong className="text-foreground">Sports events:</strong> Track the countdown to a match, race, or tournament you're following.</li>
+              <li><strong className="text-foreground">New Year and religious holidays:</strong> Countdown to Eid, Christmas, Diwali, Ramadan, or any date in the Hijri or Gregorian calendar.</li>
+            </ul>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-4">How the Countdown Is Calculated</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              The countdown calculates the difference between your target date/time and the current time in your local browser timezone. It subtracts the current timestamp from the target timestamp and breaks the result into days, hours, minutes, and seconds. The display updates every second. If your target date has already passed, the countdown will show zeroes or indicate that the event has occurred.
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
