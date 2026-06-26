@@ -1,141 +1,83 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
-  <!-- Default SEO (overridden per-page by react-helmet-async) -->
-  <title>World Clock &amp; Time Zone Converter — Free | MyZoneTime</title>
-  <meta name="description" content="Free world clock for 500+ cities. Convert time zones, plan meetings, check Hijri dates — no signup needed." />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <!-- Geo Meta Tags for International SEO -->
+    <meta name="geo.region" content="AE" />
+    <meta name="geo.placename" content="United Arab Emirates" />
+    <meta name="language" content="en" />
 
-  <!-- Canonical (overridden per-page) -->
-  <link rel="canonical" href="https://myzonetime.com/" />
+    <!-- WWW Canonicalization -->
+    <link rel="canonical" href="https://typingrapid.com/" />
 
-  <!-- Open Graph -->
-  <meta property="og:site_name"   content="MyZoneTime" />
-  <meta property="og:locale"      content="en_US" />
-  <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="https://myzonetime.com/" />
-  <meta property="og:title"       content="World Clock &amp; Time Zone Converter — Free | MyZoneTime" />
-  <meta property="og:description" content="Free world clock for 500+ cities. Time zone converter, meeting planner, Hijri calendar. No signup." />
-  <meta property="og:image"       content="https://myzonetime.com/og-image.svg" />
-  <meta property="og:image:width"  content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt"    content="MyZoneTime — World Clock and Time Zone Tools" />
+    <!-- Icons and Manifest -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
 
-  <!-- Twitter / X -->
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:site"        content="@myzonetime" />
-  <meta name="twitter:creator"     content="@myzonetime" />
-  <meta name="twitter:title"       content="World Clock &amp; Time Zone Converter | MyZoneTime" />
-  <meta name="twitter:description" content="Free world clock for 500+ cities. Time zone converter, meeting planner, Hijri calendar." />
-  <meta name="twitter:image"       content="https://myzonetime.com/og-image.svg" />
+    <!-- Resource Hints for Critical Domains -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
 
-  <!-- Theme / PWA -->
-  <meta name="theme-color"                        content="#0EA5E9" />
-  <meta name="application-name"                   content="MyZoneTime" />
-  <meta name="author"                             content="MyZoneTime" />
-  <meta http-equiv="content-language"             content="en" />
-  <meta name="apple-mobile-web-app-capable"       content="yes" />
-  <meta name="mobile-web-app-capable"             content="yes" />
-  <meta name="format-detection"                   content="telephone=no" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title"         content="MyZoneTime" />
-  <meta name="google-adsense-account"             content="ca-pub-5444446255342320" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Favicon + manifest -->
-  <link rel="icon"             type="image/svg+xml"  href="/favicon.svg" />
-  <link rel="manifest"         href="/manifest.json" />
-  <link rel="apple-touch-icon" sizes="180x180"      href="/favicon.svg" />
-  <link rel="mask-icon"        href="/favicon.svg"   color="#0EA5E9" />
+    <!-- Single font load — Inter, matching index.css. Async via media swap, no duplicate request. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
+    </noscript>
 
-  <!-- Preconnect critical origins -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-  <link rel="dns-prefetch" href="//api.open-meteo.com" />
-  <link rel="dns-prefetch" href="//googleads.g.doubleclick.net" />
-  <link rel="dns-prefetch" href="//adservice.google.com" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="TypingRapid" />
+    <meta property="og:image" content="https://typingrapid.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://typingrapid.com/og-image.jpg" />
 
-  <!-- Non-blocking font load (avoids render-blocking) -->
-  <link
-    rel="preload" as="style"
-    href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
-  />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
-    media="print"
-    onload="this.media='all'"
-  />
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
-  </noscript>
+    <style>
+      :root { --bg: #fafafa; --fg: #0a0a0a; --primary: 221 83% 53%; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #0a0a0a; --fg: #fafafa; --primary: 217 91% 60%; } }
+      body, html { 
+        margin: 0; padding: 0; 
+        min-height: 100vh; 
+        display: flex; 
+        flex-direction: column; 
+        background-color: var(--bg); 
+        color: var(--fg); 
+        font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+        -webkit-font-smoothing: antialiased;
+      }
+      #root { display: flex; flex-direction: column; flex: 1; width: 100%; contain: layout; }
+      .contain-layout { contain: layout; }
+      .transform-gpu { transform: translateZ(0); }
+    </style>
 
-  <!-- Google AdSense — deferred after load to reduce INP -->
-  <script>
-    window.addEventListener('load', function() {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5444446255342320';
-      s.crossOrigin = 'anonymous';
-      document.head.appendChild(s);
-    });
-  </script>
+    <!-- Google AdSense Account Verification -->
+    <meta name="google-adsense-account" content="ca-pub-5444446255342320" />
 
-  <!-- Organization schema (static, always present) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "MyZoneTime",
-    "url": "https://myzonetime.com",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://myzonetime.com/favicon.svg",
-      "width": 512,
-      "height": 512
-    },
-    "description": "Free world clock and time zone tools for global teams — converter, meeting planner, Hijri calendar, and more.",
-    "sameAs": [
-      "https://twitter.com/myzonetime",
-      "https://www.facebook.com/myzonetime",
-      "https://www.linkedin.com/company/myzonetime",
-      "https://www.instagram.com/myzonetime",
-      "https://www.youtube.com/@myzonetime"
-    ]
-  }
-  </script>
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5444446255342320"
+     crossorigin="anonymous"></script>
 
-  <!-- WebSite schema with SearchAction -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "MyZoneTime",
-    "url": "https://myzonetime.com",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://myzonetime.com/world-clock?q={search_term_string}"
-      },
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-</head>
-<body>
-  <!-- Skip to content — WCAG 2.1 AA -->
-  <a
-    href="#main-content"
-    style="position:absolute;left:-9999px;top:4px;z-index:9999;background:#0EA5E9;color:white;padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;"
-    onfocus="this.style.left='16px'"
-    onblur="this.style.left='-9999px'"
-  >Skip to main content</a>
-
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
-</body>
+    <title>TypingRapid - Free Online Typing Test &amp; Speed Practice | Improve Your WPM</title>
+    <meta name="description" content="Take a free typing speed test online. Practice typing, improve your WPM, and compete on our typing leaderboard. Join the typing club today!" />
+    <script async type="module" crossorigin src="/assets/index-DkLC-pKJ.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-CAG9801x.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui-Cg9uxL2U.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-B62aqJU6.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>
