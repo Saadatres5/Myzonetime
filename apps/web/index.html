@@ -11,11 +11,8 @@
     <meta name="geo.placename" content="United Arab Emirates" />
     <meta name="language" content="en" />
 
-    <!-- WWW Canonicalization -->
-    <link rel="canonical" href="https://typingrapid.com/" />
-
     <!-- Icons and Manifest -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -29,7 +26,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Single font load — Inter, matching index.css. Async via media swap, no duplicate request. -->
+    <!-- Font load — Inter. Async via media swap. -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" />
     <noscript>
@@ -38,24 +35,24 @@
 
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="TypingRapid" />
-    <meta property="og:image" content="https://typingrapid.com/og-image.jpg" />
+    <meta property="og:site_name" content="MyZoneTime" />
+    <meta property="og:image" content="https://myzonetime.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://typingrapid.com/og-image.jpg" />
+    <meta name="twitter:image" content="https://myzonetime.com/og-image.png" />
 
     <style>
       :root { --bg: #fafafa; --fg: #0a0a0a; --primary: 221 83% 53%; }
       @media (prefers-color-scheme: dark) { :root { --bg: #0a0a0a; --fg: #fafafa; --primary: 217 91% 60%; } }
-      body, html { 
-        margin: 0; padding: 0; 
-        min-height: 100vh; 
-        display: flex; 
-        flex-direction: column; 
-        background-color: var(--bg); 
-        color: var(--fg); 
-        font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+      body, html {
+        margin: 0; padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--bg);
+        color: var(--fg);
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
         -webkit-font-smoothing: antialiased;
       }
       #root { display: flex; flex-direction: column; flex: 1; width: 100%; contain: layout; }
@@ -70,14 +67,11 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5444446255342320"
      crossorigin="anonymous"></script>
 
-    <title>TypingRapid - Free Online Typing Test &amp; Speed Practice | Improve Your WPM</title>
-    <meta name="description" content="Take a free typing speed test online. Practice typing, improve your WPM, and compete on our typing leaderboard. Join the typing club today!" />
-    <script async type="module" crossorigin src="/assets/index-DkLC-pKJ.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-CAG9801x.js">
-    <link rel="modulepreload" crossorigin href="/assets/ui-Cg9uxL2U.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-B62aqJU6.css">
+    <title>MyZoneTime - World Clock, Time Zone Converter &amp; Meeting Planner</title>
+    <meta name="description" content="Check the current time in any city worldwide. Convert time zones, plan international meetings, and use our free world clock tools." />
   </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
