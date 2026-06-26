@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
 
   resolve: {
@@ -102,6 +102,11 @@ export default defineConfig({
     reportCompressedSize: true,
   },
 
+  // ── SSR (used only during prerender build) ────────────────────────────────
+  ssr: {
+    noExternal: ['react-helmet-async'],
+  },
+
   // ── Optimise deps pre-bundling ────────────────────────────────────────────
   optimizeDeps: {
     include: [
@@ -112,4 +117,4 @@ export default defineConfig({
       'lucide-react',
     ],
   },
-});
+}));

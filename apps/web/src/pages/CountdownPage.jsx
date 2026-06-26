@@ -9,10 +9,16 @@ import StructuredData from '@/components/StructuredData.jsx';
 
 export default function CountdownPage() {
   const [eventName, setEventName] = useState(() => {
+    if (typeof window === 'undefined') return '';
     return localStorage.getItem('countdown_eventName') || '';
   });
   
   const [targetDate, setTargetDate] = useState(() => {
+    if (typeof window === 'undefined') {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      return tomorrow.toISOString().split('T')[0];
+    }
     const savedDate = localStorage.getItem('countdown_targetDate');
     if (savedDate) return savedDate;
     
