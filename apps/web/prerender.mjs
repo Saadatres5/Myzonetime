@@ -65,6 +65,10 @@ const STATIC_ROUTES = [
   '/bangkok',
   '/paris',
   '/kuala-lumpur',
+  // New competitive pages
+  '/sunrise-sunset',
+  '/week-number',
+  '/unix-time',
 ];
 
 // Dynamic city routes from cityPageData

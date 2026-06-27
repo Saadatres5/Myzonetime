@@ -497,6 +497,24 @@ export default function HomePage() {
                 Track billable work hours, calculate how many days between two dates, and use our countdown timer for deadlines or events. All tools are free, fast, and work directly in your browser — no app download or account needed.
               </p>
             </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-3">Sunrise &amp; Sunset Times</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Find exact sunrise, sunset, solar noon, and day length for any city worldwide. Our <a href="/sunrise-sunset" className="text-primary hover:underline">sunrise and sunset calculator</a> is updated daily and accounts for your city's exact coordinates and daylight saving time.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-3">Week Number &amp; ISO Calendar</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Find the current <a href="/week-number" className="text-primary hover:underline">ISO week number</a> instantly, or browse the full year's week calendar to find any week number by date. Follows the ISO 8601 standard used in Europe and international business.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-3">Unix Time &amp; Epoch Converter</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                See the live <a href="/unix-time" className="text-primary hover:underline">Unix timestamp</a> and convert any epoch time to a human-readable date. Includes code examples in JavaScript, Python, PHP, MySQL, Go, and more.
+              </p>
+            </div>
           </div>
 
           <h2 className="text-2xl font-bold tracking-tight mb-4">Why Use MyZoneTime?</h2>
@@ -508,6 +526,9 @@ export default function HomePage() {
             <li>500+ cities across every continent and time zone</li>
             <li>DST-aware conversions — no manual adjustments needed</li>
             <li>Hijri Islamic calendar built in</li>
+            <li>Sunrise and sunset times for every city</li>
+            <li>ISO week number calendar for the full year</li>
+            <li>Unix/Epoch timestamp converter for developers</li>
             <li>No signup, no ads popup, no tracking walls</li>
             <li>Embeddable world clock widget for your own website</li>
           </ul>

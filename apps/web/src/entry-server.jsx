@@ -53,6 +53,9 @@ import Paris       from './pages/cities/Paris.jsx';
 import KualaLumpur from './pages/cities/KualaLumpur.jsx';
 import DynamicCityPage from './pages/DynamicCityPage.jsx';
 import NotFoundPage    from './pages/NotFoundPage.jsx';
+import SunriseSunsetPage from './pages/SunriseSunsetPage.jsx';
+import WeekNumberPage    from './pages/WeekNumberPage.jsx';
+import UnixTimePage      from './pages/UnixTimePage.jsx';
 
 function SSRApp({ url, helmetContext }) {
   return (
@@ -98,6 +101,9 @@ function SSRApp({ url, helmetContext }) {
             <Route path="/bangkok"      element={<Bangkok />} />
             <Route path="/paris"        element={<Paris />} />
             <Route path="/kuala-lumpur" element={<KualaLumpur />} />
+            <Route path="/sunrise-sunset" element={<SunriseSunsetPage />} />
+            <Route path="/week-number"    element={<WeekNumberPage />} />
+            <Route path="/unix-time"      element={<UnixTimePage />} />
             <Route path="/:citySlug"    element={<DynamicCityPage />} />
             <Route path="*"             element={<NotFoundPage />} />
           </Routes>
