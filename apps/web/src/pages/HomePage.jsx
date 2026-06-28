@@ -251,6 +251,12 @@ export default function HomePage() {
         <meta name="description" content="Free world clock for 500+ cities. Convert time zones, plan meetings, check Hijri dates — no signup needed." />
         <meta name="author" content="MyZoneTime" />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        {/* hreflang — tells Google which language version to serve per user */}
+        <link rel="alternate" hrefLang="en"       href="https://myzonetime.com/" />
+        <link rel="alternate" hrefLang="ar"       href="https://myzonetime.com/ar" />
+        <link rel="alternate" hrefLang="hi"       href="https://myzonetime.com/hi" />
+        <link rel="alternate" hrefLang="es"       href="https://myzonetime.com/es" />
+        <link rel="alternate" hrefLang="x-default" href="https://myzonetime.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyZoneTime" />
         <meta property="og:locale" content="en_US" />

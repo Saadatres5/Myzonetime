@@ -69,6 +69,10 @@ const STATIC_ROUTES = [
   '/sunrise-sunset',
   '/week-number',
   '/unix-time',
+  // Multilingual pages
+  '/ar',
+  '/hi',
+  '/es',
 ];
 
 // Dynamic city routes from cityPageData

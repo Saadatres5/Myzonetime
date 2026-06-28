@@ -41,9 +41,10 @@ const TimezoneIndexPage   = React.lazy(() => import('./pages/TimezoneIndexPage.j
 const DynamicTimezonePage = React.lazy(() => import('./pages/DynamicTimezonePage.jsx'));
 
 // ── New competitive feature pages ────────────────────────────────────────────
-const SunriseSunsetPage = React.lazy(() => import('./pages/SunriseSunsetPage.jsx'));
-const WeekNumberPage    = React.lazy(() => import('./pages/WeekNumberPage.jsx'));
-const UnixTimePage      = React.lazy(() => import('./pages/UnixTimePage.jsx'));
+const SunriseSunsetPage    = React.lazy(() => import('./pages/SunriseSunsetPage.jsx'));
+const WeekNumberPage       = React.lazy(() => import('./pages/WeekNumberPage.jsx'));
+const UnixTimePage         = React.lazy(() => import('./pages/UnixTimePage.jsx'));
+const MultilingualHomePage = React.lazy(() => import('./pages/MultilingualHomePage.jsx'));
 
 // ── Programmatic city pages ───────────────────────────────────────────────────
 // Static hand-crafted city pages (Tier 1 — retain for SEO continuity)
@@ -151,6 +152,10 @@ function AppContent({ settings, updateSetting }) {
             <Route path="/sunrise-sunset" element={<SunriseSunsetPage />} />
             <Route path="/week-number"    element={<WeekNumberPage />} />
             <Route path="/unix-time"      element={<UnixTimePage />} />
+            {/* ── Multilingual pages ───────────────────────── */}
+            <Route path="/ar" element={<MultilingualHomePage lang="ar" />} />
+            <Route path="/hi" element={<MultilingualHomePage lang="hi" />} />
+            <Route path="/es" element={<MultilingualHomePage lang="es" />} />
 
             {/* ── Tier-2 programmatic city pages ───────────────────────────── */}
             {/* DynamicCityPage handles: /mumbai /delhi /karachi /lahore        */}
