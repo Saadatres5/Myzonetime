@@ -77,12 +77,16 @@ const STATIC_ROUTES = [
 
 // Dynamic city routes from cityPageData
 const CITY_SLUGS = [
-  'dubai', 'abu-dhabi', 'riyadh', 'doha', 'muscat', 'kuwait-city',
-  'mumbai', 'delhi', 'karachi', 'lahore',
-  'singapore', 'tokyo', 'hong-kong', 'seoul', 'beijing',
-  'london', 'paris', 'berlin', 'rome', 'madrid', 'amsterdam', 'istanbul', 'oslo',
-  'new-york', 'los-angeles', 'chicago', 'toronto',
-  'sydney', 'cairo', 'nairobi', 'johannesburg', 'bangkok', 'kuala-lumpur',
+  'dubai', 'abu-dhabi', 'riyadh', 'doha', 'muscat', 'kuwait-city', 'tehran',
+  'mumbai', 'delhi', 'karachi', 'lahore', 'dhaka', 'colombo', 'kathmandu',
+  'singapore', 'tokyo', 'hong-kong', 'seoul', 'beijing', 'jakarta', 'manila',
+  'london', 'paris', 'berlin', 'rome', 'madrid', 'amsterdam', 'istanbul', 'oslo', 'moscow',
+  'zurich', 'vienna', 'stockholm', 'brussels', 'lisbon', 'athens', 'warsaw', 'prague', 'budapest',
+  'new-york', 'los-angeles', 'chicago', 'toronto', 'vancouver', 'miami', 'mexico-city', 'bogota', 'lima',
+  'sao-paulo', 'buenos-aires',
+  'sydney', 'melbourne', 'perth', 'auckland',
+  'cairo', 'nairobi', 'johannesburg', 'lagos', 'accra', 'addis-ababa', 'casablanca',
+  'bangkok', 'kuala-lumpur',
 ];
 
 // Dynamic timezone routes
