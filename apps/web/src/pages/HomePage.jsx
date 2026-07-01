@@ -247,8 +247,9 @@ export default function HomePage() {
   return (
     <main className="flex-1 w-full bg-background text-foreground" id="main-content">
       <Helmet>
-        <title>World Clock &amp; Time Zone Converter — Live Time in 500+ Cities | MyZoneTime</title>
-        <meta name="description" content="Free world clock for 500+ cities. Convert time zones, plan meetings, check Hijri dates — no signup needed." />
+        <title>World Clock, Time Zone Converter &amp; Meeting Planner — Live Time in 500+ Cities | MyZoneTime</title>
+        <meta name="description" content="Free world clock, time zone converter, meeting planner, and time difference calculator for 500+ cities worldwide. No signup required." />
+        <meta name="keywords" content="world clock, time zone converter, meeting planner, time difference calculator, convert time zones, international meeting planner" />
         <meta name="author" content="MyZoneTime" />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         {/* hreflang — tells Google which language version to serve per user */}
@@ -261,8 +262,8 @@ export default function HomePage() {
         <meta property="og:site_name" content="MyZoneTime" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:url" content="https://myzonetime.com/" />
-        <meta property="og:title" content="World Clock &amp; Time Zone Converter — Live Time in 500+ Cities | MyZoneTime" />
-        <meta property="og:description" content="Free world clock showing live time in 500+ cities. Time zone converter, meeting planner, Hijri calendar, and live weather. Trusted by global teams." />
+        <meta property="og:title" content="World Clock, Time Zone Converter &amp; Meeting Planner — Live Time in 500+ Cities | MyZoneTime" />
+        <meta property="og:description" content="Free world clock, time zone converter, meeting planner, and time difference calculator for 500+ cities worldwide. Trusted by global teams." />
         <meta property="og:image" content="https://myzonetime.com/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -299,7 +300,7 @@ export default function HomePage() {
             World Clock &amp; Time Zone Converter
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            AI-first city search and time tools for modern global teams. Convert time zones, plan meetings, and attract the right audience with smarter world clock insights.
+            Use a live world clock, time zone converter, and meeting planner to compare cities, calculate time differences, and schedule global calls without guesswork.
           </p>
 
           {/* Accessible Search Combobox */}
@@ -538,6 +539,34 @@ export default function HomePage() {
             <li>No signup, no ads popup, no tracking walls</li>
             <li>Embeddable world clock widget for your own website</li>
           </ul>
+        </div>
+      </section>
+
+      <section className="py-20 border-t border-border/40" aria-labelledby="quick-answers-heading">
+        <div className="container max-w-5xl mx-auto px-4">
+          <div className="text-center space-y-4 mb-10">
+            <h2 id="quick-answers-heading" className="text-3xl md:text-4xl font-bold tracking-tight">Quick Answers People Search For</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">These answer-style sections are designed to match the way users and AI assistants search for time tools, meeting planning, and time zone comparisons.</p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            <article className="rounded-2xl border border-border/60 bg-card/60 p-6 shadow-sm">
+              <h3 className="text-xl font-semibold mb-3">What is a world clock?</h3>
+              <p className="text-muted-foreground leading-relaxed">A world clock shows the current time in multiple cities at once, making it easier to compare time zones for travel, remote work, and international communication.</p>
+            </article>
+            <article className="rounded-2xl border border-border/60 bg-card/60 p-6 shadow-sm">
+              <h3 className="text-xl font-semibold mb-3">How do I convert time zones?</h3>
+              <p className="text-muted-foreground leading-relaxed">Use MyZoneTime’s time zone converter to compare any two cities, see the exact hour difference, and avoid scheduling mistakes caused by daylight saving time.</p>
+            </article>
+            <article className="rounded-2xl border border-border/60 bg-card/60 p-6 shadow-sm">
+              <h3 className="text-xl font-semibold mb-3">How do I find the best meeting time?</h3>
+              <p className="text-muted-foreground leading-relaxed">Add each participant’s city to the meeting planner to view overlapping business hours, find the best time for everyone, and share the result instantly.</p>
+            </article>
+            <article className="rounded-2xl border border-border/60 bg-card/60 p-6 shadow-sm">
+              <h3 className="text-xl font-semibold mb-3">What is a time difference calculator?</h3>
+              <p className="text-muted-foreground leading-relaxed">A time difference calculator shows how many hours separate two cities and helps teams, travelers, and customers understand local timing at a glance.</p>
+            </article>
+          </div>
         </div>
       </section>
 

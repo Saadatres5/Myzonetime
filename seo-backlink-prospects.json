@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Remote Work Productivity Blog",
+    "url": "https://example.com/remote-work-productivity",
+    "category": "remote-work",
+    "reason": "Good fit for meeting planner and time zone conversion content"
+  },
+  {
+    "name": "Travel Planning Resource",
+    "url": "https://example.com/travel-planning",
+    "category": "travel",
+    "reason": "Useful for city/timezone comparison and travel scheduling"
+  },
+  {
+    "name": "Developer Time Utility Directory",
+    "url": "https://example.com/dev-tools",
+    "category": "developer-tools",
+    "reason": "Relevant to Unix time, timestamp, and date conversion tools"
+  },
+  {
+    "name": "Global Team Productivity Hub",
+    "url": "https://example.com/global-team-tools",
+    "category": "productivity",
+    "reason": "Strong fit for meeting planner and business hours content"
+  },
+  {
+    "name": "Business Calendar Resource",
+    "url": "https://example.com/business-calendar",
+    "category": "calendar",
+    "reason": "Great for time zone converter and meeting scheduling resources"
+  },
+  {
+    "name": "International Travel Guide",
+    "url": "https://example.com/international-travel-guide",
+    "category": "travel",
+    "reason": "Ideal for city pages and timezone comparison content"
+  },
+  {
+    "name": "Working Across Time Zones Guide",
+    "url": "https://example.com/time-zone-collaboration",
+    "category": "remote-work",
+    "reason": "Excellent for business-hours and meeting planner content"
+  },
+  {
+    "name": "Islamic Calendar and Date Resource",
+    "url": "https://example.com/islamic-calendar",
+    "category": "culture",
+    "reason": "Relevant to Hijri calendar and daily date conversion"
+  },
+  {
+    "name": "Date and Time Utility Blog",
+    "url": "https://example.com/date-time-utilities",
+    "category": "developer-tools",
+    "reason": "Good for time calculator and conversion utility references"
+  },
+  {
+    "name": "Remote Team Best Practices Site",
+    "url": "https://example.com/remote-team-best-practices",
+    "category": "remote-work",
+    "reason": "Supports meeting planner and collaboration link opportunities"
+  }
+]
