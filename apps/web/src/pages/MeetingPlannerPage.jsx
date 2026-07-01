@@ -277,8 +277,9 @@ export default function MeetingPlannerPage() {
   return (
     <>
       <Helmet>
-        <title>Meeting Planner — Global, International & Worldwide Time Zones | MyZoneTime</title>
-        <meta name="description" content="Free global meeting planner. Find the best meeting time across worldwide time zones — DST-aware, shareable, no signup." />
+        <title>Meeting Planner — Online Meeting Scheduler for Global Teams | MyZoneTime</title>
+        <meta name="description" content="Free online meeting scheduler for global teams. Find the best meeting time across worldwide time zones with automatic DST-aware overlap and shareable links." />
+        <meta name="keywords" content="online meeting scheduler, meeting planner, schedule meetings across time zones, global team scheduling, business hours overlap" />
         <meta property="og:title" content="Meeting Planner Worldwide — Best Time Across Time Zones | MyZoneTime" />
         <meta property="og:description" content="Free worldwide meeting planner for global teams. Find overlapping business hours across up to 7 time zones with automatic DST support." />
         <meta property="og:image" content="https://myzonetime.com/favicon.svg" />
@@ -300,7 +301,7 @@ export default function MeetingPlannerPage() {
               Global Meeting Planner
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              The free international meeting planner for worldwide teams. Find the best meeting time across time zones — add up to 7 cities, get colour-coded business hours, automatic DST, and shareable links.
+              The free online meeting scheduler for worldwide teams. Find the best meeting time across time zones — add up to 7 cities, get colour-coded business hours, automatic DST, and shareable links.
             </p>
             {/* Feature pills */}
             <div className="flex flex-wrap justify-center gap-2 pt-1">

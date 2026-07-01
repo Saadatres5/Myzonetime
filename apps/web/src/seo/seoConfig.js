@@ -13,9 +13,11 @@ export const SEO = {
 
   // ─── HOME ──────────────────────────────────────────────────────────────────
   '/': {
-    title: 'World Clock & Time Zone Converter — Free | MyZoneTime',
+    title: 'World Clock, Time Zone Converter & Meeting Planner — Free | MyZoneTime',
     description:
-      'Free world clock showing live time in 500+ cities. Time zone converter, meeting planner, Hijri calendar, and work hours calculator. No signup needed. Trusted by global teams.',
+      'Free world clock, time zone converter, meeting planner, and time difference calculator for 500+ cities worldwide. No signup required. Trusted by global teams and remote teams who schedule across time zones.',
+    keywords:
+      'world clock, time zone converter, meeting planner, time difference calculator, schedule meetings across time zones, live time in cities',
     canonical: 'https://myzonetime.com/',
     ogType: 'website',
     structuredData: {
@@ -37,7 +39,9 @@ export const SEO = {
   '/world-clock': {
     title: 'World Clock — Live Time in 500+ Cities | MyZoneTime',
     description:
-      'Check the current local time in over 500 cities around the world. Live, auto-updating world clock with city search, UTC offsets, and DST indicators.',
+      'Compare time zones instantly with a live world clock for 500+ cities. Search any city, see UTC offsets, DST indicators, and use the clock to schedule meetings across time zones.',
+    keywords:
+      'world clock, live time, time zone comparison, compare time zones, global clock, city time',
     canonical: 'https://myzonetime.com/world-clock',
     ogType: 'website',
     structuredData: {
@@ -55,7 +59,9 @@ export const SEO = {
   '/timezone-converter': {
     title: 'Time Zone Converter — Convert Time Between Cities Free | MyZoneTime',
     description:
-      'Convert time between any two cities or time zones instantly. Free time zone converter with DST-aware calculations. No account required.',
+      'Convert time between any two cities or time zones instantly with a free online time zone converter. DST-aware, live results, and perfect for remote teams and international meetings.',
+    keywords:
+      'time zone converter, convert time, convert time zones, online time zone converter, DST-aware converter, city time conversion',
     canonical: 'https://myzonetime.com/timezone-converter',
     ogType: 'website',
     structuredData: {
@@ -72,9 +78,11 @@ export const SEO = {
   },
 
   '/meeting-planner': {
-    title: 'Meeting Planner — Best Time for Global Team Calls | MyZoneTime',
+    title: 'Meeting Planner — Online Meeting Scheduler for Global Teams | MyZoneTime',
     description:
-      'Find the perfect meeting time across multiple time zones. Free online meeting planner for remote teams — see overlapping business hours across cities at a glance.',
+      'Free online meeting scheduler to find the best time for global team calls. See overlapping business hours across multiple cities, compare time zones, and share the result instantly.',
+    keywords:
+      'meeting planner, online meeting scheduler, schedule meetings across time zones, global meeting planner, remote team scheduling, business hours overlap',
     canonical: 'https://myzonetime.com/meeting-planner',
     ogType: 'website',
     structuredData: {
@@ -98,7 +106,9 @@ export const SEO = {
   '/time-difference-calculator': {
     title: 'Time Difference Calculator — Hours Between Cities | MyZoneTime',
     description:
-      'Calculate the exact time difference between any two cities or countries. Get the hour offset instantly, including DST adjustments. Free and no sign-up needed.',
+      'Calculate the exact time difference between any two cities or countries. Free DST-aware time difference calculator for international scheduling and travel planning.',
+    keywords:
+      'time difference calculator, hours between cities, city time difference, time zone offset calculator, DST-aware time difference',
     canonical: 'https://myzonetime.com/time-difference-calculator',
     ogType: 'website',
     structuredData: {

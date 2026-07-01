@@ -185,6 +185,7 @@ export default function TimeZoneConverterPage() {
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDesc} />
+        <meta name="keywords" content="time zone converter, convert time zones, online time zone converter, DST-aware time conversion, city time conversion" />
         <meta property="og:title"       content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
         <meta property="og:url"         content="https://myzonetime.com/timezone-converter" />

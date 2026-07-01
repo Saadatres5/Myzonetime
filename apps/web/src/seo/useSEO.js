@@ -58,6 +58,9 @@ export function useSEO(pathname) {
 
     // ── Apply all meta ────────────────────────────────────────────
     setMeta('meta[name="description"]', config.description);
+    if (config.keywords) {
+      setMeta('meta[name="keywords"]', config.keywords);
+    }
     setLink('canonical', config.canonical);
 
     // Open Graph

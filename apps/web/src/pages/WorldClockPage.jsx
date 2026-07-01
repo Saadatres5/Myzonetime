@@ -238,7 +238,8 @@ export default function WorldClockPage() {
     <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-6xl">
       <Helmet>
         <title>World Clock — Live Time in 500+ Cities | MyZoneTime</title>
-        <meta name="description" content="Live world clock for 500+ cities worldwide. Search any city and track multiple time zones at once. Free, no sign-up required." />
+        <meta name="description" content="Live world clock for 500+ cities worldwide. Search any city, compare time zones, and use a live clock for international meeting scheduling. Free, no sign-up required." />
+        <meta name="keywords" content="world clock, live time, time zone comparison, schedule meetings across time zones, city clock, global time" />
         <meta property="og:title"       content="World Clock — Live Time in 500+ Cities | MyZoneTime" />
         <meta property="og:description" content="Live world clock showing current time in 500+ cities. Track time zones for Dubai, London, New York, Tokyo, Singapore, Sydney, and more." />
         <meta property="og:image"       content="https://myzonetime.com/favicon.svg" />
@@ -259,7 +260,7 @@ export default function WorldClockPage() {
             World Clock – Real-Time Global Time Zones
           </h1>
           <p className="text-lg text-muted-foreground">
-            Current local time in major cities worldwide.
+            Current local time in major cities worldwide — compare time zones and schedule meetings across time zones with a live, DST-aware city clock.
           </p>
         </div>
 
