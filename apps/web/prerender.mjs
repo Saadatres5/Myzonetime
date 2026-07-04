@@ -69,6 +69,7 @@ const STATIC_ROUTES = [
   '/sunrise-sunset',
   '/week-number',
   '/unix-time',
+  '/prayer-times',
   // Multilingual pages
   '/ar',
   '/hi',

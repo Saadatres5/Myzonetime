@@ -72,9 +72,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// ─── 4. Rate limiting (custom in-memory limiter, 300 req/min/IP) ───────────
+// ─── 4. Rate limiting — EXEMPT Googlebot and major crawlers ──────────────
 const rateLimitMap = new Map();
 app.use((req, res, next) => {
+  const ua = (req.headers['user-agent'] || '').toLowerCase();
+  // Exempt all major search engine crawlers from rate limiting
+  if (ua.includes('googlebot') || ua.includes('bingbot') || ua.includes('yandex') ||
+      ua.includes('duckduckbot') || ua.includes('slurp') || ua.includes('facebookexternalhit') ||
+      ua.includes('twitterbot') || ua.includes('linkedinbot') || ua.includes('applebot')) {
+    return next();
+  }
   const ip  = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress || "unknown";
   const now = Date.now();
   const win = rateLimitMap.get(ip) || { count: 0, reset: now + 60_000 };
@@ -141,8 +148,7 @@ app.use("/assets", express.static(path.join(DIST, "assets"), {
 // ─── 6. robots.txt (SEO FIX: was missing Sitemap declaration) ──────────────
 app.get("/robots.txt", (req, res) => {
   res.set("Content-Type", "text/plain");
-  res.set("X-Robots-Tag", "noindex"); // robots.txt itself should not be indexed
-  // Prefer sitemap-index to ensure large city sitemaps are discovered
+  // NOTE: Do NOT set X-Robots-Tag: noindex on robots.txt — it would confuse crawlers
   const sitemapUrl = `${BASE}/sitemap-index.xml`;
   res.send(
 `User-agent: *
@@ -192,7 +198,7 @@ function sitemapFooter() { return `</urlset>`; }
 function sendXml(res, body) {
   res.set('Content-Type', 'application/xml; charset=utf-8');
   res.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
-  res.set('X-Robots-Tag', 'noindex'); // sitemaps themselves should not be indexed
+  // NOTE: Do NOT add X-Robots-Tag: noindex to sitemaps — that blocks Google from reading them!
   res.send(body);
 }
 
@@ -364,12 +370,23 @@ const CORE_ROUTES = [
   { path: "/ai-meeting-planner",         priority: "0.9", changefreq: "weekly"  },
   { path: "/time-difference-calculator", priority: "0.8", changefreq: "weekly"  },
   { path: "/hijri-calendar",             priority: "0.8", changefreq: "daily"   },
+  { path: "/prayer-times",               priority: "0.8", changefreq: "daily"   },
+  { path: "/sunrise-sunset",             priority: "0.7", changefreq: "daily"   },
+  { path: "/week-number",                priority: "0.7", changefreq: "weekly"  },
+  { path: "/unix-time",                  priority: "0.6", changefreq: "daily"   },
   { path: "/stopwatch",                  priority: "0.7", changefreq: "monthly" },
   { path: "/timer",                      priority: "0.7", changefreq: "monthly" },
   { path: "/countdown",                  priority: "0.7", changefreq: "monthly" },
   { path: "/date-calculator",            priority: "0.7", changefreq: "monthly" },
   { path: "/work-hours-calculator",      priority: "0.7", changefreq: "monthly" },
+  { path: "/time-calculator",            priority: "0.7", changefreq: "monthly" },
+  { path: "/india-time",                 priority: "0.7", changefreq: "daily"   },
+  { path: "/time-management-tips",       priority: "0.5", changefreq: "monthly" },
+  { path: "/windows-time-settings",      priority: "0.5", changefreq: "monthly" },
   { path: "/timezone",                   priority: "0.8", changefreq: "weekly"  },
+  { path: "/ar",                         priority: "0.8", changefreq: "daily"   },
+  { path: "/hi",                         priority: "0.8", changefreq: "daily"   },
+  { path: "/es",                         priority: "0.8", changefreq: "daily"   },
 ];
 
 const TIME_DIFFERENCE_ROUTES = [
@@ -700,19 +717,18 @@ function renderHtml(routePath) {
 // ─── 13. Static files from dist/ ──────────────────────────────────────────
 app.use(express.static(DIST, {
   maxAge: "1h",
-  index: false,   // IMPORTANT: disable auto-serve of index.html — we handle it below
+  index: false,   // We handle index.html ourselves below
   setHeaders: (res, filePath) => {
-    // Long cache for hashed assets is set by the /assets route above
     if (filePath.endsWith(".xml") || filePath.endsWith(".txt")) {
       res.set("Cache-Control", "public, max-age=3600");
     }
   },
 }));
 
-// ─── 14. SPA catch-all (SSR meta injection per route) ──────────────────────
+// ─── 14. SPA catch-all — serve pre-rendered HTML first, fall back to shell ─
 const KNOWN_ROUTES = new Set(ROUTES.map(r => r.path));
 const SPA_ROUTE_PATTERNS = [
-  /^\/(?:converter|newyork|abudhabi|world_clock|contact-us|timezone(?:\/.*)?|time-difference(?:\/.*)?|embed\/world-clock|world-clock-widget|404)$/, 
+  /^\/(?:converter|newyork|abudhabi|world_clock|contact-us|timezone(?:\/.*)?|time-difference(?:\/.*)?|embed\/world-clock|world-clock-widget|404)$/,
   /^\/[a-z0-9-]+$/,
 ];
 
@@ -726,15 +742,25 @@ app.get("*", (req, res) => {
   const isKnown   = isKnownRoute(routePath);
 
   if (!isKnown) {
-    // SEO FIX: return real 404 status for unknown route patterns that should never be handled by the SPA.
     res.status(404);
   }
 
-  // Set canonical header (belt-and-suspenders alongside <link rel="canonical">)
   const canonical = `${BASE}${isKnown ? routePath : req.path}`;
   res.set("Link", `<${canonical}>; rel="canonical"`);
   res.set("Content-Type", "text/html; charset=utf-8");
   res.set("Cache-Control", isKnown ? "public, s-maxage=300, stale-while-revalidate=86400" : "no-store");
+
+  // ── PRIORITY: serve pre-rendered static HTML from dist/<route>/index.html ──
+  // This gives Googlebot full pre-rendered content (not the SPA shell).
+  const prerenderedPath = routePath === "/"
+    ? path.join(DIST, "index.html")
+    : path.join(DIST, routePath.replace(/^\//, ""), "index.html");
+
+  if (fs.existsSync(prerenderedPath)) {
+    return res.send(fs.readFileSync(prerenderedPath, "utf8"));
+  }
+
+  // ── FALLBACK: inject meta into SPA shell for unprerendered routes ──────────
   res.send(renderHtml(routePath));
 });
 

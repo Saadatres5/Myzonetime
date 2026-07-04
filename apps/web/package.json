@@ -5,10 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "vite --host --port 3001",
-    "build": "vite build",
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "build": "npm run sitemap && vite build",
     "build:ssr": "vite build --ssr src/entry-server.jsx --outDir dist/server",
     "prerender": "node prerender.mjs",
-    "build:ssg": "npm run build && npm run build:ssr && npm run prerender",
+    "build:ssg": "npm run sitemap && npm run build && npm run build:ssr && npm run prerender",
     "preview": "vite preview --port 3001"
   },
   "dependencies": {

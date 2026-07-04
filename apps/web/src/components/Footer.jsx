@@ -17,6 +17,7 @@ export default function Footer() {
     { to: '/hijri-calendar',            label: 'Hijri Calendar' },
     { to: '/india-time',                label: 'India Time' },
     { to: '/sunrise-sunset',            label: 'Sunrise & Sunset' },
+    { to: '/prayer-times',              label: 'Prayer Times' },
     { to: '/week-number',               label: 'Week Number' },
     { to: '/unix-time',                 label: 'Unix Time' },
     { to: '/stopwatch',                 label: 'Stopwatch' },

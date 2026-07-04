@@ -56,6 +56,7 @@ import NotFoundPage    from './pages/NotFoundPage.jsx';
 import SunriseSunsetPage from './pages/SunriseSunsetPage.jsx';
 import WeekNumberPage    from './pages/WeekNumberPage.jsx';
 import UnixTimePage      from './pages/UnixTimePage.jsx';
+import PrayerTimesPage   from './pages/PrayerTimesPage.jsx';
 import MultilingualHomePage from './pages/MultilingualHomePage.jsx';
 
 function SSRApp({ url, helmetContext }) {
@@ -105,6 +106,7 @@ function SSRApp({ url, helmetContext }) {
             <Route path="/sunrise-sunset" element={<SunriseSunsetPage />} />
             <Route path="/week-number"    element={<WeekNumberPage />} />
             <Route path="/unix-time"      element={<UnixTimePage />} />
+            <Route path="/prayer-times"   element={<PrayerTimesPage />} />
             <Route path="/ar" element={<MultilingualHomePage lang="ar" />} />
             <Route path="/hi" element={<MultilingualHomePage lang="hi" />} />
             <Route path="/es" element={<MultilingualHomePage lang="es" />} />

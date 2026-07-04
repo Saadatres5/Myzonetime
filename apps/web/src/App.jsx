@@ -44,6 +44,7 @@ const DynamicTimezonePage = React.lazy(() => import('./pages/DynamicTimezonePage
 const SunriseSunsetPage    = React.lazy(() => import('./pages/SunriseSunsetPage.jsx'));
 const WeekNumberPage       = React.lazy(() => import('./pages/WeekNumberPage.jsx'));
 const UnixTimePage         = React.lazy(() => import('./pages/UnixTimePage.jsx'));
+const PrayerTimesPage      = React.lazy(() => import('./pages/PrayerTimesPage.jsx'));
 const MultilingualHomePage = React.lazy(() => import('./pages/MultilingualHomePage.jsx'));
 
 // ── Programmatic city pages ───────────────────────────────────────────────────
@@ -152,6 +153,7 @@ function AppContent({ settings, updateSetting }) {
             <Route path="/sunrise-sunset" element={<SunriseSunsetPage />} />
             <Route path="/week-number"    element={<WeekNumberPage />} />
             <Route path="/unix-time"      element={<UnixTimePage />} />
+            <Route path="/prayer-times"   element={<PrayerTimesPage />} />
             {/* ── Multilingual pages ───────────────────────── */}
             <Route path="/ar" element={<MultilingualHomePage lang="ar" />} />
             <Route path="/hi" element={<MultilingualHomePage lang="hi" />} />

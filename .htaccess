@@ -1,66 +1,53 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-# MyZoneTime — .htaccess (SEO-FIXED VERSION)
+# MyZoneTime — .htaccess (COVERAGE-FIXED VERSION 2026-07-04)
 #
-# Changes from original:
-#  1. Added trailing-slash normalisation (removes /world-clock/ → /world-clock)
-#  2. Added explicit cache headers for static assets (LCP improvement)
-#  3. Added Permissions-Policy header
-#  4. Added X-Content-Type-Options (was missing)
-#  5. ETag disabled for consistent caching
+# Fixes from Google Search Console Coverage report:
+#  1. REMOVED X-Robots-Tag: noindex from xml/txt (was blocking sitemap crawling)
+#  2. Kept trailing-slash normalisation
+#  3. Kept cache + security headers
 # ═══════════════════════════════════════════════════════════════════════════════
 
 Options -Indexes
 FileETag None
 
-# ── Sitemap & crawler files — explicit 200 passthrough ───────────────────────
-# Forces Hostinger's reverse proxy/WAF to allow these XML/TXT paths through to Node.js
-<FilesMatch "\.(xml|txt)$">
-  Header set Access-Control-Allow-Origin "*"
-  Header set X-Robots-Tag "noindex"
-</FilesMatch>
-
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Pass sitemap and crawler files directly to Node.js — no redirects
-  RewriteRule ^sitemap\.xml$               - [L]
-  RewriteRule ^sitemap-index\.xml$         - [L]
-  RewriteRule ^city-sitemap\.xml$          - [L]
-  RewriteRule ^timezone-sitemap\.xml$      - [L]
+  # Pass these files directly — no rewrites
+  RewriteRule ^sitemap\.xml$                 - [L]
+  RewriteRule ^sitemap-index\.xml$           - [L]
+  RewriteRule ^city-sitemap\.xml$            - [L]
+  RewriteRule ^timezone-sitemap\.xml$        - [L]
   RewriteRule ^time-difference-sitemap\.xml$ - [L]
-  RewriteRule ^robots\.txt$                - [L]
-  RewriteRule ^ads\.txt$                   - [L]
-  RewriteRule ^llms\.txt$                  - [L]
-  RewriteRule ^humans\.txt$                - [L]
+  RewriteRule ^robots\.txt$                  - [L]
+  RewriteRule ^ads\.txt$                     - [L]
+  RewriteRule ^llms\.txt$                    - [L]
 
-  # ── 1. Force HTTPS (301 permanent) ─────────────────────────────────────────
+  # 1. Force HTTPS
   RewriteCond %{HTTPS} off
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-  # ── 2. Force non-www canonical (301 permanent) ──────────────────────────────
+  # 2. Force non-www
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
 
-  # ── 3. Remove trailing slash (prevents duplicate content) ──────────────────
-  # Except for the root path /
+  # 3. Remove trailing slash (except root)
   RewriteCond %{REQUEST_URI} ^/(.+)/$
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^(.+)/$ /$1 [R=301,L]
 
 </IfModule>
 
-# ── Security headers ──────────────────────────────────────────────────────────
+# Security headers
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options    "nosniff"
   Header always set X-Frame-Options           "SAMEORIGIN"
   Header always set Referrer-Policy           "strict-origin-when-cross-origin"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
   Header always set Permissions-Policy        "camera=(), microphone=(), geolocation=(self)"
-  Header always set X-XSS-Protection         "1; mode=block"
 </IfModule>
 
-# ── Browser caching for static assets ────────────────────────────────────────
-# (Vite hashes filenames so 1 year is safe for /assets/*)
+# Browser caching
 <IfModule mod_expires.c>
   ExpiresActive On
   <FilesMatch "\.(js|css|woff2|woff|ttf|svg|ico|png|jpg|jpeg|webp|avif)$">
@@ -73,10 +60,11 @@ FileETag None
   </FilesMatch>
   <FilesMatch "\.(xml|txt)$">
     ExpiresDefault "access plus 1 hour"
+    Header set Cache-Control "public, max-age=3600"
   </FilesMatch>
 </IfModule>
 
-# ── Gzip compression fallback (Hostinger may not have mod_deflate) ────────────
+# Gzip
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json application/xml text/xml text/plain
 </IfModule>
