@@ -1,10 +1,9 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-# MyZoneTime — .htaccess (COVERAGE-FIXED VERSION 2026-07-04)
+# MyZoneTime — .htaccess (2026-07-22)
 #
-# Fixes from Google Search Console Coverage report:
-#  1. REMOVED X-Robots-Tag: noindex from xml/txt (was blocking sitemap crawling)
-#  2. Kept trailing-slash normalisation
-#  3. Kept cache + security headers
+# Changes:
+#  1. Added 301 redirects for old-format /time-difference/ URLs (no -and-)
+#  2. All other rules unchanged
 # ═══════════════════════════════════════════════════════════════════════════════
 
 Options -Indexes
@@ -35,6 +34,22 @@ FileETag None
   RewriteCond %{REQUEST_URI} ^/(.+)/$
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # 4. Redirect old-format /time-difference/city1-city2 → canonical /time-difference/city1-and-city2
+  RewriteRule ^time-difference/london-mumbai$        /time-difference/london-and-mumbai        [R=301,L]
+  RewriteRule ^time-difference/amsterdam-london$     /time-difference/amsterdam-and-london     [R=301,L]
+  RewriteRule ^time-difference/london-kuala-lumpur$  /time-difference/london-and-kuala-lumpur  [R=301,L]
+  RewriteRule ^time-difference/los-angeles-london$   /time-difference/los-angeles-and-london   [R=301,L]
+  RewriteRule ^time-difference/dubai-singapore$      /time-difference/dubai-and-singapore      [R=301,L]
+  RewriteRule ^time-difference/istanbul-dubai$       /time-difference/istanbul-and-dubai       [R=301,L]
+  RewriteRule ^time-difference/istanbul-london$      /time-difference/istanbul-and-london      [R=301,L]
+  RewriteRule ^time-difference/istanbul-new-york$    /time-difference/istanbul-and-new-york    [R=301,L]
+  RewriteRule ^time-difference/abu-dhabi-london$     /time-difference/abu-dhabi-and-london     [R=301,L]
+
+  # 5. SPA fallback — serve index.html for all non-file, non-directory requests
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [L]
 
 </IfModule>
 
